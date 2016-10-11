@@ -4,4 +4,5 @@
 
     <item name="tag_panic_goods_title" type="id"></item>
     <item name="tag_panic_goods_id" type="id"></item>
+    <item name="webview" type="id"></item>
 </resources>

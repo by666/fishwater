@@ -13,6 +13,7 @@ import com.by.android.fishwater.homepage.view.HomePage;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
+import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.ToastUtil;
 
 import org.xutils.common.util.MD5;
@@ -71,6 +72,8 @@ public class LoginPresenter {
      */
     public void autoLogin()
     {
+        DeviceManager.getInstance().hideInputMethod();
+
         AccountManage manage = AccountManage.getInstance();
         String sessionId = manage.getSessionId();
         if(sessionId == null)

@@ -93,9 +93,6 @@ public class LoginPage extends Fragment implements View.OnClickListener,ILoginIn
 
         addTextChangeListener();
 
-        if (!TextUtils.isEmpty(AccountManage.getInstance().getSessionId())) {
-            mLoginPresenter.autoLogin();
-        }
     }
 
 

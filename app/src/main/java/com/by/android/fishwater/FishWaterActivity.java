@@ -26,8 +26,6 @@ public class FishWaterActivity extends Activity {
         mPresenter.init(this);
         mPresenter.setDefaultFragment();
 
-        LoginPage mPage = new LoginPage();
-        mPresenter.replaceFragment(mPage);
     }
 
     private void init()
