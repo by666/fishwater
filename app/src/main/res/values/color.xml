@@ -41,6 +41,7 @@
     <color name="tab_text_selected_color">#fc1255</color>
     <color name="tab_text_default_color">#434343</color>
     <color name="tab_cursor_color">#fc1255</color>
+    <color name="tab_bg_color">#08fe0000</color>
     <!-- splash window color -->
     <color name="splash_window_bg_color">#ffffff</color>
     <color name="splash_text_color">#333333</color>

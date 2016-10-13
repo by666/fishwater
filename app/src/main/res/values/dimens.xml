@@ -71,7 +71,7 @@
     <dimen name="image_cycle_view_indicator_height">30dp</dimen>
     <dimen name="image_cycle_view_indicator_marginRight">10dp</dimen>
     <dimen name="image_cycle_view_indicator_item_size">6dp</dimen>
-    <dimen name="image_cycle_view_indicator_item_gap">2dp</dimen>
+    <dimen name="image_cycle_view_indicator_item_gap">4dp</dimen>
     <!--photo picker-->
     <integer name="photo_picker_column_num">4</integer>
     <dimen name="photo_picker_gap">2dp</dimen>

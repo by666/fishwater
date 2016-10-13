@@ -12,9 +12,13 @@ import com.by.android.fishwater.account.login.bean.respond.LoginRespondBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
 import com.by.android.fishwater.bean.BannerBean;
 import com.by.android.fishwater.bean.BannerRespondBean;
+import com.by.android.fishwater.buycar.BuycarPage;
+import com.by.android.fishwater.community.CommunityPage;
 import com.by.android.fishwater.homepage.view.HomePage;
+import com.by.android.fishwater.mine.MinePage;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
+import com.by.android.fishwater.shopping.ShoppingPage;
 import com.by.android.fishwater.splash.SplashPage;
 import com.by.android.fishwater.util.Constant;
 import com.by.android.fishwater.util.DeviceManager;
@@ -27,7 +31,7 @@ import java.util.List;
  * Created by by.huang on 2016/10/10.
  */
 public class FWPresenter {
-    private Activity mActivity;
+    private FishWaterActivity mActivity;
     private static FWPresenter mInstance;
     private Fragment mCurrentFrament;
 
@@ -48,7 +52,7 @@ public class FWPresenter {
 
     public void init(Activity activity)
     {
-        this.mActivity = activity;
+        this.mActivity = (FishWaterActivity) activity;
     }
 
     //初始化视图
@@ -98,6 +102,15 @@ public class FWPresenter {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.hide(fragment);
         transaction.commit();
+    }
+
+    /**
+     * 显示tab栏
+     * @param visiable
+     */
+    public void showTabLayout(int visiable)
+    {
+        mActivity.showTab(visiable);
     }
 
     /**
@@ -168,11 +181,47 @@ public class FWPresenter {
 
     }
 
-
+    /**
+     * 跳转到主页
+     */
     public void goHomePage()
     {
         HomePage page = new HomePage();
-        FWPresenter.getInstance().replaceFragment(page);
+        replaceFragment(page);
     }
 
+    /**
+     * 跳转到社区
+     */
+    public void goCommunityPage()
+    {
+        CommunityPage page = new CommunityPage();
+        replaceFragment(page);
+    }
+    /**
+     * 跳转到商城
+     */
+    public void goShoppingPage()
+    {
+        ShoppingPage page = new ShoppingPage();
+        replaceFragment(page);
+    }
+
+    /**
+     * 跳转到购物车
+     */
+    public void goBuycarPage()
+    {
+        BuycarPage page = new BuycarPage();
+        replaceFragment(page);
+    }
+
+    /**
+     * 跳转到个人
+     */
+    public void goMinePage()
+    {
+        MinePage page = new MinePage();
+        replaceFragment(page);
+    }
 }

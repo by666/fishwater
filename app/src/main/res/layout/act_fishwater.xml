@@ -3,8 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout_content"
     tools:context="com.by.android.fishwater.FishWaterActivity">
 
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/layout_content"
+        android:layout_marginBottom="@dimen/space_48"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_48"
+        android:id="@+id/layout_tab"
+        android:orientation="horizontal"
+        android:background="@color/tab_bg_color"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+    </LinearLayout>
 
 </RelativeLayout>
