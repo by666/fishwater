@@ -6,8 +6,8 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
-    <ImageView android:layout_height="@dimen/space_20"
-        android:layout_width="@dimen/space_20"
+    <ImageView android:layout_height="@dimen/space_16"
+        android:layout_width="@dimen/space_16"
         android:id="@+id/img_tab"
         android:scaleType="fitCenter"
         />
@@ -15,6 +15,7 @@
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txt_tab"
+        android:textSize="12sp"
         android:layout_marginTop="@dimen/space_2"
         android:textColor="@color/tab_text_default_color"
         android:text="@string/home_tab_homepage"

@@ -10,22 +10,19 @@ import com.by.android.fishwater.account.login.bean.LoginBean;
 import com.by.android.fishwater.account.login.bean.UserBean;
 import com.by.android.fishwater.account.login.bean.respond.LoginRespondBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
-import com.by.android.fishwater.bean.BannerBean;
-import com.by.android.fishwater.bean.BannerRespondBean;
 import com.by.android.fishwater.buycar.BuycarPage;
 import com.by.android.fishwater.community.CommunityPage;
 import com.by.android.fishwater.homepage.view.HomePage;
 import com.by.android.fishwater.mine.MinePage;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
-import com.by.android.fishwater.shopping.ShoppingPage;
+import com.by.android.fishwater.shopping.view.ShoppingPage;
 import com.by.android.fishwater.splash.SplashPage;
 import com.by.android.fishwater.util.Constant;
 import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.ToastUtil;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by by.huang on 2016/10/10.

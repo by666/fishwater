@@ -27,4 +27,5 @@ dependencies {
     compile 'com.loopeer.android.thirdparty.pulltorefresh:Android-PullToRefresh:2.1.1' exclude module: 'support-v4'
     compile 'org.jsoup:jsoup:1.9.2'
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'homhomlin.lib:ptrrv-library:1.3.1'
 }

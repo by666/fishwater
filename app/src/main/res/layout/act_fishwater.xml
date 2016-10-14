@@ -16,7 +16,7 @@
         android:layout_height="@dimen/space_48"
         android:id="@+id/layout_tab"
         android:orientation="horizontal"
-        android:background="@color/tab_bg_color"
+        android:background="#222222"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
