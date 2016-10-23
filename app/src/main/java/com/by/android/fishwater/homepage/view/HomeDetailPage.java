@@ -1,13 +1,16 @@
 package com.by.android.fishwater.homepage.view;
 
-import android.app.Fragment;
+import android.media.Image;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 
+import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.presenter.HomeDetailPagePresenter;
@@ -30,6 +33,18 @@ public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface
     @ViewInject(R.id.webview)
     WebView mWebView;
 
+    @ViewInject(R.id.img_back)
+    ImageView mBackImg;
+
+    @ViewInject(R.id.img_pride)
+    ImageView mPrideImg;
+
+    @ViewInject(R.id.img_collect)
+    ImageView mCollectImg;
+
+    @ViewInject(R.id.img_msg)
+    ImageView mMsgImg;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return x.view().inject(this,inflater,container);
@@ -40,6 +55,7 @@ public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface
         super.onViewCreated(view, savedInstanceState);
         mHomeDetailPagePresenter = new HomeDetailPagePresenter(this);
         initView();
+        FWPresenter.getInstance().showTabLayout(View.GONE);
     }
 
     private void initView() {
@@ -67,5 +83,34 @@ public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface
 
         String url = Constant.HomeUrl + "?" + "a=contentDetail&id="+data.targetID;
         mWebView.loadUrl(url);
+
+
+        mBackImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FWPresenter.getInstance().backLastFragment();
+            }
+        });
+
+        mPrideImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mCollectImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        mMsgImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

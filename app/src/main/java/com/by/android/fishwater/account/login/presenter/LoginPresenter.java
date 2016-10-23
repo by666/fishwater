@@ -54,6 +54,7 @@ public class LoginPresenter {
                 AccountManage.getInstance().setSessionId(loginBean.sessionid);
                 AccountManage.getInstance().setUserId(loginBean.userid);
                 ToastUtil.show("登录成功!");
+                goHomePage();
                 getUserInfo();
 
             }
@@ -66,43 +67,43 @@ public class LoginPresenter {
         });
 
     }
-
-    /**
-     * 自动登录
-     */
-    public void autoLogin()
-    {
-        DeviceManager.getInstance().hideInputMethod();
-
-        AccountManage manage = AccountManage.getInstance();
-        String sessionId = manage.getSessionId();
-        if(sessionId == null)
-        {
-            return;
-        }
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("sessionid", sessionId);
-        map.put("a","autoLogin");
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<LoginRespondBean>() {
-            @Override
-            public void onSuccess(LoginRespondBean result) {
-                super.onSuccess(result);
-                LoginBean loginBean = result.data;
-                AccountManage.getInstance().setSessionId(loginBean.sessionid);
-                AccountManage.getInstance().setUserId(loginBean.userid);
-                ToastUtil.show("登录成功!");
-                getUserInfo();
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                super.onError(ex, isOnCallback);
-                ToastUtil.show("登录失败!");
-            }
-        });
-
-    }
+//
+//    /**
+//     * 自动登录
+//     */
+//    public void autoLogin()
+//    {
+//        DeviceManager.getInstance().hideInputMethod();
+//
+//        AccountManage manage = AccountManage.getInstance();
+//        String sessionId = manage.getSessionId();
+//        if(sessionId == null)
+//        {
+//            return;
+//        }
+//        HashMap<String,Object> map = new HashMap<String, Object>();
+//        map.put("sessionid", sessionId);
+//        map.put("a","autoLogin");
+//        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<LoginRespondBean>() {
+//            @Override
+//            public void onSuccess(LoginRespondBean result) {
+//                super.onSuccess(result);
+//                LoginBean loginBean = result.data;
+//                AccountManage.getInstance().setSessionId(loginBean.sessionid);
+//                AccountManage.getInstance().setUserId(loginBean.userid);
+//                ToastUtil.show("登录成功!");
+//                getUserInfo();
+//                goHomePage();
+//            }
+//
+//            @Override
+//            public void onError(Throwable ex, boolean isOnCallback) {
+//                super.onError(ex, isOnCallback);
+//                ToastUtil.show("登录失败!");
+//            }
+//        });
+//
+//    }
 
     /**
      * 登出
@@ -148,7 +149,6 @@ public class LoginPresenter {
             public void onSuccess(UserRespondBean result) {
                 super.onSuccess(result);
                 UserBean userBean = result.data;
-                goHomePage();
             }
 
             @Override

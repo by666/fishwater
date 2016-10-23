@@ -3,6 +3,7 @@ package com.by.android.fishwater;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -19,7 +20,7 @@ import com.by.android.fishwater.util.SettingFlags;
 import com.by.android.fishwater.util.SystemHelper;
 
 
-public class FishWaterActivity extends Activity implements View.OnClickListener{
+public class FishWaterActivity extends FragmentActivity implements View.OnClickListener{
 
     private FWPresenter mPresenter;
     private LinearLayout mTabLayout;

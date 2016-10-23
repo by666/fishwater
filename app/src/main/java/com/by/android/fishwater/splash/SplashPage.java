@@ -1,6 +1,6 @@
 package com.by.android.fishwater.splash;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -31,6 +31,7 @@ public class SplashPage extends Fragment{
 
     private void initView()
     {
+        FWPresenter.getInstance().showTabLayout(View.GONE);
         if (!TextUtils.isEmpty(AccountManage.getInstance().getSessionId())) {
             FWPresenter.getInstance().autoLogin();
         }
@@ -40,6 +41,8 @@ public class SplashPage extends Fragment{
             FWPresenter.getInstance().replaceFragment(mPage);
         }
     }
+
+
 
 
 }

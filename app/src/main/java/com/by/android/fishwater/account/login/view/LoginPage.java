@@ -1,10 +1,11 @@
 package com.by.android.fishwater.account.login.view;
 
-import android.app.Fragment;
+import org.xutils.view.annotation.ContentView;
+
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
-import com.by.android.fishwater.account.AccountManage;
 import com.by.android.fishwater.account.login.presenter.LoginPresenter;
 import com.by.android.fishwater.account.register.view.RegisterPage;
 import com.by.android.fishwater.util.DeviceManager;

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface IHomePageInterface {
 
-    void requestListDataSuccess(List<HomeListBean> datas);
+    void requestListDataSuccess(List<HomeListBean> datas,boolean isLoadMore,boolean theEnd);
 
     void requestListDataFail();
 

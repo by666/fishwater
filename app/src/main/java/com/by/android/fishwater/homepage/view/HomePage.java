@@ -1,11 +1,9 @@
 package com.by.android.fishwater.homepage.view;
 
-import android.app.Fragment;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.text.format.DateUtils;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,9 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.bean.BannerBean;
 import com.by.android.fishwater.homepage.adapter.HomePageListAdapter;
@@ -23,8 +21,14 @@ import com.by.android.fishwater.homepage.adapter.HomePageViewPagerAdapter;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.presenter.HomePagePresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.github.jdsjlzx.util.RecyclerViewStateUtils;
+import com.github.jdsjlzx.view.LoadingFooter;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -32,30 +36,33 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.by.android.fishwater.R.drawable.ic_dot_don;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by by.huang on 2016/10/9.
  */
 
 @ContentView(R.layout.page_home)
-public class HomePage extends Fragment implements IHomePageInterface,AdapterView.OnItemClickListener{
+public class HomePage extends Fragment implements IHomePageInterface, AdapterView.OnItemClickListener {
 
 
-    private HomePageListAdapter mListAdapter;
     private HomePagePresenter mHomePagePresenter;
     private ViewPager mViewPager;
     private LinearLayout mPointLayout;
     private List<ImageView> mImageViews = new ArrayList<>();
 
-    @ViewInject(R.id.listview)
-    PullToRefreshListView mPullRefreshListView;
+    private HomePageListAdapter mListAdapter;
+    private LRecyclerViewAdapter mLRecyclerViewAdapter;
+    private List<HomeListBean> mCuurentDatas = new ArrayList<>();
+    private boolean isRequest = false;
+
+    @ViewInject(R.id.recyclerview)
+    LRecyclerView mRecyclerView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this,inflater,container);
+        return x.view().inject(this, inflater, container);
     }
 
     @Override
@@ -63,15 +70,16 @@ public class HomePage extends Fragment implements IHomePageInterface,AdapterView
         super.onViewCreated(view, savedInstanceState);
         mHomePagePresenter = new HomePagePresenter(this);
         mHomePagePresenter.getBannerListData();
+        FWPresenter.getInstance().showTabLayout(View.VISIBLE);
+
     }
 
-    private void initView(List<BannerBean> bannerBeans)
-    {
+    private void initView(List<BannerBean> bannerBeans) {
 
-        View headView = View.inflate(getActivity(),R.layout.homepage_header,null);
-        RelativeLayout.LayoutParams headParams = new RelativeLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen
+        View headView = View.inflate(getActivity(), R.layout.homepage_header, null);
+        RelativeLayout.LayoutParams headParams = new RelativeLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen
                 .space_180));
-        mViewPager =(ViewPager) headView.findViewById(R.id.viewpager);
+        mViewPager = (ViewPager) headView.findViewById(R.id.viewpager);
         mViewPager.setLayoutParams(headParams);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -81,8 +89,7 @@ public class HomePage extends Fragment implements IHomePageInterface,AdapterView
 
             @Override
             public void onPageSelected(int position) {
-                if(mImageViews != null && mImageViews.size() > 0)
-                {
+                if (mImageViews != null && mImageViews.size() > 0) {
                     for (ImageView imageView : mImageViews) {
                         imageView.setImageResource(R.drawable.ic_dot_don);
                     }
@@ -97,7 +104,7 @@ public class HomePage extends Fragment implements IHomePageInterface,AdapterView
         });
 
         mPointLayout = (LinearLayout) headView.findViewById(R.id.layout_point);
-        RelativeLayout.LayoutParams pointParams = new RelativeLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,getResources().getDimensionPixelSize(R.dimen
+        RelativeLayout.LayoutParams pointParams = new RelativeLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen
                 .space_30));
         pointParams.topMargin = getResources().getDimensionPixelSize(R.dimen
                 .space_150);
@@ -105,96 +112,85 @@ public class HomePage extends Fragment implements IHomePageInterface,AdapterView
 
         int size = getResources().getDimensionPixelSize(R.dimen.image_cycle_view_indicator_item_size);
         int gap = getResources().getDimensionPixelSize(R.dimen.image_cycle_view_indicator_item_gap);
-        if(bannerBeans!=null &&bannerBeans.size()>0)
-        {
-            for(int i =0 ; i < bannerBeans.size() ; i++)
-            {
+        if (bannerBeans != null && bannerBeans.size() > 0) {
+            for (int i = 0; i < bannerBeans.size(); i++) {
                 ImageView pointImg = new ImageView(getActivity());
                 pointImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                LinearLayout.LayoutParams imgParam =new LinearLayout.LayoutParams(size, size);
+                LinearLayout.LayoutParams imgParam = new LinearLayout.LayoutParams(size, size);
                 imgParam.leftMargin = gap;
                 pointImg.setTag(i);
-                if( i == 0) {
+                if (i == 0) {
                     pointImg.setImageResource(R.drawable.ic_dot_on);
-                }
-                else {
+                } else {
                     pointImg.setImageResource(R.drawable.ic_dot_don);
                 }
                 pointImg.setLayoutParams(imgParam);
                 mPointLayout.addView(pointImg);
                 mImageViews.add(pointImg);
             }
-        }
-        else
-        {
+        } else {
             mPointLayout.setVisibility(View.GONE);
         }
 
-        final ListView listView = mPullRefreshListView.getRefreshableView();
-        listView.addHeaderView(headView);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader); //设置下拉刷新Progress的样式
+        mRecyclerView.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);  //设置下拉刷新箭头
+        mRecyclerView.setPullRefreshEnabled(true);
 
 
-        mListAdapter = new HomePageListAdapter(getActivity(),null);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mPullRefreshListView.getLoadingLayoutProxy(false, true)
-                .setPullLabel("上拉刷新...");
-        mPullRefreshListView.getLoadingLayoutProxy(false, true).setReleaseLabel(
-                "放开刷新...");
-        mPullRefreshListView.getLoadingLayoutProxy(false, true).setRefreshingLabel(
-                "正在加载...");
-        mPullRefreshListView.getLoadingLayoutProxy(true, false)
-                .setPullLabel("下拉刷新...");
-        mPullRefreshListView.getLoadingLayoutProxy(true, false).setReleaseLabel(
-                "放开刷新...");
-        mPullRefreshListView.getLoadingLayoutProxy(true, false).setRefreshingLabel(
-                "正在加载...");
+        mListAdapter = new HomePageListAdapter(getActivity());
+        mLRecyclerViewAdapter = new LRecyclerViewAdapter(mListAdapter);
+        mRecyclerView.setAdapter(mLRecyclerViewAdapter);
 
-        mPullRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        mLRecyclerViewAdapter.addHeaderView(headView);
+        mLRecyclerViewAdapter.getFooterView().setVisibility(View.VISIBLE);
+        mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String label = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+            public void onItemClick(View view, int i) {
+                mHomePagePresenter.goHomeDetailPresenter(mCuurentDatas.get(i));
+            }
 
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+            @Override
+            public void onItemLongClick(View view, int i) {
+
+            }
+        });
+
+        mRecyclerView.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCuurentDatas.removeAll(mCuurentDatas);
                 mHomePagePresenter.getNewHomeListData();
-                new FinishRefresh().execute();
             }
         });
 
-        mPullRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
-
+        mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLastItemVisible() {
-                mHomePagePresenter.getHomeListData();
-                new FinishRefresh().execute();
+            public void onLoadMore() {
+                if(!isRequest)
+                {
+                    RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Loading);
+                    mHomePagePresenter.getHomeListData(true);
+                }
+                isRequest = true;
             }
         });
 
-        mPullRefreshListView.setAdapter(mListAdapter);
-        mPullRefreshListView.setOnItemClickListener(this);
-
     }
 
-    private class FinishRefresh extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result){
-            mPullRefreshListView.onRefreshComplete();
-        }
-    }
 
     @Override
-    public void requestListDataSuccess(List<HomeListBean> datas) {
-        mListAdapter.updateDatas(datas);
+    public void requestListDataSuccess(List<HomeListBean> datas, boolean isLoadMore,boolean theEnd) {
+        isRequest = false;
+        mCuurentDatas = datas;
+        if (theEnd) {
+            RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.TheEnd);
+        }
+        mListAdapter.updateData(datas);
+        mRecyclerView.refreshComplete();
+        mLRecyclerViewAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -207,16 +203,16 @@ public class HomePage extends Fragment implements IHomePageInterface,AdapterView
 
         initView(datas);
         List<View> views = new ArrayList<>();
-        if(datas != null && datas.size() > 0){
-            for(BannerBean data : datas) {
-                SimpleDraweeView showImg = (SimpleDraweeView)LayoutInflater.from(getActivity()).inflate(R.layout.item_banner,null);
+        if (datas != null && datas.size() > 0) {
+            for (BannerBean data : datas) {
+                SimpleDraweeView showImg = (SimpleDraweeView) LayoutInflater.from(getActivity()).inflate(R.layout.item_banner, null);
                 showImg.setImageURI(Uri.parse(data.url));
                 views.add(showImg);
             }
             mViewPager.setAdapter(new HomePageViewPagerAdapter(views));
         }
 
-        mHomePagePresenter.getHomeListData();
+        mHomePagePresenter.getHomeListData(true);
     }
 
     @Override
@@ -228,10 +224,10 @@ public class HomePage extends Fragment implements IHomePageInterface,AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         List<HomeListBean> datas = mListAdapter.getDatas();
 
-        if(datas!=null && datas.size() > 0)
-        {
-            HomeListBean data = datas.get(position-1);
+        if (datas != null && datas.size() > 0) {
+            HomeListBean data = datas.get(position - 1);
             mHomePagePresenter.goHomeDetailPresenter(data);
         }
     }
+
 }

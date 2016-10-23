@@ -1,11 +1,11 @@
 package com.by.android.fishwater.homepage.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.by.android.fishwater.R;
@@ -13,93 +13,76 @@ import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.util.StringUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.id.home;
-
 /**
- * Created by by.huang on 2016/10/11.
+ * Created by by.huang on 2016/10/19.
  */
 
-public class HomePageListAdapter extends BaseAdapter{
+public class HomePageListAdapter extends RecyclerView.Adapter {
 
-    private List<HomeListBean> mDatas;
-    private Activity mCaller;
+    private LayoutInflater mLayoutInflater;
+    private List<HomeListBean> mDatas = new ArrayList<>();
+    private int size = 0;
 
-    public HomePageListAdapter(Activity caller,List<HomeListBean> datas)
-    {
-        this.mCaller = caller;
-        this.mDatas = datas;
+    public HomePageListAdapter(Context context) {
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
-    public void updateDatas(List<HomeListBean> datas)
+    public void updateData(List<HomeListBean> datas)
     {
-        mDatas = datas;
+        this.mDatas = datas;
+        if(mDatas!=null && mDatas.size()> 0) {
+           size = mDatas.size();
+        }
         notifyDataSetChanged();
     }
 
-    public List<HomeListBean> getDatas()
-    {
-        return mDatas;
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ItemViewHolder(mLayoutInflater.inflate(R.layout.homepage_item_image_text, parent, false));
     }
 
     @Override
-    public int getCount() {
-        if(mDatas == null || mDatas.size() == 0) {
-            return 0;
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
+        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+        if (mDatas != null && mDatas.size() > 0) {
+            HomeListBean data = mDatas.get(position);
+            itemViewHolder.mTitleTxt.setText(data.title);
+
+            if (StringUtils.isNotEmpty(data.url)) {
+                Uri uri = Uri.parse(data.url);
+                itemViewHolder.mShowImg.setAspectRatio(1 / 0.58f);
+                itemViewHolder.mShowImg.setImageURI(uri);
+
+            }
         }
+    }
+
+    @Override
+    public int getItemCount() {
         return mDatas.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return mDatas.get(position);
+    public List<HomeListBean> getDatas() {
+        return mDatas;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if(convertView == null)
-        {
-            holder = new ViewHolder();
-            convertView = LayoutInflater.from(mCaller).inflate(R.layout.homepage_item_image_text,null);
-
-            holder.mTitleTxt =(TextView)convertView.findViewById(R.id.image_text_title);
-            holder.mContentTxt =(TextView)convertView.findViewById(R.id.image_text_content);
-            holder.mShowImg =(SimpleDraweeView) convertView.findViewById(R.id.image_text_image);
-
-            convertView.setTag(holder);
-        }
-        else
-        {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        HomeListBean data = mDatas.get(position);
-
-        holder.mTitleTxt.setText(data.title);
-
-        if (StringUtils.isNotEmpty(data.url)) {
-            Uri uri = Uri.parse(data.url);
-            holder.mShowImg.setAspectRatio(1 / 0.58f);
-            holder.mShowImg.setImageURI(uri);
-
-        }
-
-        return convertView;
-    }
-
-
-    class ViewHolder
-    {
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTitleTxt;
         TextView mContentTxt;
         SimpleDraweeView mShowImg;
 
+        public ItemViewHolder(View view) {
+            super(view);
+            mTitleTxt = (TextView) view.findViewById(R.id.image_text_title);
+            mContentTxt = (TextView) view.findViewById(R.id.image_text_content);
+            mShowImg = (SimpleDraweeView) view.findViewById(R.id.image_text_image);
+        }
     }
 }

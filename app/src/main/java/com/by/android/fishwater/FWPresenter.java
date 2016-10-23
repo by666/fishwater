@@ -1,9 +1,9 @@
 package com.by.android.fishwater;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 
 import com.by.android.fishwater.account.AccountManage;
 import com.by.android.fishwater.account.login.bean.LoginBean;
@@ -61,7 +61,7 @@ public class FWPresenter {
 
     public void replaceFragment(Fragment fragment)
     {
-        FragmentManager fm = mActivity.getFragmentManager();
+        FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.layout_content, fragment);
         transaction.commit();
@@ -69,17 +69,22 @@ public class FWPresenter {
 
     public void addFragment(Fragment fragment)
     {
-        FragmentManager fm = mActivity.getFragmentManager();
+        FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_left_enter,R.animator.slide_left_exit, R.animator.slide_right_enter, R.animator.slide_right_exit);
-        transaction.add(R.id.layout_content, fragment);
+        transaction.setCustomAnimations(R.anim.slide_left_enter,R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit);
+        transaction.replace(R.id.layout_content, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
+    public void backLastFragment()
+    {
+        mActivity.getSupportFragmentManager().popBackStack();
+    }
+
     public void removeFragment(Fragment fragment)
     {
-        FragmentManager fm = mActivity.getFragmentManager();
+        FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.remove(fragment);
         transaction.commit();
@@ -87,7 +92,7 @@ public class FWPresenter {
 
     public void showFragment(Fragment fragment)
     {
-        FragmentManager fm = mActivity.getFragmentManager();
+        FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.show(fragment);
         transaction.commit();
@@ -95,7 +100,7 @@ public class FWPresenter {
 
     public void hideFragment(Fragment fragment)
     {
-        FragmentManager fm = mActivity.getFragmentManager();
+        FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.hide(fragment);
         transaction.commit();
@@ -134,6 +139,7 @@ public class FWPresenter {
                 AccountManage.getInstance().setSessionId(loginBean.sessionid);
                 AccountManage.getInstance().setUserId(loginBean.userid);
                 ToastUtil.show("登录成功!");
+                goHomePage();
                 getUserInfo();
 
             }
@@ -142,6 +148,8 @@ public class FWPresenter {
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
                 ToastUtil.show("登录失败!");
+                goHomePage();
+                getUserInfo();
             }
         });
 

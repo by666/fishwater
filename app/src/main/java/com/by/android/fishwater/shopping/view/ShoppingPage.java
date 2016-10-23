@@ -1,6 +1,6 @@
 package com.by.android.fishwater.shopping.view;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -11,18 +11,14 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.bean.BannerBean;
 import com.by.android.fishwater.shopping.bean.CategoryBean;
 import com.by.android.fishwater.shopping.bean.GoodsBean;
 import com.by.android.fishwater.shopping.presenter.ShoppingPresenter;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -43,8 +39,8 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
     private LinearLayout mPointLayout;
     private List<ImageView> mImageViews = new ArrayList<>();
 
-    @ViewInject(R.id.scrollview_shopping)
-    PullToRefreshScrollView mShoppingScrollView;
+//    @ViewInject(R.id.scrollview_shopping)
+//    PullToRefreshScrollView mShoppingScrollView;
 
     @Nullable
     @Override
@@ -169,12 +165,12 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
 
     private void initBody() {
 
-        mShoppingScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
-
-            }
-        });
+//        mShoppingScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+//            @Override
+//            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+//
+//            }
+//        });
     }
 
     @Override

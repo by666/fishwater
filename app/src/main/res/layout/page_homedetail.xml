@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <WebView android:id="@+id/webview"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
-</LinearLayout>
+    <ImageView android:id="@+id/img_back"
+        android:background="@drawable/back_last"
+        android:layout_height="@dimen/space_30"
+        android:layout_width="@dimen/space_30"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginTop="@dimen/space_10"/>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/space_20"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+       >
+
+        <ImageView android:id="@+id/img_pride"
+        android:layout_width="@dimen/space_30"
+        android:layout_height="@dimen/space_30"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/home_wenzhang_zan"/>
+
+        <ImageView android:id="@+id/img_collect"
+            android:layout_width="@dimen/space_30"
+            android:layout_height="@dimen/space_30"
+            android:layout_centerInParent="true"
+            android:background="@drawable/home_wenzhang_nocollect"/>
+
+        <ImageView android:id="@+id/img_msg"
+            android:layout_width="@dimen/space_30"
+            android:layout_height="@dimen/space_30"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/home_wenzhang_comments"/>
+        </RelativeLayout>
+
+
+</RelativeLayout>

@@ -2,15 +2,14 @@ package com.by.android.fishwater.homepage.presenter;
 
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.bean.BannerBean;
-import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.bean.BannerRespondBean;
+import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.bean.respond.HomeListRespondBean;
 import com.by.android.fishwater.homepage.view.HomeDetailPage;
 import com.by.android.fishwater.homepage.view.IHomePageInterface;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
-import com.by.android.fishwater.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,10 +58,10 @@ public class HomePagePresenter {
     {
         currentPosition = 0;
         currentDatas.removeAll(currentDatas);
-        getHomeListData();
+        getHomeListData(false);
     }
 
-    public void getHomeListData()
+    public void getHomeListData(final boolean isLoadMore)
     {
         HashMap<String,Object> map = new HashMap<String, Object>();
         map.put("a","contentList");
@@ -73,14 +72,13 @@ public class HomePagePresenter {
                 super.onSuccess(result);
                 List<HomeListBean> datas = result.data;
                 currentPosition += datas.size();
-                if(datas != null) {
-                    currentDatas.addAll(datas);
+                if(datas.size() == 0) {
+                    mHomePageInterface.requestListDataSuccess(currentDatas,isLoadMore,true);
                 }
                 else {
-                    ToastUtil.show("已经到底了");
-                    return;
+                    currentDatas.addAll(datas);
+                    mHomePageInterface.requestListDataSuccess(currentDatas,isLoadMore,false);
                 }
-                mHomePageInterface.requestListDataSuccess(currentDatas);
             }
 
             @Override
@@ -90,6 +88,7 @@ public class HomePagePresenter {
             }
         });
     }
+
 
     public void goHomeDetailPresenter(HomeListBean data)
     {
