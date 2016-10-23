@@ -32,14 +32,14 @@ import android.view.View;
 /**
  * A simple divider decoration with customizable colour, height, and left and right padding.
  */
-public class DividerDecoration extends RecyclerView.ItemDecoration {
+public class LinearLayoutDecoration extends RecyclerView.ItemDecoration {
 
     private int mHeight;
     private int mLPadding;
     private int mRPadding;
     private Paint mPaint;
 
-    private DividerDecoration(int height, int lPadding, int rPadding, int colour) {
+    private LinearLayoutDecoration(int height, int lPadding, int rPadding, int colour) {
         mHeight = height;
         mLPadding = lPadding;
         mRPadding = rPadding;
@@ -205,11 +205,11 @@ public class DividerDecoration extends RecyclerView.ItemDecoration {
         }
 
         /**
-         * Instantiates a DividerDecoration with the specified parameters.
-         * @return a properly initialized DividerDecoration instance
+         * Instantiates a LinearLayoutDecoration with the specified parameters.
+         * @return a properly initialized LinearLayoutDecoration instance
          */
-        public DividerDecoration build() {
-            return new DividerDecoration(mHeight, mLPadding, mRPadding, mColour);
+        public LinearLayoutDecoration build() {
+            return new LinearLayoutDecoration(mHeight, mLPadding, mRPadding, mColour);
         }
     }
 }

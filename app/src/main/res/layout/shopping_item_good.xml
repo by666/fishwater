@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:cart="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+
+    >
+
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        fresco:roundAsCircle="false"
+        fresco:roundedCornerRadius="2dp"
+        fresco:placeholderImage="@drawable/community_post_image_card_button"
+        fresco:placeholderImageScaleType="fitCenter"
+        />
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/img_show"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/space_2"
+        android:text="asdasd"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/shopping_items_title_color"
+        android:textSize="@dimen/space_14" />
+
+    <com.by.android.fishwater.widget.PriceView
+        android:id="@+id/txt_price"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/img_show"
+        android:layout_below="@+id/txt_title"
+        android:layout_height="wrap_content"
+        cart:decimalSize="@dimen/space_12"
+        cart:intSize="@dimen/space_18"
+        cart:moneySize="@dimen/space_12"
+        android:layout_marginTop="@dimen/space_4"
+        cart:strike="false"
+        cart:textColor="@color/shopping_panic_light_color" />
+
+
+    <TextView
+        android:id="@+id/txt_salecount"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/txt_title"
+        android:layout_alignRight="@+id/img_show"
+        android:layout_marginTop="@dimen/space_4"
+        android:text="销量:123"
+        android:layout_height="wrap_content"
+        android:textColor="@color/shopping_items_other_color"
+        android:textSize="@dimen/space_12" />
+
+
+</RelativeLayout>

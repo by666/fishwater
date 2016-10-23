@@ -65,7 +65,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return size;
     }
 
     public List<HomeListBean> getDatas() {

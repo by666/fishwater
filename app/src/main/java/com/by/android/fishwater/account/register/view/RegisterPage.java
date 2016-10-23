@@ -1,8 +1,8 @@
 package com.by.android.fishwater.account.register.view;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -18,8 +18,8 @@ import com.by.android.fishwater.account.login.view.LoginPage;
 import com.by.android.fishwater.account.register.presenter.RegisterPresenter;
 import com.by.android.fishwater.util.CommonUtils;
 import com.by.android.fishwater.util.DeviceManager;
-import com.by.android.fishwater.view.AlphaImageView;
 import com.by.android.fishwater.view.AlphaTextView;
+import com.by.android.fishwater.widget.AlphaImageView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;

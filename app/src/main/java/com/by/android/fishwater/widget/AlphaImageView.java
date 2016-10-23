@@ -1,4 +1,4 @@
-package com.by.android.fishwater.view;
+package com.by.android.fishwater.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
