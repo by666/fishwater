@@ -13,6 +13,7 @@ import com.by.android.fishwater.shopping.bean.CategoryBean;
 import com.by.android.fishwater.shopping.bean.GoodsBean;
 import com.by.android.fishwater.shopping.bean.respond.CategoryRespondBean;
 import com.by.android.fishwater.shopping.bean.respond.GoodsRespondBean;
+import com.by.android.fishwater.shopping.view.GoodsDetailPage;
 import com.by.android.fishwater.shopping.view.IShoppingPageInterface;
 import com.by.android.fishwater.shopping.view.ShoppingSearchPage;
 import com.by.android.fishwater.util.Constant;
@@ -149,6 +150,19 @@ public class ShoppingPresenter {
         Bundle bundle = new Bundle();
         bundle.putInt("category",data.id);
         bundle.putString("title",data.title);
+        page.setArguments(bundle);
+        FWPresenter.getInstance().addFragment(page);
+    }
+
+    /**
+     * 跳转到商品详情页
+     * @param data
+     */
+    public void goGoodsDetailPage(GoodsBean data)
+    {
+        GoodsDetailPage page = new GoodsDetailPage();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id",data.id);
         page.setArguments(bundle);
         FWPresenter.getInstance().addFragment(page);
     }

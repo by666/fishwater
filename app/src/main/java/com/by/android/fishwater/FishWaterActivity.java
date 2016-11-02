@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.HardwareUtil;
 import com.by.android.fishwater.util.MarketChannelManager;
@@ -24,8 +25,8 @@ public class FishWaterActivity extends FragmentActivity implements View.OnClickL
 
     private FWPresenter mPresenter;
     private LinearLayout mTabLayout;
-    private final String[] titles = {"首页","社区","商城","购物车","我的"};
-    private int[] resId = {R.drawable.tab_homepage,R.drawable.tab_community,R.drawable.tab_shopping,R.drawable.tab_shopping,R.drawable.tab_account};
+    private final String[] titles = {"首页","社区","商城","我的"};
+    private int[] resId = {R.drawable.tab_homepage,R.drawable.tab_community,R.drawable.tab_shopping,R.drawable.tab_account};
     private int mCurrentPageCount = 0;
     private LinearLayout mCuurentTabView;
 
@@ -62,6 +63,13 @@ public class FishWaterActivity extends FragmentActivity implements View.OnClickL
         HardwareUtil.density = dm.density;
 
         initTabLayout();
+
+        try {
+            new AddressBean();
+        }catch (Exception e)
+        {
+
+        }
     }
 
 
@@ -120,9 +128,6 @@ public class FishWaterActivity extends FragmentActivity implements View.OnClickL
                 mPresenter.goShoppingPage();
                 break;
             case 3:
-                mPresenter.goBuycarPage();
-                break;
-            case 4:
                 mPresenter.goMinePage();
                 break;
             default:

@@ -1,5 +1,7 @@
 package com.by.android.fishwater.homepage.presenter;
 
+import com.by.android.fishwater.FWPresenter;
+import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.view.IHomeDetailPageInterface;
 import com.by.android.fishwater.homepage.view.IHomePageInterface;
@@ -19,4 +21,6 @@ public class HomeDetailPagePresenter {
     {
         this.mHomeDetailPageInterface = homeDetailPageInterface;
     }
+
+
 }

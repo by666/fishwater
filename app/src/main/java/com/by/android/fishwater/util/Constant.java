@@ -1,5 +1,9 @@
 package com.by.android.fishwater.util;
 
+import android.os.Environment;
+
+import com.by.android.fishwater.FWApplication;
+
 /**
  * Created by by.huang on 2016/10/10.
  */
@@ -18,5 +22,8 @@ public class Constant {
     public static String PREFERENCE_ACCOUNT = "pre_account";
     public static String PREFERENCE_SESSIONID = "pre_sessionid";
     public static String PREFERENCE_USERID = "pre_userid";
+
+
+    public static String APP_PATH = Environment.getExternalStorageDirectory().getPath()+"/fishwater";
 
 }

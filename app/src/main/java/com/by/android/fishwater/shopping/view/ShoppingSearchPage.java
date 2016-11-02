@@ -18,7 +18,7 @@ import com.by.android.fishwater.shopping.bean.GoodsBean;
 import com.by.android.fishwater.shopping.presenter.ShoppingPresenter;
 import com.by.android.fishwater.util.ResourceHelper;
 import com.by.android.fishwater.view.GridLayoutDecoration;
-import com.by.android.fishwater.widget.AlphaImageView;
+import com.by.android.fishwater.view.AlphaImageView;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;

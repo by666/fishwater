@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg">
+
+    <include layout="@layout/navigationbar" />
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/recyclerview_address"
+        android:layout_weight="1.0"/>
+
+    <Button android:layout_width="match_parent"
+        android:layout_height="@dimen/space_48"
+        android:textSize="@dimen/space_18"
+        android:textColor="@color/white"
+        android:text="新增收获地址"
+        android:background="@drawable/buy_panel_buy_text"
+        android:id="@+id/btn_addaddress" />
+
+</LinearLayout>

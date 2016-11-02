@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cart="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/navigationbar" />
+
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/recylerview_buycar"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space_1"
+        android:layout_height="0dp"
+        android:layout_weight="1.0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_48"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/layout_select"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/img_select"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="@dimen/space_10" />
+
+            <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_5"
+                android:text="全选"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_15"
+            android:layout_toRightOf="@+id/layout_select"
+            android:text="合计："
+            android:id="@+id/title_price"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/space_16"
+            android:textColor="@color/black"/>
+
+
+        <com.by.android.fishwater.widget.PriceView
+            android:id="@+id/txt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/title_price"
+            cart:decimalSize="@dimen/space_12"
+            android:layout_centerVertical="true"
+            cart:intSize="@dimen/space_22"
+            cart:moneySize="@dimen/space_12"
+            cart:strike="false"
+            cart:textColor="@color/shopping_panic_light_color" />
+
+        <Button android:layout_width="@dimen/space_150"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/space_18"
+            android:textColor="@color/white"
+            android:text="去结算"
+            android:enabled="false"
+            android:background="@color/home_text_default_color"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btn_buy" />
+
+    </RelativeLayout>
+
+</LinearLayout>

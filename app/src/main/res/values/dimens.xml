@@ -212,6 +212,7 @@
     <dimen name="space_332">332dp</dimen>
     <dimen name="space_345">345dp</dimen>
     <dimen name="space_371">371dp</dimen>
+    <dimen name="space_400">400dp</dimen>
     <dimen name="space_460">460dp</dimen>
 
 </resources>

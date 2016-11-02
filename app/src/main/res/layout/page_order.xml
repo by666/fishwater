@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cart="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/gray_bg"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/navigationbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout android:layout_height="@dimen/space_100"
+                android:layout_width="match_parent"
+                android:id="@+id/layout_address"
+                android:layout_marginTop="@dimen/space_5"
+                android:background="@color/white">
+
+
+                <ImageView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/img_position"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:src="@drawable/order_logistic_icon_address"/>
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收货人："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/space_18"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:layout_marginTop="@dimen/space_5"
+                    android:layout_toRightOf="@+id/img_position"
+                    android:id="@+id/title_name"/>
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="黄成实"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/space_18"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/space_5"
+                    android:layout_marginTop="@dimen/space_5"
+                    android:layout_toRightOf="@+id/title_name"
+                    android:id="@+id/txt_name"/>
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收货地址："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/space_16"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:layout_below="@+id/title_name"
+                    android:layout_toRightOf="@+id/img_position"
+                    android:id="@+id/title_address"/>
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="广东省深圳市宝安区尚都花园2e-1002"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/space_16"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:layout_below="@+id/title_name"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/space_15"
+                    android:lines="3"
+                    android:layout_toRightOf="@+id/title_address"
+                    android:id="@+id/txt_address"/>
+
+                <ImageView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/space_10"
+                    android:src="@drawable/order_logistic_icon_arrow"/>
+            </RelativeLayout>
+
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerview_goods"
+                android:layout_marginTop="@dimen/space_5"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/space_5"
+                android:orientation="vertical">
+
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:layout_marginLeft="@dimen/space_15"
+                    android:layout_marginBottom="@dimen/space_10"
+                    android:text="支付方式"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/space_18"/>
+
+                <com.github.jdsjlzx.recyclerview.LRecyclerView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerview_pay"
+                   />
+                </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginBottom="@dimen/space_40"
+                android:layout_marginTop="@dimen/space_5"
+                android:orientation="vertical">
+
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_10"
+                    android:layout_marginLeft="@dimen/space_15"
+                    android:layout_marginBottom="@dimen/space_10"
+                    android:text="商品总额"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/space_18"/>
+
+                <com.github.jdsjlzx.recyclerview.LRecyclerView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerview_price"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_48"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="实付款："
+            android:textSize="@dimen/space_18"
+            android:layout_marginLeft="@dimen/space_15"
+            android:id="@+id/title_price"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"/>
+
+        <com.by.android.fishwater.widget.PriceView
+            android:id="@+id/txt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/title_price"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/space_10"
+            cart:decimalSize="@dimen/space_12"
+            cart:intSize="@dimen/space_20"
+            cart:moneySize="@dimen/space_12"
+            cart:strike="false"
+            cart:textColor="@color/shopping_panic_light_color" />
+
+        <Button android:layout_width="@dimen/space_150"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/space_18"
+            android:textColor="@color/white"
+            android:text="提交订单"
+            android:background="@drawable/buy_panel_buy_text"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/btn_order" />
+    </RelativeLayout>
+</LinearLayout>

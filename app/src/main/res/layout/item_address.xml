@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/space_16"
+        android:text="黄成实"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/black"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginLeft="@dimen/space_10"
+        android:id="@+id/txt_name"/>
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_below="@+id/txt_name"
+        android:layout_margin="@dimen/space_10"
+        android:text="广东省深圳市宝安区裕安一路尚都花园2e-1002"
+        android:id="@+id/txt_address"/>
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_phone"
+        android:textColor="@color/black"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:text="18680686420"/>
+
+    <View android:layout_height="@dimen/space_1"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:layout_below="@id/txt_address"
+        android:background="@color/black"/>
+
+
+  <RelativeLayout android:layout_height="wrap_content"
+      android:layout_width="match_parent">
+
+      </RelativeLayout>
+</RelativeLayout>
+

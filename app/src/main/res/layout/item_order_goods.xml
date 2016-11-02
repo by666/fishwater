@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cart="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/space_100"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_show"
+        android:layout_width="@dimen/space_80"
+        android:layout_height="@dimen/space_80"
+        android:layout_alignTop="@+id/txt_name"
+        android:layout_marginLeft="@dimen/space_10"
+        />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/space_40"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginRight="@dimen/space_15"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_toRightOf="@+id/img_show"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/space_16" />
+
+    <TextView
+        android:id="@+id/txt_count"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/space_40"
+        android:layout_below="@+id/txt_name"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_toRightOf="@+id/img_show"
+        android:gravity="center_vertical"
+        android:visibility="visible" />
+
+
+    <com.by.android.fishwater.widget.PriceView
+        android:id="@+id/txt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/space_40"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_15"
+        cart:decimalSize="@dimen/space_12"
+        cart:intSize="@dimen/space_18"
+        cart:moneySize="@dimen/space_12"
+        cart:strike="false"
+        cart:textColor="@color/shopping_panic_light_color" />
+
+</RelativeLayout>

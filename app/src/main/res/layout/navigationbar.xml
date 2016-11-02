@@ -9,7 +9,7 @@
         android:layout_height="@dimen/space_50"
         android:background="@color/white">
 
-        <com.by.android.fishwater.widget.AlphaImageView
+        <com.by.android.fishwater.view.AlphaImageView
             android:id="@+id/btn_back"
             android:layout_width="@dimen/space_30"
             android:layout_height="@dimen/space_30"
@@ -26,10 +26,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/shopping_title"
-            android:textColor="@color/shopping_title"
+            android:textColor="@color/account_gray"
             android:textSize="@dimen/space_18" />
 
 
+
+        <TextView android:id="@+id/txt_edit"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="编辑"
+            android:gravity="center"
+            android:textSize="@dimen/space_16"
+            android:paddingLeft="@dimen/space_10"
+            android:paddingRight="@dimen/space_10"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:layout_gravity="right|center"/>
 
     </FrameLayout>
 </LinearLayout>

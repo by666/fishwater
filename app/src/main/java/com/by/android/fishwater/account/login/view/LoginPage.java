@@ -18,7 +18,7 @@ import com.by.android.fishwater.account.register.view.RegisterPage;
 import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.ToastUtil;
 import com.by.android.fishwater.view.AlphaTextView;
-import com.by.android.fishwater.widget.AlphaImageView;
+import com.by.android.fishwater.view.AlphaImageView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -29,7 +29,6 @@ import org.xutils.x;
  */
 
 @ContentView(R.layout.page_login)
-
 public class LoginPage extends Fragment implements View.OnClickListener,ILoginInterface{
 
     @ViewInject(R.id.account_login_phone)

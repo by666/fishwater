@@ -1,5 +1,7 @@
 package com.by.android.fishwater.shopping.bean;
 
+import java.io.Serializable;
+
 import static android.R.attr.id;
 import static android.R.attr.name;
 
@@ -7,7 +9,7 @@ import static android.R.attr.name;
  * Created by by.huang on 2016/10/13.
  */
 
-public class GoodsBean {
+public class GoodsBean implements Serializable{
 
 //    id	Int	是	商品的唯一ID
 //    thumbnails	String	是	缩略图URL

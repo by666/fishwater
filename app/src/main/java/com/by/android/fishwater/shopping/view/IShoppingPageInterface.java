@@ -13,11 +13,11 @@ import java.util.List;
 
 public interface IShoppingPageInterface {
 
-    public abstract void OnBannerSuccess(List<BannerBean> datas);
-    public abstract void OnBannerFail();
+    void OnBannerSuccess(List<BannerBean> datas);
+    void OnBannerFail();
 
-    public abstract void OnCategorySuccess(List<CategoryBean> datas);
-    public abstract void OnCategoryFail();
+    void OnCategorySuccess(List<CategoryBean> datas);
+    void OnCategoryFail();
 
     void OnGoodsSuccess(List<GoodsBean> datas, boolean isLoadMore, boolean theEnd);
     void OnGoodsFail();

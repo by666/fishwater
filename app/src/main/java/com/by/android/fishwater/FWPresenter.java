@@ -10,7 +10,7 @@ import com.by.android.fishwater.account.login.bean.LoginBean;
 import com.by.android.fishwater.account.login.bean.UserBean;
 import com.by.android.fishwater.account.login.bean.respond.LoginRespondBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
-import com.by.android.fishwater.buycar.BuycarPage;
+import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.community.CommunityPage;
 import com.by.android.fishwater.homepage.view.HomePage;
 import com.by.android.fishwater.mine.MinePage;

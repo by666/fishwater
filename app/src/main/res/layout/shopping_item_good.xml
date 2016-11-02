@@ -29,7 +29,6 @@
         android:layout_below="@+id/img_show"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/space_2"
-        android:text="asdasd"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
@@ -56,7 +55,6 @@
         android:layout_below="@+id/txt_title"
         android:layout_alignRight="@+id/img_show"
         android:layout_marginTop="@dimen/space_4"
-        android:text="销量:123"
         android:layout_height="wrap_content"
         android:textColor="@color/shopping_items_other_color"
         android:textSize="@dimen/space_12" />

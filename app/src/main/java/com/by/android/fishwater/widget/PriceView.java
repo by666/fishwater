@@ -140,6 +140,8 @@ public class PriceView extends View {
         //画小数部分
         mPaint.setTextSize(decimalSize);
         canvas.drawText(decimalPart, decimalStart, commonY, mPaint);
+        invalidate();
+
     }
 
     private int measureWidth(int measureSpec) {

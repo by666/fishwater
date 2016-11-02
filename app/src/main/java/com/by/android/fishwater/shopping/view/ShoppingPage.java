@@ -211,7 +211,8 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
         mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-
+                GoodsBean data = mCuurentDatas.get(i);
+                mShoppingPresenter.goGoodsDetailPage(data);
             }
 
             @Override

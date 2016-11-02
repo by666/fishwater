@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cart="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/space_400"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_show"
+        android:layout_width="@dimen/space_100"
+        android:layout_height="@dimen/space_100"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/space_15"
+        android:background="@drawable/account_add_follower" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/space_100"
+        android:layout_margin="@dimen/space_15"
+        android:layout_toRightOf="@+id/img_show"
+        android:gravity="center|left"
+        android:orientation="vertical">
+
+        <com.by.android.fishwater.widget.PriceView
+            android:id="@+id/txt_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            cart:decimalSize="@dimen/space_12"
+            cart:intSize="@dimen/space_22"
+            cart:moneySize="@dimen/space_12"
+            cart:strike="false"
+            cart:textColor="@color/shopping_panic_light_color" />
+
+        <TextView
+            android:id="@+id/txt_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_5"
+            android:text="库存:12232" />
+
+        <TextView
+            android:id="@+id/txt_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_5"
+            android:text="已选：黑色" />
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/view_divide1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/img_show"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginRight="@dimen/space_15"
+        android:background="@color/llgray" />
+
+    <TextView
+        android:id="@+id/title_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_divide1"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginTop="@dimen/space_15"
+        android:text="规格"
+        android:textColor="@color/black"
+        android:textSize="@dimen/space_16" />
+
+    <LinearLayout
+        android:id="@+id/layout_stock"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/title_stock"
+        android:layout_height="@dimen/space_60"
+        android:orientation="vertical" />
+
+    <View
+        android:id="@+id/view_divide2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/layout_stock"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginRight="@dimen/space_15"
+        android:background="@color/llgray" />
+
+    <RelativeLayout
+        android:id="@+id/layout_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_divide2"
+        android:paddingTop="@dimen/space_15"
+        android:paddingBottom="@dimen/space_15"
+        android:paddingRight="@dimen/space_15"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/title_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_15"
+            android:text="购买数量"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/space_16" />
+
+
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/product_buy_num_add"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/txt_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_add"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@drawable/btn_number"
+            android:text="1"
+            android:gravity="center"
+            android:textColor="#434343"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_reduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/txt_num"
+            android:layout_marginRight="@dimen/space_10"
+            android:background="@drawable/product_buy_num_reduce"
+            android:clickable="true" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/layout_count"
+        android:id="@+id/view_divide3"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginRight="@dimen/space_15"
+        android:background="@color/llgray" />
+
+
+    <Button android:layout_width="match_parent"
+        android:layout_height="@dimen/space_48"
+        android:textSize="@dimen/space_18"
+        android:textColor="@color/white"
+        android:text="加入购物车"
+        android:background="@drawable/buy_panel_buy_car_text"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btn_buycar" />
+
+    <Button android:id="@+id/btn_close"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/space_15"
+        android:layout_marginRight="@dimen/space_15"
+        android:background="@drawable/icon_close"/>
+</RelativeLayout>

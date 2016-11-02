@@ -19,7 +19,7 @@ import com.by.android.fishwater.account.register.presenter.RegisterPresenter;
 import com.by.android.fishwater.util.CommonUtils;
 import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.view.AlphaTextView;
-import com.by.android.fishwater.widget.AlphaImageView;
+import com.by.android.fishwater.view.AlphaImageView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
