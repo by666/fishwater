@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.by.android.fishwater.FWPresenter;
@@ -13,6 +14,7 @@ import com.by.android.fishwater.R;
 import com.by.android.fishwater.order.adapter.AddressListAdapter;
 import com.by.android.fishwater.order.adapter.OrderPriceAdapter;
 import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.presenter.OrderPresenter;
 import com.by.android.fishwater.view.AlphaImageView;
 import com.by.android.fishwater.view.LinearLayoutDecoration;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -30,7 +32,7 @@ import java.util.List;
  */
 
 @ContentView(R.layout.page_address)
-public class AddressPage extends Fragment{
+public class AddressPage extends Fragment implements IOrderInterface{
 
     @ViewInject(R.id.txt_title)
     TextView mTitletxt;
@@ -41,10 +43,12 @@ public class AddressPage extends Fragment{
     @ViewInject(R.id.recyclerview_address)
     LRecyclerView mAddressRecyclerView;
 
+    @ViewInject(R.id.btn_addaddress)
+    Button mAddAddressBtn;
 
-    private List<AddressBean> datas;
     private AddressListAdapter mListAdapter;
     private LRecyclerViewAdapter mLRecyclerViewAdapter;
+    private OrderPresenter mOrderPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class AddressPage extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mOrderPresenter = new OrderPresenter(this);
         FWPresenter.getInstance().showTabLayout(View.GONE);
         initView();
     }
@@ -61,6 +66,14 @@ public class AddressPage extends Fragment{
     private void initView()
     {
         initNavigationBar();
+        mOrderPresenter.getAddressList();
+
+        mAddAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOrderPresenter.goAddressEditPage(null);
+            }
+        });
     }
 
     private void initNavigationBar()
@@ -82,15 +95,49 @@ public class AddressPage extends Fragment{
 
 
         mAddressRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAddressRecyclerView.addItemDecoration(new LinearLayoutDecoration.Builder(getContext()).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
-        mListAdapter = new AddressListAdapter(getActivity());
+        mAddressRecyclerView.addItemDecoration(new LinearLayoutDecoration.Builder(getContext()).setHeight(R.dimen.space_4).setColor(getResources().getColor(R.color.gray_bg)).build());
+        mListAdapter = new AddressListAdapter(getActivity(),mOrderPresenter);
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(mListAdapter);
         mAddressRecyclerView.setAdapter(mLRecyclerViewAdapter);
 
-        if (datas != null) {
+        if (datas != null && datas.size() > 0) {
             mListAdapter.updateData(datas);
         }
         mLRecyclerViewAdapter.notifyDataSetChanged();
         mLRecyclerViewAdapter.removeFooterView(mLRecyclerViewAdapter.getFooterView());
+    }
+
+    @Override
+    public void OnGetAddressListSuccess(List<AddressBean> datas) {
+        initAddressList(datas);
+    }
+
+    @Override
+    public void OnGetAddressListFail() {
+
+    }
+
+    @Override
+    public void OnSaveAddressSuccess() {
+
+    }
+
+    @Override
+    public void OnSaveAddressFail() {
+
+    }
+
+    @Override
+    public void OnDeleteAddressSuccess(List<AddressBean> datas) {
+
+        if (datas != null && datas.size() > 0) {
+            mListAdapter.updateData(datas);
+        }
+        mLRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnDeleteAddressFail() {
+
     }
 }

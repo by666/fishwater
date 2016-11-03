@@ -124,8 +124,6 @@ public class GoodPage extends Fragment implements IOrderInterface{
     }
 
     private void initAddressView() {
-//        mNameTxt.setText("");
-//        mAddressTxt.setText("");
         mAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,7 +234,12 @@ public class GoodPage extends Fragment implements IOrderInterface{
 
         if(datas!=null && datas.size() > 0){
             for (AddressBean data : datas) {
-
+                if(data.isDefault == 1)
+                {
+                    mNameTxt.setText(data.name);
+                    String address = AddressBean.getAddress(data.province,data.city,data.area) + data.address;
+                    mAddressTxt.setText(address);
+                }
             }
         }
     }
@@ -257,7 +260,7 @@ public class GoodPage extends Fragment implements IOrderInterface{
     }
 
     @Override
-    public void OnDeleteAddressSuccess() {
+    public void OnDeleteAddressSuccess(List<AddressBean> datas) {
 
     }
 

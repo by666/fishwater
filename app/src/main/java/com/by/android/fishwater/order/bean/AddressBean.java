@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import static com.by.android.fishwater.util.Constant.APP_PATH;
  * Created by by.huang on 2016/10/31.
  */
 
-public class AddressBean {
+public class AddressBean implements Serializable {
 
 //    id	Int	是	地址唯一ID
 //    name	String	是	收货人姓名
@@ -48,6 +49,41 @@ public class AddressBean {
     public int area;
     public int isDefault;
     public String intime;
+
+
+    public static AddressBean getDefaultAddressBean() {
+        AddressBean addressBean = new AddressBean();
+        addressBean.province = 2;
+        addressBean.city = 36;
+        addressBean.area = 0;
+        return addressBean;
+    }
+
+    public static String getAddress(int province, int city, int area) {
+        String result = "";
+        List<ProvinceBean> provinceBeanList = FWApplication.mApplication.getProvinceDatas();
+        for (ProvinceBean provinceBean : provinceBeanList) {
+            if (provinceBean.id == province) {
+                result += provinceBean.name;
+                List<CityBean> cityBeanList = provinceBean.cityBeens;
+                for (CityBean cityBean : cityBeanList) {
+                    if (cityBean.id == city) {
+                        result += cityBean.name;
+                        List<AreaBean> addressBeanList = cityBean.areaBeens;
+                        if (addressBeanList != null && addressBeanList.size() > 0) {
+                            for (AreaBean areaBean : addressBeanList) {
+                                if (areaBean.id == area) {
+                                    result += areaBean.name;
+                                    return result;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
 }
 

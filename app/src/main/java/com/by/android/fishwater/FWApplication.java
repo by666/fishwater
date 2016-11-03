@@ -9,6 +9,7 @@ import com.by.android.fishwater.observer.FWObserverManager;
 import com.by.android.fishwater.order.bean.address.AreaBean;
 import com.by.android.fishwater.order.bean.address.CityBean;
 import com.by.android.fishwater.order.bean.address.ProvinceBean;
+import com.by.android.fishwater.util.StringUtils;
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -83,24 +84,30 @@ public class FWApplication extends Application {
                         for (int i = 0; i < pLength; i++) {
                             ProvinceBean data = new ProvinceBean();
                             NSDictionary subDic = (NSDictionary) provinceArray.objectAtIndex(i);
-                            data.id = subDic.objectForKey("id").toString();
+                            data.id = StringUtils.parseInt(subDic.objectForKey("id").toString());
                             data.name = subDic.objectForKey("name").toString();
                             NSArray cityArray = (NSArray) subDic.objectForKey("sub");
                             int cLength = cityArray.count();
+                            List<CityBean> cityBeens = new ArrayList<>();
                             for (int m = 0; m < cLength; m++) {
                                 CityBean cityBean = new CityBean();
                                 NSDictionary sub2Dic = (NSDictionary) cityArray.objectAtIndex(m);
-                                cityBean.id = sub2Dic.objectForKey("id").toString();
+                                cityBean.id = StringUtils.parseInt(sub2Dic.objectForKey("id").toString());
                                 cityBean.name = sub2Dic.objectForKey("name").toString();
                                 NSArray areaArray = (NSArray) sub2Dic.objectForKey("sub");
                                 int aLength = areaArray.count();
+                                List<AreaBean> areaBeens = new ArrayList<>();
                                 for (int n = 0; n < aLength; n++) {
                                     AreaBean areaBean = new AreaBean();
                                     NSDictionary sub3Dic = (NSDictionary) areaArray.objectAtIndex(n);
-                                    areaBean.id = sub3Dic.objectForKey("id").toString();
+                                    areaBean.id = StringUtils.parseInt(sub3Dic.objectForKey("id").toString());
                                     areaBean.name = sub3Dic.objectForKey("name").toString();
+                                    areaBeens.add(areaBean);
                                 }
+                                cityBean.areaBeens = areaBeens;
+                                cityBeens.add(cityBean);
                             }
+                            data.cityBeens = cityBeens;
                             mProvinceDatas.add(data);
                         }
                     } catch (IOException e) {

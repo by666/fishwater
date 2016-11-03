@@ -31,8 +31,8 @@ public class GoodsDetailPresenter {
 
     private IGoodsDetailInterface mShoppingDetailInterface;
     private Context mContext;
-    public GoodsDetailPresenter(IGoodsDetailInterface shoppingDetailInterface, Context context)
-    {
+
+    public GoodsDetailPresenter(IGoodsDetailInterface shoppingDetailInterface, Context context) {
         this.mShoppingDetailInterface = shoppingDetailInterface;
         this.mContext = context;
     }
@@ -40,13 +40,13 @@ public class GoodsDetailPresenter {
 
     /**
      * 商品详情
+     *
      * @param id
      */
-    public void getGoodsDetail(int id)
-    {
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("a","goodsView");
-        map.put("id",id);
+    public void getGoodsDetail(int id) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "goodsView");
+        map.put("id", id);
         HttpRequest.Post(Constant.GoodsUrl, map, new MyCallBack<GoodsDetailResondBean>() {
             @Override
             public void onSuccess(GoodsDetailResondBean result) {
@@ -63,17 +63,15 @@ public class GoodsDetailPresenter {
         });
     }
 
-    public void goBuycar()
-    {
+    public void goBuycar() {
         BuycarPage page = new BuycarPage();
         FWPresenter.getInstance().addFragment(page);
     }
 
-    public void showSelectCount(final View view)
-    {
+    public void showSelectCount(final View view) {
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(
-                ObjectAnimator.ofFloat(view, "translationY", HardwareUtil.screenHeight,  HardwareUtil.screenHeight-ResourceHelper.getDimen(R.dimen.space_400)- SystemUtil.getStatusBarHeight(mContext)),
+                ObjectAnimator.ofFloat(view, "translationY", HardwareUtil.screenHeight, HardwareUtil.screenHeight - ResourceHelper.getDimen(R.dimen.space_400) - SystemUtil.getStatusBarHeight(mContext)),
                 ObjectAnimator.ofFloat(view, "alpha", 0, 1)
         );
         animatorSet.setDuration(300);
@@ -102,11 +100,10 @@ public class GoodsDetailPresenter {
         animatorSet.start();
     }
 
-    public void hideSelectCount(final View view)
-    {
+    public void hideSelectCount(final View view) {
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(
-                ObjectAnimator.ofFloat(view, "translationY", HardwareUtil.screenHeight- ResourceHelper.getDimen(R.dimen.space_400)- SystemUtil.getStatusBarHeight(mContext), HardwareUtil.screenHeight),
+                ObjectAnimator.ofFloat(view, "translationY", HardwareUtil.screenHeight - ResourceHelper.getDimen(R.dimen.space_400) - SystemUtil.getStatusBarHeight(mContext), HardwareUtil.screenHeight),
                 ObjectAnimator.ofFloat(view, "alpha", 1, 0)
         );
         animatorSet.setDuration(300);
@@ -131,10 +128,10 @@ public class GoodsDetailPresenter {
 
             }
         });
-        animatorSet.start();    }
+        animatorSet.start();
+    }
 
-    public void goOrderPage()
-    {
+    public void goOrderPage() {
         GoodPage page = new GoodPage();
         FWPresenter.getInstance().addFragment(page);
     }

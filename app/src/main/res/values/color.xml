@@ -3,6 +3,8 @@
   -->
 
 <resources>
+    <color name="color_select">#02c092</color>
+    <color name="color_unselect">#aaaaaa</color>
     <color name="transparent">#00000000</color>
     <!--白色  -->
     <color name="white">#ffffff</color>

@@ -14,6 +14,6 @@ public interface IOrderInterface {
     void OnGetAddressListFail();
     void OnSaveAddressSuccess();
     void OnSaveAddressFail();
-    void OnDeleteAddressSuccess();
+    void OnDeleteAddressSuccess(List<AddressBean> datas);
     void OnDeleteAddressFail();
 }

@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.by.android.fishwater.R;
-import com.by.android.fishwater.buycar.bean.BuycarBean;
-import com.by.android.fishwater.util.StringUtils;
-import com.by.android.fishwater.widget.PriceView;
+import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.presenter.OrderPresenter;
+import com.by.android.fishwater.util.ResourceHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -24,14 +24,18 @@ import java.util.List;
 public class AddressListAdapter extends RecyclerView.Adapter {
 
     private LayoutInflater mLayoutInflater;
-    private List<BuycarBean> mDatas = new ArrayList<>();
+    private List<AddressBean> mDatas = new ArrayList<>();
     private int size = 0;
+    private AddressBean mSelectData;
+    private int mSelectPosition;
+    private OrderPresenter mOrderPrensent;
 
-    public AddressListAdapter(Context context) {
+    public AddressListAdapter(Context context, OrderPresenter presenter) {
         mLayoutInflater = LayoutInflater.from(context);
+        this.mOrderPrensent = presenter;
     }
 
-    public void updateData(List<BuycarBean> datas) {
+    public void updateData(List<AddressBean> datas) {
         this.mDatas = datas;
         if (mDatas != null && mDatas.size() > 0) {
             size = mDatas.size();
@@ -42,25 +46,62 @@ public class AddressListAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new AddressListAdapter.ItemViewHolder(mLayoutInflater.inflate(R.layout.item_order_goods, parent, false));
+        return new AddressListAdapter.ItemViewHolder(mLayoutInflater.inflate(R.layout.item_address, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         final AddressListAdapter.ItemViewHolder itemViewHolder = (AddressListAdapter.ItemViewHolder) holder;
         if (mDatas != null && mDatas.size() > 0) {
-            final BuycarBean data = mDatas.get(position);
+            final AddressBean data = mDatas.get(position);
             itemViewHolder.mNameTxt.setText(data.name);
-            itemViewHolder.mPriceView.setText(data.price + "");
-            itemViewHolder.mCountTxt.setText("数量：" + data.count);
-
-            if (StringUtils.isNotEmpty(data.imgUrl)) {
-                Uri uri = Uri.parse(data.imgUrl);
-                itemViewHolder.mShowImg.setAspectRatio(1 / 0.58f);
-                itemViewHolder.mShowImg.setImageURI(uri);
+            String address = AddressBean.getAddress(data.province, data.city, data.area) + data.address;
+            itemViewHolder.mAddressTxt.setText(address);
+            itemViewHolder.mPhoneTxt.setText(data.phone);
+            if (data.isDefault == 0) {
+                itemViewHolder.mSelectImg.setImageURI(Uri.parse("res:///" + R.drawable.checkbox_green_uncheck));
+                itemViewHolder.mSelectTxt.setTextColor(ResourceHelper.getColor(R.color.color_unselect));
+            } else {
+                mSelectData = data;
+                mSelectPosition = position;
+                itemViewHolder.mSelectImg.setImageURI(Uri.parse("res:///" + R.drawable.checkbox_green_checked));
+                itemViewHolder.mSelectTxt.setTextColor(ResourceHelper.getColor(R.color.color_select));
             }
+            itemViewHolder.mSelectImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (data.isDefault == 0) {
+                        if (mSelectData == null) {
+                            data.isDefault = 1;
+                            notifyDataSetChanged();
+                        }else {
+                            mSelectData.isDefault = 0;
+                            notifyItemChanged(mSelectPosition);
+                            data.isDefault = 1;
+                            itemViewHolder.mSelectImg.setImageURI(Uri.parse("res:///" + R.drawable.checkbox_green_checked));
+                            itemViewHolder.mSelectTxt.setTextColor(ResourceHelper.getColor(R.color.color_select));
+                            mSelectData = data;
+                            mSelectPosition = position;
+                        }
+                        mOrderPrensent.saveAddress(data);
+                    }
+                }
+            });
 
+            itemViewHolder.mEditTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOrderPrensent.goAddressEditPage(data);
+                }
+            });
+
+            itemViewHolder.mDeleteTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOrderPrensent.deleteAddress(mDatas, data);
+                }
+            });
         }
     }
 
@@ -69,22 +110,29 @@ public class AddressListAdapter extends RecyclerView.Adapter {
         return size;
     }
 
-    public List<BuycarBean> getDatas() {
+
+    public List<AddressBean> getDatas() {
         return mDatas;
     }
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView mShowImg;
         TextView mNameTxt;
-        TextView mCountTxt;
-        PriceView mPriceView;
+        TextView mAddressTxt;
+        TextView mPhoneTxt;
+        TextView mSelectTxt;
+        SimpleDraweeView mSelectImg;
+        TextView mEditTxt;
+        TextView mDeleteTxt;
 
         public ItemViewHolder(View view) {
             super(view);
-            mShowImg = (SimpleDraweeView) view.findViewById(R.id.img_show);
             mNameTxt = (TextView) view.findViewById(R.id.txt_name);
-            mCountTxt = (TextView) view.findViewById(R.id.txt_count);
-            mPriceView = (PriceView) view.findViewById(R.id.txt_price);
+            mAddressTxt = (TextView) view.findViewById(R.id.txt_address);
+            mPhoneTxt = (TextView) view.findViewById(R.id.txt_phone);
+            mSelectImg = (SimpleDraweeView) view.findViewById(R.id.img_select);
+            mSelectTxt = (TextView) view.findViewById(R.id.title_select);
+            mEditTxt = (TextView) view.findViewById(R.id.txt_edit);
+            mDeleteTxt = (TextView) view.findViewById(R.id.txt_delete);
 
         }
     }

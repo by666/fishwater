@@ -1,18 +1,34 @@
 package com.by.android.fishwater.order.presenter;
 
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+
+import com.by.android.fishwater.FWApplication;
 import com.by.android.fishwater.FWPresenter;
+import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.AccountManage;
+import com.by.android.fishwater.bean.BaseResondBean;
 import com.by.android.fishwater.net.BaseBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.bean.respond.AddressRespondBean;
+import com.by.android.fishwater.order.view.AddressEditPage;
 import com.by.android.fishwater.order.view.AddressPage;
 import com.by.android.fishwater.order.view.IOrderInterface;
 import com.by.android.fishwater.util.Constant;
+import com.by.android.fishwater.util.HardwareUtil;
+import com.by.android.fishwater.util.ResourceHelper;
+import com.by.android.fishwater.util.SystemUtil;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * Created by by.huang on 2016/10/31.
@@ -23,19 +39,17 @@ public class OrderPresenter {
 
     private IOrderInterface mOrderInterface;
 
-    public OrderPresenter(IOrderInterface orderInterface)
-    {
+    public OrderPresenter(IOrderInterface orderInterface) {
         this.mOrderInterface = orderInterface;
     }
 
     /**
      * 获取收获地址列表
      */
-    public void getAddressList()
-    {
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("a","addrList");
-        map.put("sessionid",AccountManage.getInstance().getSessionId());
+    public void getAddressList() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "addrList");
+        map.put("sessionid", AccountManage.getInstance().getSessionId());
         HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<AddressRespondBean>() {
             @Override
             public void onSuccess(AddressRespondBean result) {
@@ -55,23 +69,24 @@ public class OrderPresenter {
     /**
      * 保存收获地址
      */
-    public void saveAddress(AddressBean data)
-    {
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("a","addrSave");
-        map.put("sessionid",AccountManage.getInstance().getSessionId());
-        map.put("id",data.id);
-        map.put("name",data.name);
-        map.put("phone",data.phone);
-        map.put("address",data.address);
-        map.put("province",data.province);
-        map.put("city",data.city);
-        map.put("area",data.area);
-        map.put("isDefault",data.isDefault);
-        map.put("intime",data.intime);
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseBean>() {
+    public void saveAddress(AddressBean data) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "addrSave");
+        map.put("sessionid", AccountManage.getInstance().getSessionId());
+        if (data.id != 0) {
+            map.put("id", data.id);
+        }
+        map.put("name", data.name);
+        map.put("phone", data.phone);
+        map.put("address", data.address);
+        map.put("province", data.province);
+        map.put("city", data.city);
+        map.put("area", data.area);
+        map.put("isDefault", data.isDefault);
+//        map.put("intime", data.intime);
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
             @Override
-            public void onSuccess(BaseBean result) {
+            public void onSuccess(BaseResondBean result) {
                 super.onSuccess(result);
                 mOrderInterface.OnSaveAddressSuccess();
             }
@@ -85,19 +100,19 @@ public class OrderPresenter {
     }
 
     /**
-     * 删除收获地址
+     * 删除收获地址(data错误返回为【】)
      */
-    public void deleteAddress(AddressBean data)
-    {
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("a","addrDelete");
-        map.put("sessionid",AccountManage.getInstance().getSessionId());
-        map.put("id",data.id);
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseBean>() {
+    public void deleteAddress(final List<AddressBean> datas, final AddressBean data) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "addrDelete");
+        map.put("sessionid", AccountManage.getInstance().getSessionId());
+        map.put("id", data.id);
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
             @Override
-            public void onSuccess(BaseBean result) {
+            public void onSuccess(BaseResondBean result) {
                 super.onSuccess(result);
-                mOrderInterface.OnDeleteAddressSuccess();
+                datas.remove(data);
+                mOrderInterface.OnDeleteAddressSuccess(datas);
             }
 
             @Override
@@ -108,8 +123,10 @@ public class OrderPresenter {
         });
     }
 
-    public void pay()
-    {
+    /**
+     * 支付
+     */
+    public void pay() {
 //        a	order	是
 //        province	Int	是	area.list中对应的唯一ID
 //        city	Int	是	area.list中对应的唯一ID
@@ -122,11 +139,91 @@ public class OrderPresenter {
 
     }
 
-    public void goAddressPage()
-    {
+    /**
+     * 跳转到地址列表
+     */
+    public void goAddressPage() {
         AddressPage page = new AddressPage();
         FWPresenter.getInstance().addFragment(page);
     }
 
+    /**
+     * 跳转到地址编辑或添加
+     *
+     * @param data
+     */
+    public void goAddressEditPage(AddressBean data) {
+        AddressEditPage page = new AddressEditPage();
+        if (data != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("addressbean", data);
+            page.setArguments(bundle);
+        }
+        FWPresenter.getInstance().addFragment(page);
+    }
+
+    public void showPcaView(final View view) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(
+                ObjectAnimator.ofFloat(view, "translationY", HardwareUtil.screenHeight, HardwareUtil.screenHeight - ResourceHelper.getDimen(R.dimen.space_200) - SystemUtil.getStatusBarHeight(FWApplication.mApplication.getApplicationContext())),
+                ObjectAnimator.ofFloat(view, "alpha", 0, 1)
+        );
+        animatorSet.setDuration(300);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animatorSet.start();
+    }
+
+
+    public void hidePcaView(final View view) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(
+                ObjectAnimator.ofFloat(view, "translationY", HardwareUtil.screenHeight - ResourceHelper.getDimen(R.dimen.space_200) - SystemUtil.getStatusBarHeight(FWApplication.mApplication.getApplicationContext()), HardwareUtil.screenHeight),
+                ObjectAnimator.ofFloat(view, "alpha", 1, 0)
+        );
+        animatorSet.setDuration(300);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        animatorSet.start();
+    }
 
 }

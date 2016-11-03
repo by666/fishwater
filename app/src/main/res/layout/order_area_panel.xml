@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_pca"
+    android:background="@color/white"
+    android:visibility="gone"
+    android:orientation="vertical">
+
+    <View style="@style/order_common_line" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.by.android.fishwater.widget.WheelView
+            android:id="@+id/wv_province"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></com.by.android.fishwater.widget.WheelView>
+
+        <com.by.android.fishwater.widget.WheelView
+            android:id="@+id/wv_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></com.by.android.fishwater.widget.WheelView>
+
+        <com.by.android.fishwater.widget.WheelView
+            android:id="@+id/wv_district"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></com.by.android.fishwater.widget.WheelView>
+    </LinearLayout>
+
+    <com.by.android.fishwater.view.AlphaTextView
+        android:id="@+id/area_btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_48"
+        android:background="@drawable/buy_panel_buy_text"
+        android:gravity="center"
+        android:textSize="@dimen/space_18"
+        android:text="@string/order_address_finish"
+        android:textColor="@color/white" />
+</LinearLayout>
