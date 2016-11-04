@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.by.android.fishwater.FWApplication;
+import com.by.android.fishwater.account.login.bean.UserBean;
 import com.by.android.fishwater.util.Constant;
 
 /**
@@ -13,6 +14,7 @@ public class AccountManage {
 
     private static AccountManage mInstance;
     private SharedPreferences mSharedPreferences;
+    private UserBean mUserBean;
 
     public static AccountManage getInstance() {
         if (mInstance == null) {
@@ -47,4 +49,19 @@ public class AccountManage {
         mSharedPreferences.edit().putString(Constant.PREFERENCE_USERID, userId).commit();
     }
 
+    public void setUserBean(UserBean userBean) {
+        this.mUserBean = userBean;
+    }
+
+    public UserBean getUserBean() {
+        return mUserBean;
+    }
+
+
+    public boolean isLogin() {
+        if (mUserBean != null) {
+            return true;
+        }
+        return false;
+    }
 }

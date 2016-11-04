@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/space_14"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView

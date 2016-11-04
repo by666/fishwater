@@ -7,18 +7,18 @@ public interface FWSubject {
 
     /**
      * 增加订阅者
-     * @param observer
+     * @param data
      */
-    public void addObserver(FWObserver observer);
+    public void addObserver(ObserverData data);
 
     /**
      * 删除订阅者
-     * @param observer
+     * @param data
      */
-    public void removeObserver(FWObserver observer);
+    public void removeObserver(ObserverData data);
 
     /**
      * 通知订阅者更新消息
      */
-    public void notifyUpdate(Object object);
+    public void notifyUpdate(String key,Object object);
 }

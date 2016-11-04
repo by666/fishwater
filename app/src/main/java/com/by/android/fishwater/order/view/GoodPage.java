@@ -1,5 +1,6 @@
 package com.by.android.fishwater.order.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
@@ -39,8 +41,7 @@ import java.util.List;
  * Created by by.huang on 2016/10/29.
  */
 
-@ContentView(R.layout.page_order)
-public class GoodPage extends Fragment implements IOrderInterface{
+public class GoodPage extends FWActivity implements IOrderInterface{
 
     @ViewInject(R.id.txt_title)
     TextView mTitletxt;
@@ -86,16 +87,13 @@ public class GoodPage extends Fragment implements IOrderInterface{
     private List<BuycarBean> mDatas;
     float total = 0;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this, inflater, container);
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_order);
+        x.view().inject(this);
         mOrderPresenter = new OrderPresenter(this);
-        FWPresenter.getInstance().showTabLayout(View.GONE);
         initView();
     }
 
@@ -118,7 +116,7 @@ public class GoodPage extends Fragment implements IOrderInterface{
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FWPresenter.getInstance().backLastFragment();
+                finish();
             }
         });
     }
@@ -127,7 +125,7 @@ public class GoodPage extends Fragment implements IOrderInterface{
         mAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOrderPresenter.goAddressPage();
+                startActivity(new Intent(GoodPage.this,AddressPage.class));
             }
         });
     }
@@ -138,9 +136,9 @@ public class GoodPage extends Fragment implements IOrderInterface{
         mGoodReclerView.setPullRefreshEnabled(false);
 
 
-        mGoodReclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mGoodReclerView.addItemDecoration(new LinearLayoutDecoration.Builder(getContext()).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
-        mGoodsListAdapter = new OrderGoodsListAdapter(getActivity());
+        mGoodReclerView.setLayoutManager(new LinearLayoutManager(this));
+        mGoodReclerView.addItemDecoration(new LinearLayoutDecoration.Builder(this).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
+        mGoodsListAdapter = new OrderGoodsListAdapter(this);
         mGoodsLRecyclerViewAdapter = new LRecyclerViewAdapter(mGoodsListAdapter);
         mGoodReclerView.setAdapter(mGoodsLRecyclerViewAdapter);
 
@@ -158,9 +156,9 @@ public class GoodPage extends Fragment implements IOrderInterface{
         mPayReclerView.setPullRefreshEnabled(false);
 
 
-        mPayReclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mPayReclerView.addItemDecoration(new LinearLayoutDecoration.Builder(getContext()).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
-        mPayListAdapter = new OrderPaylistAdapter(getActivity());
+        mPayReclerView.setLayoutManager(new LinearLayoutManager(this));
+        mPayReclerView.addItemDecoration(new LinearLayoutDecoration.Builder(this).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
+        mPayListAdapter = new OrderPaylistAdapter(this);
         mPayLRecyclerViewAdapter = new LRecyclerViewAdapter(mPayListAdapter);
         mPayReclerView.setAdapter(mPayLRecyclerViewAdapter);
 
@@ -204,9 +202,9 @@ public class GoodPage extends Fragment implements IOrderInterface{
         mPriceReclerView.setPullRefreshEnabled(false);
 
 
-        mPriceReclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mPriceReclerView.addItemDecoration(new LinearLayoutDecoration.Builder(getContext()).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
-        mPriceAdapter = new OrderPriceAdapter(getActivity());
+        mPriceReclerView.setLayoutManager(new LinearLayoutManager(this));
+        mPriceReclerView.addItemDecoration(new LinearLayoutDecoration.Builder(this).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
+        mPriceAdapter = new OrderPriceAdapter(this);
         mPriceLRecyclerViewAdapter = new LRecyclerViewAdapter(mPriceAdapter);
         mPriceReclerView.setAdapter(mPriceLRecyclerViewAdapter);
 

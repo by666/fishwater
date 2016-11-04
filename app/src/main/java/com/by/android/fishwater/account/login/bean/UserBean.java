@@ -10,12 +10,15 @@ import org.xutils.http.annotation.HttpResponse;
  */
 @HttpResponse(parser = JsonResponseParser.class)
 public class UserBean {
+
+    public static final int SEX_WOMEN = 0;
+    public static final int SEX_MAN = 1;
     //用户id
     public String id;
     //昵称
     public String nickname;
     //性别
-    public String gender;
+    public int gender;
     //年龄
     public String age;
     //生日
@@ -28,4 +31,8 @@ public class UserBean {
     public String level;
     //头像
     public String avatar;
+    //粉丝数
+    public int fansNum;
+    //关注数
+    public int concernedNum;
 }

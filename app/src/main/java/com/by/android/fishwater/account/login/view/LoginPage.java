@@ -1,5 +1,6 @@
 package com.by.android.fishwater.account.login.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.login.presenter.LoginPresenter;
 import com.by.android.fishwater.account.register.view.RegisterPage;
+import com.by.android.fishwater.homepage.view.HomePageActivity;
 import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.ToastUtil;
 import com.by.android.fishwater.view.AlphaTextView;
@@ -28,8 +31,7 @@ import org.xutils.x;
  * Created by by.huang on 2016/10/9.
  */
 
-@ContentView(R.layout.page_login)
-public class LoginPage extends Fragment implements View.OnClickListener,ILoginInterface{
+public class LoginPage extends FWActivity implements View.OnClickListener,ILoginInterface{
 
     @ViewInject(R.id.account_login_phone)
     EditText mPhoneEdit;
@@ -62,19 +64,14 @@ public class LoginPage extends Fragment implements View.OnClickListener,ILoginIn
     AlphaTextView mRegisterBtn;
 
     private LoginPresenter mLoginPresenter;
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this,inflater,container);
-
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_login);
+        x.view().inject(this);
         mLoginPresenter = new LoginPresenter(this);
         initView();
-
     }
 
     private void initView()
@@ -186,12 +183,17 @@ public class LoginPage extends Fragment implements View.OnClickListener,ILoginIn
 
     @Override
     public void GoRegisterPage() {
-        RegisterPage page = new RegisterPage();
-        FWPresenter.getInstance().replaceFragment(page);
+        startActivity(new Intent(this,RegisterPage.class));
     }
 
     @Override
     public void GoForgetPassWordPage() {
 
     }
+
+    @Override
+    public void GoHomePage() {
+        startActivity(new Intent(this, HomePageActivity.class));
+    }
+
 }

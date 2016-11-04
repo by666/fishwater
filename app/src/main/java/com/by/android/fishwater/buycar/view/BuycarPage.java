@@ -1,5 +1,6 @@
 package com.by.android.fishwater.buycar.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.buycar.adapter.BuycarListAdapter;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
 import com.by.android.fishwater.buycar.presenter.BuycarPresenter;
 import com.by.android.fishwater.database.FWDatabaseManager;
+import com.by.android.fishwater.order.view.GoodPage;
+import com.by.android.fishwater.shopping.view.GoodsDetailPage;
 import com.by.android.fishwater.util.ToastUtil;
 import com.by.android.fishwater.view.LinearLayoutDecoration;
 import com.by.android.fishwater.view.AlphaImageView;
@@ -35,12 +39,13 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.id;
+
 /**
  * Created by by.huang on 2016/10/13.
  */
 
-@ContentView(R.layout.page_buycar)
-public class BuycarPage extends Fragment implements IBuycarPageInterface {
+public class BuycarPage extends FWActivity implements IBuycarPageInterface {
 
 
     @ViewInject(R.id.txt_title)
@@ -74,17 +79,12 @@ public class BuycarPage extends Fragment implements IBuycarPageInterface {
     private boolean isSelectAll;
     private boolean isEdit;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this, inflater, container);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_buycar);
+        x.view().inject(this);
         mBuycarPresenter = new BuycarPresenter(this);
-        FWPresenter.getInstance().showTabLayout(View.GONE);
         initView();
     }
 
@@ -102,7 +102,7 @@ public class BuycarPage extends Fragment implements IBuycarPageInterface {
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FWPresenter.getInstance().backLastFragment();
+                finish();
             }
         });
 
@@ -140,9 +140,9 @@ public class BuycarPage extends Fragment implements IBuycarPageInterface {
         mRecyclerView.setPullRefreshEnabled(true);
 
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addItemDecoration(new LinearLayoutDecoration.Builder(getContext()).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
-        mListAdapter = new BuycarListAdapter(getActivity(), mBuycarPresenter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new LinearLayoutDecoration.Builder(this).setHeight(R.dimen.space_1).setColor(getResources().getColor(R.color.gray_bg)).build());
+        mListAdapter = new BuycarListAdapter(this, mBuycarPresenter);
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(mListAdapter);
         mRecyclerView.setAdapter(mLRecyclerViewAdapter);
 
@@ -152,7 +152,9 @@ public class BuycarPage extends Fragment implements IBuycarPageInterface {
                 if(!mCuurentDatas.get(i).isEdit)
                 {
                     BuycarBean data = mCuurentDatas.get(i);
-                    mBuycarPresenter.goGoodDetailPage(data.id);
+                    Intent intent= new Intent(BuycarPage.this,GoodsDetailPage.class);
+                    intent.putExtra("id",data.id);
+                    startActivity(intent);
                 }
             }
 
@@ -208,7 +210,7 @@ public class BuycarPage extends Fragment implements IBuycarPageInterface {
         mBuyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBuycarPresenter.goOrderPage();
+                startActivity(new Intent(BuycarPage.this, GoodPage.class));
             }
         });
     }

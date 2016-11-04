@@ -63,10 +63,6 @@ public class GoodsDetailPresenter {
         });
     }
 
-    public void goBuycar() {
-        BuycarPage page = new BuycarPage();
-        FWPresenter.getInstance().addFragment(page);
-    }
 
     public void showSelectCount(final View view) {
         AnimatorSet animatorSet = new AnimatorSet();
@@ -131,8 +127,4 @@ public class GoodsDetailPresenter {
         animatorSet.start();
     }
 
-    public void goOrderPage() {
-        GoodPage page = new GoodPage();
-        FWPresenter.getInstance().addFragment(page);
-    }
 }

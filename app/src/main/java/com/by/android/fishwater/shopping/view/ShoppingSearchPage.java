@@ -1,5 +1,6 @@
 package com.by.android.fishwater.shopping.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.bean.BannerBean;
+import com.by.android.fishwater.buycar.bean.BuycarBean;
+import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.shopping.adapter.ShoppingGoodsAdapter;
 import com.by.android.fishwater.shopping.bean.CategoryBean;
 import com.by.android.fishwater.shopping.bean.GoodsBean;
@@ -35,12 +39,13 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.by.android.fishwater.R.string.finish;
+
 /**
  * Created by by.huang on 2016/10/24.
  */
 
-@ContentView(R.layout.page_shopping_search)
-public class ShoppingSearchPage extends Fragment implements IShoppingPageInterface{
+public class ShoppingSearchPage extends FWActivity implements IShoppingPageInterface {
     private ShoppingPresenter mShoppingPresenter;
 
     private ShoppingGoodsAdapter mListAdapter;
@@ -59,36 +64,31 @@ public class ShoppingSearchPage extends Fragment implements IShoppingPageInterfa
     @ViewInject(R.id.txt_title)
     TextView mTitleTxt;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this, inflater, container);
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mCategory = getArguments().getInt("category");
-        mTitle = getArguments().getString("title");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_shopping_search);
+        x.view().inject(this);
+        mCategory = getIntent().getIntExtra("category", -1);
+        mTitle = getIntent().getStringExtra("title");
         mTitleTxt.setText(mTitle);
         mShoppingPresenter = new ShoppingPresenter(this);
-        FWPresenter.getInstance().showTabLayout(View.GONE);
         initView();
-        mShoppingPresenter.getGoodListData(true,-1,mCategory);
+        mShoppingPresenter.getGoodListData(true, -1, mCategory);
     }
 
-    private void initView()
-    {
+    private void initView() {
         mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader); //设置下拉刷新Progress的样式
         mRecyclerView.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);  //设置下拉刷新箭头
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        GridLayoutDecoration decoration = new GridLayoutDecoration(ResourceHelper.getDimen(R.dimen.space_5),2);
+        GridLayoutDecoration decoration = new GridLayoutDecoration(ResourceHelper.getDimen(R.dimen.space_5), 2);
         mRecyclerView.addItemDecoration(decoration);
 
-        mListAdapter = new ShoppingGoodsAdapter(getActivity());
+        mListAdapter = new ShoppingGoodsAdapter(this);
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(mListAdapter);
         mRecyclerView.setAdapter(mLRecyclerViewAdapter);
 
@@ -96,6 +96,10 @@ public class ShoppingSearchPage extends Fragment implements IShoppingPageInterfa
         mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
+                GoodsBean data = mCuurentDatas.get(i);
+                Intent intent= new Intent(ShoppingSearchPage.this,GoodsDetailPage.class);
+                intent.putExtra("id",data.id);
+                startActivity(intent);
             }
 
             @Override
@@ -108,17 +112,16 @@ public class ShoppingSearchPage extends Fragment implements IShoppingPageInterfa
             @Override
             public void onRefresh() {
                 mCuurentDatas.removeAll(mCuurentDatas);
-                mShoppingPresenter.getNewGoodsListData(-1,mCategory);
+                mShoppingPresenter.getNewGoodsListData(-1, mCategory);
             }
         });
 
         mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if(!isRequest)
-                {
+                if (!isRequest) {
                     RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Loading);
-                    mShoppingPresenter.getGoodListData(true,-1,mCategory);
+                    mShoppingPresenter.getGoodListData(true, -1, mCategory);
                 }
                 isRequest = true;
             }
@@ -127,7 +130,7 @@ public class ShoppingSearchPage extends Fragment implements IShoppingPageInterfa
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FWPresenter.getInstance().backLastFragment();
+                finish();
             }
         });
     }

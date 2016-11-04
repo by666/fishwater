@@ -10,6 +10,7 @@ import com.by.android.fishwater.account.login.bean.respond.OtherUserRespondBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
 import com.by.android.fishwater.account.login.view.ILoginInterface;
 import com.by.android.fishwater.homepage.view.HomePage;
+import com.by.android.fishwater.homepage.view.HomePageActivity;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
@@ -54,7 +55,7 @@ public class LoginPresenter {
                 AccountManage.getInstance().setSessionId(loginBean.sessionid);
                 AccountManage.getInstance().setUserId(loginBean.userid);
                 ToastUtil.show("登录成功!");
-                goHomePage();
+                mLoginInterface.GoHomePage();
                 getUserInfo();
 
             }
@@ -149,6 +150,7 @@ public class LoginPresenter {
             public void onSuccess(UserRespondBean result) {
                 super.onSuccess(result);
                 UserBean userBean = result.data;
+                AccountManage.getInstance().setUserBean(userBean);
             }
 
             @Override
@@ -217,9 +219,4 @@ public class LoginPresenter {
         mLoginInterface.GoForgetPassWordPage();
     }
 
-    public void goHomePage()
-    {
-        HomePage page = new HomePage();
-        FWPresenter.getInstance().replaceFragment(page);
-    }
 }

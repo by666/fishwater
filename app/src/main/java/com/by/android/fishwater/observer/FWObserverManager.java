@@ -9,18 +9,14 @@ import java.util.List;
 
 public class FWObserverManager implements FWSubject {
 
-    private List<FWObserver> observers = new ArrayList<FWObserver>();
+    private List<ObserverData> datas = new ArrayList<>();
 
     private static FWObserverManager mInstance;
 
-    public static FWObserverManager getIntance()
-    {
-        if(mInstance == null)
-        {
-            synchronized (FWObserverManager.class)
-            {
-                if(mInstance == null)
-                {
+    public static FWObserverManager getIntance() {
+        if (mInstance == null) {
+            synchronized (FWObserverManager.class) {
+                if (mInstance == null) {
                     mInstance = new FWObserverManager();
                 }
             }
@@ -29,24 +25,26 @@ public class FWObserverManager implements FWSubject {
     }
 
     @Override
-    public void addObserver(FWObserver observer) {
-        if (observer!=null) {
-            observers.add(observer);
+    public void addObserver(ObserverData data) {
+        if (data != null) {
+            datas.add(data);
         }
     }
 
     @Override
-    public void removeObserver(FWObserver observer) {
-        if (observer!=null) {
-            observers.remove(observer);
+    public void removeObserver(ObserverData data) {
+        if (data != null) {
+            datas.remove(data);
         }
     }
 
     @Override
-    public void notifyUpdate(Object object) {
-        if (observers!=null && observers.size() > 0) {
-            for (FWObserver observer : observers) {
-                observer.update(object);
+    public void notifyUpdate(String key, Object object) {
+        if (datas != null && datas.size() > 0) {
+            for (ObserverData data : datas) {
+                if (key.equalsIgnoreCase(data.key)) {
+                    data.observer.update(object);
+                }
             }
         }
     }

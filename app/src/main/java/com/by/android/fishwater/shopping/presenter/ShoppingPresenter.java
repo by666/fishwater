@@ -140,30 +140,6 @@ public class ShoppingPresenter {
         });
     }
 
-    /**
-     * 跳转到分类列表
-     * @param data
-     */
-    public void goShoppingSearchPage(CategoryBean data)
-    {
-        ShoppingSearchPage page = new ShoppingSearchPage();
-        Bundle bundle = new Bundle();
-        bundle.putInt("category",data.id);
-        bundle.putString("title",data.title);
-        page.setArguments(bundle);
-        FWPresenter.getInstance().addFragment(page);
-    }
 
-    /**
-     * 跳转到商品详情页
-     * @param data
-     */
-    public void goGoodsDetailPage(GoodsBean data)
-    {
-        GoodsDetailPage page = new GoodsDetailPage();
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",data.id);
-        page.setArguments(bundle);
-        FWPresenter.getInstance().addFragment(page);
-    }
+
 }

@@ -1,7 +1,9 @@
 package com.by.android.fishwater;
 
 import android.app.Application;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 
 import com.by.android.fishwater.database.FWDatabaseManager;
 import com.by.android.fishwater.observer.FWObserver;
@@ -9,7 +11,13 @@ import com.by.android.fishwater.observer.FWObserverManager;
 import com.by.android.fishwater.order.bean.address.AreaBean;
 import com.by.android.fishwater.order.bean.address.CityBean;
 import com.by.android.fishwater.order.bean.address.ProvinceBean;
+import com.by.android.fishwater.util.DeviceManager;
+import com.by.android.fishwater.util.HardwareUtil;
+import com.by.android.fishwater.util.MarketChannelManager;
+import com.by.android.fishwater.util.ResourceHelper;
+import com.by.android.fishwater.util.SettingFlags;
 import com.by.android.fishwater.util.StringUtils;
+import com.by.android.fishwater.util.SystemHelper;
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -52,7 +60,18 @@ public class FWApplication extends Application {
         x.Ext.setDebug(true);
         Fresco.initialize(this);
         FWDatabaseManager.getInstance().init();
+        initUtils();
         initAddressList();
+    }
+
+    private void initUtils()
+    {
+        ResourceHelper.init(this);
+        MarketChannelManager.init(this);
+        SettingFlags.init(this);
+        HardwareUtil.initialize(this);
+        SystemHelper.init(this);
+        SystemHelper.init(this);
     }
 
 

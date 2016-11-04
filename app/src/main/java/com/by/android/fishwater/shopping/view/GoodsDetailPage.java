@@ -1,5 +1,6 @@
 package com.by.android.fishwater.shopping.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,12 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.bean.BannerBean;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
+import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.database.FWDatabaseManager;
 import com.by.android.fishwater.homepage.adapter.HomePageViewPagerAdapter;
+import com.by.android.fishwater.order.view.GoodPage;
 import com.by.android.fishwater.shopping.adapter.GoodsTagsAdapter;
 import com.by.android.fishwater.shopping.bean.GoodsDetailBean;
 import com.by.android.fishwater.shopping.presenter.GoodsDetailPresenter;
@@ -47,8 +51,7 @@ import static com.by.android.fishwater.R.drawable.buy_panel_buy_car_text;
  * Created by by.huang on 2016/10/24.
  */
 
-@ContentView(R.layout.page_goodsdetail)
-public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
+public class GoodsDetailPage extends FWActivity implements IGoodsDetailInterface {
 
     private GoodsDetailPresenter mGoodsDetailPresenter;
     private Button mConfirmBtn;
@@ -111,18 +114,14 @@ public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
 
     private int mId;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this, inflater, container);
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mId = getArguments().getInt("id", 0);
-        mGoodsDetailPresenter = new GoodsDetailPresenter(this, getContext());
-        FWPresenter.getInstance().showTabLayout(View.GONE);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_goodsdetail);
+        x.view().inject(this);
+        mId = getIntent().getIntExtra("id", 0);
+        mGoodsDetailPresenter = new GoodsDetailPresenter(this, this);
         initView();
     }
 
@@ -130,14 +129,15 @@ public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FWPresenter.getInstance().backLastFragment();
+                finish();
             }
         });
 
         mBuycarImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mGoodsDetailPresenter.goBuycar();
+                Intent intent = new Intent(GoodsDetailPage.this, BuycarPage.class);
+                startActivity(intent);
             }
         });
         mShareImg.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +235,7 @@ public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
         int gap = getResources().getDimensionPixelSize(R.dimen.image_cycle_view_indicator_item_gap);
         if (mBannerDatas != null && mBannerDatas.size() > 0) {
             for (int i = 0; i < mBannerDatas.size(); i++) {
-                ImageView pointImg = new ImageView(getActivity());
+                ImageView pointImg = new ImageView(this);
                 pointImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 LinearLayout.LayoutParams imgParam = new LinearLayout.LayoutParams(size, size);
                 imgParam.leftMargin = gap;
@@ -256,7 +256,7 @@ public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
         List<View> views = new ArrayList<>();
         if (mBannerDatas != null && mBannerDatas.size() > 0) {
             for (BannerBean data : mBannerDatas) {
-                SimpleDraweeView showImg = (SimpleDraweeView) LayoutInflater.from(getActivity()).inflate(R.layout.item_banner, null);
+                SimpleDraweeView showImg = (SimpleDraweeView) LayoutInflater.from(this).inflate(R.layout.item_banner, null);
                 showImg.setImageURI(Uri.parse(data.url));
                 views.add(showImg);
             }
@@ -334,22 +334,19 @@ public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
                     data.imgUrl = mData.bigimg.get(0).url;
                 }
 
-                if(mAddOrBuy)
-                {
+                if (mAddOrBuy) {
                     List<BuycarBean> datas = FWDatabaseManager.getInstance().findById(data.id);
                     if (datas == null || datas.size() == 0) {
                         FWDatabaseManager.getInstance().add(data);
                     } else {
-
                         BuycarBean temp = datas.get(0);
                         int count = temp.count + data.count;
                         FWDatabaseManager.getInstance().update(temp.id, count);
                     }
                     updateBuycarCount();
                     ToastUtil.show("加入购物车成功!");
-                }
-                else {
-                    mGoodsDetailPresenter.goOrderPage();
+                } else {
+                    startActivity(new Intent(GoodsDetailPage.this, GoodPage.class));
 
                 }
 
@@ -368,26 +365,23 @@ public class GoodsDetailPage extends Fragment implements IGoodsDetailInterface {
         datas.add("隐私保护");
         mTagRecyclerView.setHasFixedSize(true);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
         mTagRecyclerView.setLayoutManager(layoutManager);
 
-        GoodsTagsAdapter mAdapter = new GoodsTagsAdapter(getActivity());
+        GoodsTagsAdapter mAdapter = new GoodsTagsAdapter(this);
         mTagRecyclerView.setAdapter(mAdapter);
         mAdapter.updateDatas(datas);
     }
 
 
-    private void updateBuycarCount()
-    {
+    private void updateBuycarCount() {
         List<BuycarBean> datas = FWDatabaseManager.getInstance().findAll();
-        if(datas == null || datas.size() == 0)
-        {
+        if (datas == null || datas.size() == 0) {
             mBuycarCount.setVisibility(View.GONE);
-        }
-        else {
+        } else {
 
             mBuycarCount.setVisibility(View.VISIBLE);
-            mBuycarCount.setText(datas.size()+"");
+            mBuycarCount.setText(datas.size() + "");
 
         }
     }

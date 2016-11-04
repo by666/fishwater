@@ -2,18 +2,18 @@ package com.by.android.fishwater.order.view;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWApplication;
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
+import com.by.android.fishwater.observer.FWObserver;
+import com.by.android.fishwater.observer.FWObserverManager;
+import com.by.android.fishwater.observer.ObserverData;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.bean.address.AddressBaseBean;
 import com.by.android.fishwater.order.bean.address.AreaBean;
@@ -27,7 +27,6 @@ import com.by.android.fishwater.view.AlphaTextView;
 import com.by.android.fishwater.widget.WheelView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -38,8 +37,7 @@ import java.util.List;
  * Created by by.huang on 2016/11/3.
  */
 
-@ContentView(R.layout.page_address_edit)
-public class AddressEditPage extends Fragment implements WheelView.OnWheelViewListener, View.OnClickListener, IOrderInterface, View.OnFocusChangeListener {
+public class AddressEditPage extends FWActivity implements WheelView.OnWheelViewListener, View.OnClickListener, IOrderInterface, View.OnFocusChangeListener {
 
     @ViewInject(R.id.txt_title)
     TextView mTitleTxt;
@@ -103,18 +101,15 @@ public class AddressEditPage extends Fragment implements WheelView.OnWheelViewLi
     protected int mCurrentDistrictId;
     protected int mDefault = 1;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this, inflater, container);
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        FWPresenter.getInstance().showTabLayout(View.GONE);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_address_edit);
+        x.view().inject(this);
         mOrderPresenter = new OrderPresenter(this);
         try {
-            mAddressBean = (AddressBean) getArguments().getSerializable("addressbean");
+            mAddressBean = (AddressBean) getIntent().getSerializableExtra("addressbean");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,6 +118,7 @@ public class AddressEditPage extends Fragment implements WheelView.OnWheelViewLi
         }
         mProvinceList = FWApplication.mApplication.getProvinceDatas();
         initView();
+
     }
 
     private void initView() {
@@ -141,11 +137,10 @@ public class AddressEditPage extends Fragment implements WheelView.OnWheelViewLi
 
     private void initContent() {
 
-        if(mAddressBean != null)
-        {
+        if (mAddressBean != null) {
             mNameEdit.setText(mAddressBean.name);
             mPhoneEdit.setText(mAddressBean.phone);
-            mAreaBtn.setText(AddressBean.getAddress(mAddressBean.province,mAddressBean.city,mAddressBean.area));
+            mAreaBtn.setText(AddressBean.getAddress(mAddressBean.province, mAddressBean.city, mAddressBean.area));
             mAddressEdit.setText(mAddressBean.address);
             mDefault = mAddressBean.isDefault;
         }
@@ -294,7 +289,7 @@ public class AddressEditPage extends Fragment implements WheelView.OnWheelViewLi
         } else if (v == mPhoneDel) {
             mPhoneEdit.setText("");
         } else if (v == mBackBtn) {
-            FWPresenter.getInstance().backLastFragment();
+            finish();
         } else if (v == mEditTxt) {
             AddressBean data = new AddressBean();
             data.name = mNameEdit.getText().toString();
@@ -338,8 +333,9 @@ public class AddressEditPage extends Fragment implements WheelView.OnWheelViewLi
         if (mPcaLayout.getVisibility() == View.VISIBLE) {
             mOrderPresenter.hidePcaView(mPcaLayout);
         }
+        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_AddressList,null);
         DeviceManager.getInstance().hideInputMethod();
-        FWPresenter.getInstance().backLastFragment();
+        finish();
     }
 
     @Override

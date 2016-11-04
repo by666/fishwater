@@ -1,5 +1,6 @@
 package com.by.android.fishwater.shopping.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.bean.BannerBean;
+import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.homepage.adapter.HomePageViewPagerAdapter;
 import com.by.android.fishwater.shopping.adapter.ShoppingCategoryAdapter;
 import com.by.android.fishwater.shopping.adapter.ShoppingGoodsAdapter;
@@ -43,6 +46,8 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.id;
 
 /**
  * Created by by.huang on 2016/10/13.
@@ -79,7 +84,6 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
         super.onViewCreated(view, savedInstanceState);
         mShoppingPresenter = new ShoppingPresenter(this);
         mShoppingPresenter.getBannerListData();
-        FWPresenter.getInstance().showTabLayout(View.VISIBLE);
     }
 
     private void initView() {
@@ -180,7 +184,7 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
         GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),4);
         mCategoryRecyclerView.setLayoutManager(layoutManager);
 
-        ShoppingCategoryAdapter mAdapter = new ShoppingCategoryAdapter(getActivity(),mShoppingPresenter);
+        ShoppingCategoryAdapter mAdapter = new ShoppingCategoryAdapter((FWActivity) getActivity(),mShoppingPresenter);
         mCategoryRecyclerView.setAdapter(mAdapter);
         mAdapter.updateDatas(mCategoryDatas);
 
@@ -212,7 +216,9 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
             @Override
             public void onItemClick(View view, int i) {
                 GoodsBean data = mCuurentDatas.get(i);
-                mShoppingPresenter.goGoodsDetailPage(data);
+                Intent intent= new Intent(getActivity(),GoodsDetailPage.class);
+                intent.putExtra("id",data.id);
+                startActivity(intent);
             }
 
             @Override

@@ -1,5 +1,7 @@
 package com.by.android.fishwater.homepage.bean;
 
+import java.io.Serializable;
+
 import static android.R.attr.author;
 import static android.R.attr.id;
 
@@ -7,7 +9,7 @@ import static android.R.attr.id;
  * Created by by.huang on 2016/10/11.
  */
 
-public class HomeListBean {
+public class HomeListBean implements Serializable{
 
 //    id	Int	是	内容的唯一ID
 //    category	Int	是	栏目分类ID

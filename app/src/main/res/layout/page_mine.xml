@@ -7,7 +7,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,21 +55,7 @@
 
                 <View style="@style/account_line_style"/>
 
-                <!--<com.sjy.ttclub.account.widget.ListViewForScrollView-->
-                    <!--android:id="@+id/lv_my_loadorder"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginBottom="@dimen/space_10"-->
-                    <!--android:layout_marginLeft="@dimen/space_15"-->
-                    <!--android:layout_marginRight="@dimen/space_15"-->
-                    <!--android:layout_marginTop="@dimen/space_10"-->
-                    <!--android:background="@color/white"-->
-                    <!--android:divider="@color/account_press"-->
-                    <!--android:dividerHeight="0.1dp"/>-->
-
-                <!--<View style="@style/account_line_style"/>-->
             </LinearLayout>
-            <!--列表-->
             <include layout="@layout/mine_item" />
         </LinearLayout>
     </ScrollView>

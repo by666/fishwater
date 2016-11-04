@@ -1,4 +1,4 @@
-package com.by.android.fishwater;
+package com.by.android.fishwater.homepage.view;
 
 import android.app.Activity;
 import android.content.res.ColorStateList;
@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
+import com.by.android.fishwater.FWPresenter;
+import com.by.android.fishwater.R;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.HardwareUtil;
@@ -20,56 +24,30 @@ import com.by.android.fishwater.util.ResourceHelper;
 import com.by.android.fishwater.util.SettingFlags;
 import com.by.android.fishwater.util.SystemHelper;
 
+import org.xutils.x;
 
-public class FishWaterActivity extends FragmentActivity implements View.OnClickListener{
+
+public class HomePageActivity extends FWActivity implements View.OnClickListener{
 
     private FWPresenter mPresenter;
     private LinearLayout mTabLayout;
     private final String[] titles = {"首页","社区","商城","我的"};
     private int[] resId = {R.drawable.tab_homepage,R.drawable.tab_community,R.drawable.tab_shopping,R.drawable.tab_account};
-    private int mCurrentPageCount = 0;
     private LinearLayout mCuurentTabView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_fishwater);
-
+        x.view().inject(this);
         init();
         mPresenter = FWPresenter.getInstance();
         mPresenter.init(this);
-        mPresenter.setDefaultFragment();
-
     }
 
     private void init()
     {
-        ResourceHelper.init(this);
-        MarketChannelManager.init(this);
-        SettingFlags.init(this);
-        HardwareUtil.initialize(this);
-        SystemHelper.init(this);
-        DeviceManager.init(this);
-        SystemHelper.init(this);
-
-        Display d = getWindowManager().getDefaultDisplay();
-        DisplayMetrics dm = new DisplayMetrics();
-        d.getMetrics(dm);
-        HardwareUtil.screenWidth = dm.widthPixels;
-        HardwareUtil.screenHeight = dm.heightPixels;
-        HardwareUtil.windowWidth = dm.widthPixels;
-        HardwareUtil.windowHeight = dm.heightPixels;
-
-        HardwareUtil.density = dm.density;
-
         initTabLayout();
-
-        try {
-            new AddressBean();
-        }catch (Exception e)
-        {
-
-        }
     }
 
 
@@ -115,7 +93,6 @@ public class FishWaterActivity extends FragmentActivity implements View.OnClickL
         mCuurentTabView = (LinearLayout) v;
         mCuurentTabView.setSelected(true);
         int tag = (int)v.getTag();
-        mCurrentPageCount = tag;
         switch (tag)
         {
             case 0:
@@ -133,5 +110,12 @@ public class FishWaterActivity extends FragmentActivity implements View.OnClickL
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.release();
+        mPresenter = null;
     }
 }

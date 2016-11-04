@@ -1,5 +1,6 @@
 package com.by.android.fishwater.homepage.view;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -70,7 +71,6 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
         super.onViewCreated(view, savedInstanceState);
         mHomePagePresenter = new HomePagePresenter(this);
         mHomePagePresenter.getBannerListData();
-        FWPresenter.getInstance().showTabLayout(View.VISIBLE);
 
     }
 
@@ -148,7 +148,7 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
         mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-                mHomePagePresenter.goHomeDetailPresenter(mCuurentDatas.get(i));
+                goHomeDetailPage(mCuurentDatas.get(i));
             }
 
             @Override
@@ -168,8 +168,7 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
         mRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if(!isRequest)
-                {
+                if (!isRequest) {
                     RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Loading);
                     mHomePagePresenter.getHomeListData(true);
                 }
@@ -181,7 +180,7 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
 
 
     @Override
-    public void requestListDataSuccess(List<HomeListBean> datas, boolean isLoadMore,boolean theEnd) {
+    public void requestListDataSuccess(List<HomeListBean> datas, boolean isLoadMore, boolean theEnd) {
         isRequest = false;
         mCuurentDatas = datas;
         if (theEnd) {
@@ -226,8 +225,15 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
 
         if (datas != null && datas.size() > 0) {
             HomeListBean data = datas.get(position - 1);
-            mHomePagePresenter.goHomeDetailPresenter(data);
+            goHomeDetailPage(data);
         }
+    }
+
+    private void goHomeDetailPage(HomeListBean data)
+    {
+        Intent intent = new Intent(getActivity(),HomeDetailPage.class);
+        intent.putExtra("homelistbean",data);
+        startActivity(intent);
     }
 
 }

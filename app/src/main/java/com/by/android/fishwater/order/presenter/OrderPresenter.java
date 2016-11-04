@@ -139,28 +139,6 @@ public class OrderPresenter {
 
     }
 
-    /**
-     * 跳转到地址列表
-     */
-    public void goAddressPage() {
-        AddressPage page = new AddressPage();
-        FWPresenter.getInstance().addFragment(page);
-    }
-
-    /**
-     * 跳转到地址编辑或添加
-     *
-     * @param data
-     */
-    public void goAddressEditPage(AddressBean data) {
-        AddressEditPage page = new AddressEditPage();
-        if (data != null) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("addressbean", data);
-            page.setArguments(bundle);
-        }
-        FWPresenter.getInstance().addFragment(page);
-    }
 
     public void showPcaView(final View view) {
         AnimatorSet animatorSet = new AnimatorSet();

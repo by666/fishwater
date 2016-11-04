@@ -1,16 +1,22 @@
 package com.by.android.fishwater.order.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
+import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.presenter.OrderPresenter;
+import com.by.android.fishwater.order.view.AddressEditPage;
 import com.by.android.fishwater.util.ResourceHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -29,9 +35,11 @@ public class AddressListAdapter extends RecyclerView.Adapter {
     private AddressBean mSelectData;
     private int mSelectPosition;
     private OrderPresenter mOrderPrensent;
+    private FWActivity mActivity;
 
-    public AddressListAdapter(Context context, OrderPresenter presenter) {
-        mLayoutInflater = LayoutInflater.from(context);
+    public AddressListAdapter(FWActivity activity, OrderPresenter presenter) {
+        this.mActivity = activity;
+        mLayoutInflater = LayoutInflater.from(activity);
         this.mOrderPrensent = presenter;
     }
 
@@ -92,7 +100,9 @@ public class AddressListAdapter extends RecyclerView.Adapter {
             itemViewHolder.mEditTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOrderPrensent.goAddressEditPage(data);
+                    Intent intent = new Intent(mActivity,AddressEditPage.class);
+                    intent.putExtra("addressbean",data);
+                    mActivity.startActivity(intent);
                 }
             });
 

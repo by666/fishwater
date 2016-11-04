@@ -1,45 +1,36 @@
 package com.by.android.fishwater;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
 
-import com.by.android.fishwater.account.AccountManage;
-import com.by.android.fishwater.account.login.bean.LoginBean;
-import com.by.android.fishwater.account.login.bean.UserBean;
-import com.by.android.fishwater.account.login.bean.respond.LoginRespondBean;
-import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
-import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.community.CommunityPage;
 import com.by.android.fishwater.homepage.view.HomePage;
-import com.by.android.fishwater.mine.MinePage;
-import com.by.android.fishwater.net.HttpRequest;
-import com.by.android.fishwater.net.MyCallBack;
+import com.by.android.fishwater.homepage.view.HomePageActivity;
+import com.by.android.fishwater.mine.view.MinePage;
 import com.by.android.fishwater.shopping.view.ShoppingPage;
-import com.by.android.fishwater.splash.SplashPage;
-import com.by.android.fishwater.util.Constant;
-import com.by.android.fishwater.util.DeviceManager;
-import com.by.android.fishwater.util.ToastUtil;
 
-import java.util.HashMap;
+import java.util.logging.Logger;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by by.huang on 2016/10/10.
  */
 public class FWPresenter {
-    private FishWaterActivity mActivity;
+    private HomePageActivity mActivity;
     private static FWPresenter mInstance;
-    private Fragment mCurrentFrament;
+    private Fragment mHomePage;
+    private Fragment mCommunityPage;
+    private Fragment mShoppingPage;
+    private Fragment mMinePage;
+    private Fragment mCurrentPage;
 
-    public static FWPresenter getInstance()
-    {
-        if(mInstance == null)
-        {
-            synchronized (FWPresenter.class)
-            {
-                if(mInstance == null)
-                {
+    public static FWPresenter getInstance() {
+        if (mInstance == null) {
+            synchronized (FWPresenter.class) {
+                if (mInstance == null) {
                     mInstance = new FWPresenter();
                 }
             }
@@ -47,186 +38,130 @@ public class FWPresenter {
         return mInstance;
     }
 
-    public void init(Activity activity)
-    {
-        this.mActivity = (FishWaterActivity) activity;
+    public void init(Activity activity) {
+        this.mActivity = (HomePageActivity) activity;
+        HomePage page = new HomePage();
+        mHomePage = page;
+        mCurrentPage = mHomePage;
+        replaceFragment(page);
     }
 
-    //初始化视图
-    public void setDefaultFragment()
-    {
-        SplashPage splashPage = new SplashPage();
-        replaceFragment(splashPage);
-    }
 
-    public void replaceFragment(Fragment fragment)
-    {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.layout_content, fragment);
         transaction.commit();
     }
 
-    public void addFragment(Fragment fragment)
-    {
+    public void addFragment(Fragment showFragment) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_left_enter,R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit);
-        transaction.replace(R.id.layout_content, fragment);
-        transaction.addToBackStack(null);
+//        transaction.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit);
+        transaction.add(R.id.layout_content, showFragment);
+        transaction.show(showFragment);
         transaction.commit();
     }
 
-    public void backLastFragment()
-    {
-        mActivity.getSupportFragmentManager().popBackStack();
-    }
-
-    public void removeFragment(Fragment fragment)
-    {
+    public void addFragment(int index) {
         FragmentManager fm = mActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.remove(fragment);
-        transaction.commit();
-    }
-
-    public void showFragment(Fragment fragment)
-    {
-        FragmentManager fm = mActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.show(fragment);
-        transaction.commit();
-    }
-
-    public void hideFragment(Fragment fragment)
-    {
-        FragmentManager fm = mActivity.getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.hide(fragment);
-        transaction.commit();
-    }
-
-    /**
-     * 显示tab栏
-     * @param visiable
-     */
-    public void showTabLayout(int visiable)
-    {
-        mActivity.showTab(visiable);
-    }
-
-    /**
-     * 自动登录
-     */
-    public void autoLogin()
-    {
-        DeviceManager.getInstance().hideInputMethod();
-
-        AccountManage manage = AccountManage.getInstance();
-        String sessionId = manage.getSessionId();
-        if(sessionId == null)
-        {
-            return;
+        FragmentTransaction ft = fm.beginTransaction();
+        hideFragments(ft);
+//        transaction.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_left_exit, R.anim.slide_right_enter, R.anim.slide_right_exit);
+        switch (index) {
+            case 1:
+                if (mHomePage != null)
+                    ft.show(mHomePage);
+                else {
+                    mHomePage = new HomePage();
+                    ft.add(R.id.layout_content, mHomePage);
+                }
+                break;
+            case 2:
+                if (mCommunityPage != null)
+                    ft.show(mCommunityPage);
+                else {
+                    mCommunityPage = new CommunityPage();
+                    ft.add(R.id.layout_content, mCommunityPage);
+                }
+                break;
+            case 3:
+                if (mShoppingPage != null)
+                    ft.show(mShoppingPage);
+                else {
+                    mShoppingPage = new ShoppingPage();
+                    ft.add(R.id.layout_content, mShoppingPage);
+                }
+                break;
+            case 4:
+                if (mMinePage != null)
+                    ft.show(mMinePage);
+                else {
+                    mMinePage = new MinePage();
+                    ft.add(R.id.layout_content, mMinePage);
+                }
+                break;
         }
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("sessionid", sessionId);
-        map.put("a","autoLogin");
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<LoginRespondBean>() {
-            @Override
-            public void onSuccess(LoginRespondBean result) {
-                super.onSuccess(result);
-                LoginBean loginBean = result.data;
-                AccountManage.getInstance().setSessionId(loginBean.sessionid);
-                AccountManage.getInstance().setUserId(loginBean.userid);
-                ToastUtil.show("登录成功!");
-                goHomePage();
-                getUserInfo();
 
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                super.onError(ex, isOnCallback);
-                ToastUtil.show("登录失败!");
-                goHomePage();
-                getUserInfo();
-            }
-        });
-
+        ft.commit();
     }
 
-
-    /**
-     * 获取个人资料
-     */
-    public void getUserInfo()
-    {
-        AccountManage manage = AccountManage.getInstance();
-        String sessionId = manage.getSessionId();
-        if(sessionId == null)
-        {
-            return;
+    public void hideFragments(FragmentTransaction ft) {
+        if (mHomePage != null) {
+            ft.hide(mHomePage);
         }
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("sessionid", sessionId);
-        map.put("a","profile");
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<UserRespondBean>() {
-            @Override
-            public void onSuccess(UserRespondBean result) {
-                super.onSuccess(result);
-                UserBean userBean = result.data;
-                goHomePage();
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                super.onError(ex, isOnCallback);
-            }
-        });
-
+        if (mCommunityPage != null) {
+            ft.hide(mCommunityPage);
+        }
+        if (mShoppingPage != null) {
+            ft.hide(mShoppingPage);
+        }
+        if (mMinePage != null) {
+            ft.hide(mMinePage);
+        }
     }
+
+
+    public void backLastFragment(FWActivity activity) {
+        if (activity != null) {
+            activity.finish();
+        }
+    }
+
 
     /**
      * 跳转到主页
      */
-    public void goHomePage()
-    {
-        HomePage page = new HomePage();
-        replaceFragment(page);
+    public void goHomePage() {
+        addFragment(1);
     }
 
     /**
      * 跳转到社区
      */
-    public void goCommunityPage()
-    {
-        CommunityPage page = new CommunityPage();
-        replaceFragment(page);
-    }
-    /**
-     * 跳转到商城
-     */
-    public void goShoppingPage()
-    {
-        ShoppingPage page = new ShoppingPage();
-        replaceFragment(page);
+    public void goCommunityPage() {
+        addFragment(2);
     }
 
     /**
-     * 跳转到购物车
+     * 跳转到商城
      */
-    public void goBuycarPage()
-    {
-        BuycarPage page = new BuycarPage();
-        replaceFragment(page);
+    public void goShoppingPage() {
+        addFragment(3);
     }
+
 
     /**
      * 跳转到个人
      */
-    public void goMinePage()
-    {
-        MinePage page = new MinePage();
-        replaceFragment(page);
+    public void goMinePage() {
+        addFragment(4);
+    }
+
+    public void release() {
+        mHomePage = null;
+        mShoppingPage = null;
+        mCommunityPage = null;
+        mMinePage = null;
     }
 }

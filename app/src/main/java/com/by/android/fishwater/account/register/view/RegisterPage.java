@@ -1,5 +1,6 @@
 package com.by.android.fishwater.account.register.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.login.view.LoginPage;
@@ -31,9 +33,8 @@ import java.util.regex.Matcher;
  * Created by by.huang on 2016/10/9.
  */
 
-@ContentView(R.layout.page_register)
 
-public class RegisterPage extends Fragment implements View.OnClickListener,IRegisterInterface,TextWatcher{
+public class RegisterPage extends FWActivity implements View.OnClickListener,IRegisterInterface,TextWatcher{
 
     private String mPhoneText = "";
     private String mNicknameText = "";
@@ -64,22 +65,15 @@ public class RegisterPage extends Fragment implements View.OnClickListener,IRegi
     @ViewInject(R.id.account_login_button_in_register)
     AlphaTextView mLoginBtn;
 
-
-
     private RegisterPresenter mRegisterPresenter;
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this,inflater,container);
-
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_register);
+        x.view().inject(this);
         mRegisterPresenter = new RegisterPresenter(this);
         initView();
-
     }
 
     private void initView()
@@ -180,7 +174,7 @@ public class RegisterPage extends Fragment implements View.OnClickListener,IRegi
 
     @Override
     public void GoLoginPage() {
-        LoginPage page = new LoginPage();
-        FWPresenter.getInstance().replaceFragment(page);
+        Intent intent = new Intent(this,LoginPage.class);
+        startActivity(intent);
     }
 }

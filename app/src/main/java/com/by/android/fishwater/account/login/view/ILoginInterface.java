@@ -7,4 +7,5 @@ public interface ILoginInterface {
 
     void GoRegisterPage();
     void GoForgetPassWordPage();
+    void GoHomePage();
 }

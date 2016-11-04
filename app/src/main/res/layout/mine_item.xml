@@ -31,7 +31,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/account_my_speech"
+            android:id="@+id/account_buycar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_selector_option">
@@ -39,7 +39,7 @@
             <TextView
                 style="@style/account_options_style"
                 android:drawableLeft="@drawable/account_presentation"
-                android:text="@string/account_presentation"/>
+                android:text="购物车"/>
 
             <ImageView style="@style/account_arrow"/>
         </RelativeLayout>
@@ -50,7 +50,7 @@
             android:layout_marginRight="@dimen/space_15"/>
 
         <RelativeLayout
-            android:id="@+id/account_message"
+            android:id="@+id/account_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_selector_option">
@@ -58,7 +58,7 @@
             <TextView
                 style="@style/account_options_style"
                 android:drawableLeft="@drawable/account_message"
-                android:text="@string/account_message"/>
+                android:text="收货地址"/>
 
             <TextView
                 android:id="@+id/account_message_unread_count"
@@ -161,34 +161,34 @@
         style="@style/account_line_style"
         android:layout_marginTop="@dimen/space_15"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/account_selector_option">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/account_selector_option">-->
 
-        <TextView
-            android:id="@+id/account_protection_privacy"
-            style="@style/account_options_style"
-            android:drawableLeft="@drawable/account_protection_privacy"
-            android:text="@string/account_protection_privacy"/>
+        <!--<TextView-->
+            <!--android:id="@+id/account_protection_privacy"-->
+            <!--style="@style/account_options_style"-->
+            <!--android:drawableLeft="@drawable/account_protection_privacy"-->
+            <!--android:text="@string/account_protection_privacy"/>-->
 
-        <ImageView
-            android:id="@+id/account_switch_off"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:paddingBottom="@dimen/space_5"
-            android:paddingLeft="@dimen/space_10"
-            android:paddingRight="@dimen/space_10"
-            android:paddingTop="@dimen/space_5"
-            android:src="@drawable/switch_off"/>
-    </RelativeLayout>
+        <!--<ImageView-->
+            <!--android:id="@+id/account_switch_off"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:paddingBottom="@dimen/space_5"-->
+            <!--android:paddingLeft="@dimen/space_10"-->
+            <!--android:paddingRight="@dimen/space_10"-->
+            <!--android:paddingTop="@dimen/space_5"-->
+            <!--android:src="@drawable/switch_off"/>-->
+    <!--</RelativeLayout>-->
 
-    <View
-        style="@style/account_line_style"/>
+    <!--<View-->
+        <!--style="@style/account_line_style"/>-->
     
 
 </LinearLayout>

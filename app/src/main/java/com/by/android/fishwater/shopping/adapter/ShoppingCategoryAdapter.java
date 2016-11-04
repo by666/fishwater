@@ -1,16 +1,22 @@
 package com.by.android.fishwater.shopping.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
+import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.shopping.bean.CategoryBean;
 import com.by.android.fishwater.shopping.presenter.ShoppingPresenter;
+import com.by.android.fishwater.shopping.view.ShoppingSearchPage;
 import com.by.android.fishwater.util.StringUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -21,22 +27,23 @@ import java.util.List;
  * Created by by.huang on 2016/10/24.
  */
 
-public class ShoppingCategoryAdapter extends RecyclerView.Adapter{
+public class ShoppingCategoryAdapter extends RecyclerView.Adapter {
 
     private List<CategoryBean> mDatas = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
     private ShoppingPresenter mShoppingPresenter;
     private int size = 0;
+    private FWActivity mActivity;
 
-    public ShoppingCategoryAdapter(Context context, ShoppingPresenter shoppingPresenter) {
+    public ShoppingCategoryAdapter(FWActivity context, ShoppingPresenter shoppingPresenter) {
+        this.mActivity = context;
         mLayoutInflater = LayoutInflater.from(context);
         this.mShoppingPresenter = shoppingPresenter;
     }
 
-    public void updateDatas(List<CategoryBean> datas)
-    {
+    public void updateDatas(List<CategoryBean> datas) {
         this.mDatas = datas;
-        if(mDatas!=null && mDatas.size()> 0) {
+        if (mDatas != null && mDatas.size() > 0) {
             size = mDatas.size();
         }
         notifyDataSetChanged();
@@ -49,9 +56,12 @@ public class ShoppingCategoryAdapter extends RecyclerView.Adapter{
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int tag =(int)v.getTag();
+                int tag = (int) v.getTag();
                 CategoryBean data = mDatas.get(tag);
-                mShoppingPresenter.goShoppingSearchPage(data);
+                Intent intent = new Intent(mActivity, ShoppingSearchPage.class);
+                intent.putExtra("category", data.id);
+                intent.putExtra("title", data.title);
+                mActivity.startActivity(intent);
             }
         });
         return new ShoppingCategoryAdapter.ItemViewHolder(view);
@@ -66,7 +76,7 @@ public class ShoppingCategoryAdapter extends RecyclerView.Adapter{
             itemViewHolder.mTitleTxt.setText(data.title);
 
             if (StringUtils.isNotEmpty(data.url)) {
-                Uri uri = Uri.parse("res:///"+R.drawable.record_window_list_items_ms_selected);
+                Uri uri = Uri.parse("res:///" + R.drawable.record_window_list_items_ms_selected);
                 itemViewHolder.mShowImg.setImageURI(uri);
             }
         }

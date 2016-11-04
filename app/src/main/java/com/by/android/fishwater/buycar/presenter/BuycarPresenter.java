@@ -29,19 +29,5 @@ public class BuycarPresenter{
         }
     }
 
-    public void goGoodDetailPage(int id)
-    {
-        GoodsDetailPage page = new GoodsDetailPage();
-        Bundle bundle = new Bundle();
-        bundle.putInt("id",id);
-        page.setArguments(bundle);
-        FWPresenter.getInstance().addFragment(page);
 
-    }
-
-    public void goOrderPage()
-    {
-        GoodPage page = new GoodPage();
-        FWPresenter.getInstance().addFragment(page);
-    }
 }

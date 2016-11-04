@@ -1,6 +1,6 @@
 package com.by.android.fishwater.homepage.view;
 
-import android.media.Image;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
@@ -24,8 +25,7 @@ import org.xutils.x;
  * Created by by.huang on 2016/10/12.
  */
 
-@ContentView(R.layout.page_homedetail)
-public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface{
+public class HomeDetailPage extends FWActivity implements IHomeDetailPageInterface{
 
     private HomeDetailPagePresenter mHomeDetailPagePresenter;
     public HomeListBean data;
@@ -45,17 +45,16 @@ public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface
     @ViewInject(R.id.img_msg)
     ImageView mMsgImg;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return x.view().inject(this,inflater,container);
-    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.page_homedetail);
+        x.view().inject(this);
+        data = (HomeListBean) getIntent().getSerializableExtra("homelistbean");
         mHomeDetailPagePresenter = new HomeDetailPagePresenter(this);
         initView();
-        FWPresenter.getInstance().showTabLayout(View.GONE);
+
     }
 
     private void initView() {
@@ -88,7 +87,7 @@ public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface
         mBackImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FWPresenter.getInstance().backLastFragment();
+                finish();
             }
         });
 
@@ -113,4 +112,5 @@ public class HomeDetailPage extends Fragment implements IHomeDetailPageInterface
             }
         });
     }
+
 }

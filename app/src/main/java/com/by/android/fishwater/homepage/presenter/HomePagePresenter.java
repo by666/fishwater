@@ -1,11 +1,14 @@
 package com.by.android.fishwater.homepage.presenter;
 
+import android.content.Intent;
+
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.bean.BannerBean;
 import com.by.android.fishwater.bean.BannerRespondBean;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.bean.respond.HomeListRespondBean;
 import com.by.android.fishwater.homepage.view.HomeDetailPage;
+import com.by.android.fishwater.homepage.view.HomePage;
 import com.by.android.fishwater.homepage.view.IHomePageInterface;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
@@ -14,6 +17,8 @@ import com.by.android.fishwater.util.Constant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * Created by by.huang on 2016/10/9.
@@ -90,10 +95,4 @@ public class HomePagePresenter {
     }
 
 
-    public void goHomeDetailPresenter(HomeListBean data)
-    {
-        HomeDetailPage page = new HomeDetailPage();
-        page.data = data;
-        FWPresenter.getInstance().addFragment(page);
-    }
 }
