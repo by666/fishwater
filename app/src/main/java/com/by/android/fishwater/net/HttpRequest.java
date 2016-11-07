@@ -44,9 +44,9 @@ public class HttpRequest {
         if (sessionId == null) {
             sessionId = "";
         }
-        params.setHeader("deviceid",deviceInfo.deviceId);
-        params.setHeader("uuid",deviceInfo.uuid);
-        params.setHeader("sessionid",sessionId);
+        map.put("deviceid",deviceInfo.deviceId);
+        map.put("uuid",deviceInfo.uuid);
+        map.put("sessionid",sessionId);
         if (null != map) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 params.addParameter(entry.getKey(), entry.getValue());

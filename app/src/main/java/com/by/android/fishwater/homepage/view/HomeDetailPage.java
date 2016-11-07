@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
+import com.by.android.fishwater.homepage.presenter.HomeDetailPagePresenter;
 import com.by.android.fishwater.util.Constant;
+import com.by.android.fishwater.util.ToastUtil;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -20,7 +22,7 @@ import org.xutils.x;
  * Created by by.huang on 2016/10/12.
  */
 
-public class HomeDetailPage extends FWActivity {
+public class HomeDetailPage extends FWActivity implements IHomeDetailInterface{
 
     public HomeListBean data;
 
@@ -39,6 +41,7 @@ public class HomeDetailPage extends FWActivity {
     @ViewInject(R.id.img_msg)
     ImageView mMsgImg;
 
+    private HomeDetailPagePresenter mHomeDetailPagePresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class HomeDetailPage extends FWActivity {
         setContentView(R.layout.page_homedetail);
         x.view().inject(this);
         data = (HomeListBean) getIntent().getSerializableExtra("homelistbean");
+        mHomeDetailPagePresenter = new HomeDetailPagePresenter(this);
         initView();
 
     }
@@ -88,12 +92,14 @@ public class HomeDetailPage extends FWActivity {
             @Override
             public void onClick(View v) {
 
+                mHomeDetailPagePresenter.requsetPride(data);
             }
         });
 
         mCollectImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mHomeDetailPagePresenter.requsetCollect(data);
 
             }
         });
@@ -108,4 +114,26 @@ public class HomeDetailPage extends FWActivity {
         });
     }
 
+    @Override
+    public void OnRequestPrideSuccess() {
+        ToastUtil.show("点赞成功！");
+        mPrideImg.setImageDrawable(getResources().getDrawable(R.drawable.home_wenzhang_zan));
+    }
+
+    @Override
+    public void OnRequestPrideFail() {
+        ToastUtil.show("点赞失败！");
+    }
+
+    @Override
+    public void OnRequestCollectSuccess() {
+        ToastUtil.show("收藏成功！");
+        mCollectImg.setImageDrawable(getResources().getDrawable(R.drawable.home_wenzhang_collect));
+
+    }
+
+    @Override
+    public void OnRequestCollectFail() {
+        ToastUtil.show("收藏失败！");
+    }
 }

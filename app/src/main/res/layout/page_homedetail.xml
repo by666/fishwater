@@ -31,7 +31,7 @@
         android:layout_width="@dimen/space_30"
         android:layout_height="@dimen/space_30"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/home_wenzhang_zan"/>
+            android:background="@drawable/home_wenzhang_nozan"/>
 
         <ImageView android:id="@+id/img_collect"
             android:layout_width="@dimen/space_30"
