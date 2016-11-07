@@ -15,6 +15,7 @@ import com.by.android.fishwater.observer.FWObserverManager;
 import com.by.android.fishwater.observer.ObserverData;
 import com.by.android.fishwater.order.adapter.AddressListAdapter;
 import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.bean.OrderBean;
 import com.by.android.fishwater.order.presenter.OrderPresenter;
 import com.by.android.fishwater.view.AlphaImageView;
 import com.by.android.fishwater.view.LinearLayoutDecoration;
@@ -139,6 +140,16 @@ public class AddressPage extends FWActivity implements IOrderInterface ,FWObserv
 
     @Override
     public void OnDeleteAddressFail() {
+
+    }
+
+    @Override
+    public void OnOrderSuccess(OrderBean data) {
+
+    }
+
+    @Override
+    public void OnOrderFail() {
 
     }
 

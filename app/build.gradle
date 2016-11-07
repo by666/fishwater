@@ -38,4 +38,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/dd-plist-1.16.jar')
+    compile files('libs/alipaySdk-20161009.jar')
 }

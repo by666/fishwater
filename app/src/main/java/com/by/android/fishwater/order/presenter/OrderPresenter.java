@@ -1,21 +1,20 @@
 package com.by.android.fishwater.order.presenter;
 
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.by.android.fishwater.FWApplication;
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.AccountManage;
 import com.by.android.fishwater.bean.BaseResondBean;
-import com.by.android.fishwater.net.BaseBean;
+import com.by.android.fishwater.buycar.bean.BuycarBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.bean.OrderBean;
 import com.by.android.fishwater.order.bean.respond.AddressRespondBean;
-import com.by.android.fishwater.order.view.AddressEditPage;
-import com.by.android.fishwater.order.view.AddressPage;
+import com.by.android.fishwater.order.bean.respond.OrderResondBean;
 import com.by.android.fishwater.order.view.IOrderInterface;
 import com.by.android.fishwater.util.Constant;
 import com.by.android.fishwater.util.HardwareUtil;
@@ -27,8 +26,6 @@ import com.nineoldandroids.animation.ObjectAnimator;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static android.R.attr.data;
 
 /**
  * Created by by.huang on 2016/10/31.
@@ -126,8 +123,7 @@ public class OrderPresenter {
     /**
      * 支付
      */
-    public void pay() {
-//        a	order	是
+    public void pay(AddressBean addressBean,List<BuycarBean> datas) {
 //        province	Int	是	area.list中对应的唯一ID
 //        city	Int	是	area.list中对应的唯一ID
 //        area	Int	是	area.list中对应的唯一ID
@@ -136,8 +132,42 @@ public class OrderPresenter {
 //        phone	String	是	收件人联系方式
 //        paytype	Int	是	支付类型：1-支付宝、2-微信
 //        goods	String	是	订单的商品数据，数据格式：goodsid,num,spec{竖线}goodsid,num,spec
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "order");
+        map.put("sessionid", AccountManage.getInstance().getSessionId());
+        map.put("province",addressBean.province);
+        map.put("city",addressBean.city);
+        map.put("area",addressBean.area);
+        map.put("address",addressBean.address);
+        map.put("name",addressBean.name);
+        map.put("phone",addressBean.phone);
+        map.put("paytype",1);
+        String goodsStr = "";
 
+        for (BuycarBean buycarBean : datas) {
+            goodsStr += buycarBean.id+","+buycarBean.count+"|";
+        }
+        goodsStr = goodsStr.substring(0,goodsStr.length() - 1);
+        map.put("goods",goodsStr);
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<OrderResondBean>() {
+            @Override
+            public void onSuccess(OrderResondBean result) {
+                super.onSuccess(result);
+                OrderBean data = result.data;
+                Log.i("by",data.paystr);
+                mOrderInterface.OnOrderSuccess(data);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                super.onError(ex, isOnCallback);
+                mOrderInterface.OnOrderFail();
+
+            }
+        });
     }
+
 
 
     public void showPcaView(final View view) {

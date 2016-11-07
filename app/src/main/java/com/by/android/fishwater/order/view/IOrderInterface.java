@@ -1,6 +1,7 @@
 package com.by.android.fishwater.order.view;
 
 import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.bean.OrderBean;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface IOrderInterface {
     void OnSaveAddressFail();
     void OnDeleteAddressSuccess(List<AddressBean> datas);
     void OnDeleteAddressFail();
+    void OnOrderSuccess(OrderBean data);
+    void OnOrderFail();
 }

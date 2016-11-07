@@ -11,10 +11,6 @@ import com.by.android.fishwater.homepage.view.HomePageActivity;
 import com.by.android.fishwater.mine.view.MinePage;
 import com.by.android.fishwater.shopping.view.ShoppingPage;
 
-import java.util.logging.Logger;
-
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by by.huang on 2016/10/10.
  */
@@ -25,7 +21,6 @@ public class FWPresenter {
     private Fragment mCommunityPage;
     private Fragment mShoppingPage;
     private Fragment mMinePage;
-    private Fragment mCurrentPage;
 
     public static FWPresenter getInstance() {
         if (mInstance == null) {
@@ -42,7 +37,6 @@ public class FWPresenter {
         this.mActivity = (HomePageActivity) activity;
         HomePage page = new HomePage();
         mHomePage = page;
-        mCurrentPage = mHomePage;
         replaceFragment(page);
     }
 

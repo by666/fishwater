@@ -82,6 +82,7 @@
                     android:layout_marginLeft="@dimen/space_15"
                     android:drawableLeft="@drawable/homepage_item_praise_selector"
                     android:drawablePadding="@dimen/space_5"
+                    android:visibility="gone"
                     android:padding="@dimen/space_10"
                     android:textColor="#BFBFBF"
                     android:textSize="@dimen/space_11" />
@@ -115,6 +116,7 @@
                     android:drawableLeft="@drawable/homepage_icon_comment"
                     android:drawablePadding="@dimen/space_5"
                     android:padding="@dimen/space_10"
+                    android:visibility="gone"
                     android:textColor="#BFBFBF"
                     android:textSize="@dimen/space_11" />
             </LinearLayout>

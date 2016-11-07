@@ -15,6 +15,7 @@ import com.by.android.fishwater.observer.FWObserver;
 import com.by.android.fishwater.observer.FWObserverManager;
 import com.by.android.fishwater.observer.ObserverData;
 import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.bean.OrderBean;
 import com.by.android.fishwater.order.bean.address.AddressBaseBean;
 import com.by.android.fishwater.order.bean.address.AreaBean;
 import com.by.android.fishwater.order.bean.address.CityBean;
@@ -350,6 +351,16 @@ public class AddressEditPage extends FWActivity implements WheelView.OnWheelView
 
     @Override
     public void OnDeleteAddressFail() {
+
+    }
+
+    @Override
+    public void OnOrderSuccess(OrderBean data) {
+
+    }
+
+    @Override
+    public void OnOrderFail() {
 
     }
 

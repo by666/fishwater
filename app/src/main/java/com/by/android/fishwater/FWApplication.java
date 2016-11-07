@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Display;
 
 import com.by.android.fishwater.database.FWDatabaseManager;
+import com.by.android.fishwater.emoji.EmoticonsUtils;
 import com.by.android.fishwater.observer.FWObserver;
 import com.by.android.fishwater.observer.FWObserverManager;
 import com.by.android.fishwater.order.bean.address.AreaBean;
@@ -57,11 +58,13 @@ public class FWApplication extends Application {
     private void init() {
         mApplication = this;
         x.Ext.init(this);
-        x.Ext.setDebug(true);
+//        x.Ext.setDebug(true);
         Fresco.initialize(this);
         FWDatabaseManager.getInstance().init();
         initUtils();
         initAddressList();
+        EmoticonsUtils.initEmoticonsDB(this);
+
     }
 
     private void initUtils()

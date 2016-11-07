@@ -1,23 +1,18 @@
 package com.by.android.fishwater.homepage.view;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.by.android.fishwater.FWActivity;
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
-import com.by.android.fishwater.homepage.presenter.HomeDetailPagePresenter;
 import com.by.android.fishwater.util.Constant;
 
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -25,9 +20,8 @@ import org.xutils.x;
  * Created by by.huang on 2016/10/12.
  */
 
-public class HomeDetailPage extends FWActivity implements IHomeDetailPageInterface{
+public class HomeDetailPage extends FWActivity {
 
-    private HomeDetailPagePresenter mHomeDetailPagePresenter;
     public HomeListBean data;
 
     @ViewInject(R.id.webview)
@@ -52,7 +46,6 @@ public class HomeDetailPage extends FWActivity implements IHomeDetailPageInterfa
         setContentView(R.layout.page_homedetail);
         x.view().inject(this);
         data = (HomeListBean) getIntent().getSerializableExtra("homelistbean");
-        mHomeDetailPagePresenter = new HomeDetailPagePresenter(this);
         initView();
 
     }
@@ -108,7 +101,9 @@ public class HomeDetailPage extends FWActivity implements IHomeDetailPageInterfa
         mMsgImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent= new Intent(HomeDetailPage.this,CommentPage.class);
+                intent.putExtra("homelistbean",data);
+                startActivity(intent);
             }
         });
     }

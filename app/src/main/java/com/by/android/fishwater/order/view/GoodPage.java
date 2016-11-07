@@ -2,40 +2,44 @@ package com.by.android.fishwater.order.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.by.android.fishwater.FWActivity;
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
+import com.by.android.fishwater.alipay.PayResult;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
 import com.by.android.fishwater.database.FWDatabaseManager;
 import com.by.android.fishwater.order.adapter.OrderGoodsListAdapter;
 import com.by.android.fishwater.order.adapter.OrderPaylistAdapter;
 import com.by.android.fishwater.order.adapter.OrderPriceAdapter;
 import com.by.android.fishwater.order.bean.AddressBean;
+import com.by.android.fishwater.order.bean.OrderBean;
 import com.by.android.fishwater.order.bean.PayBean;
 import com.by.android.fishwater.order.bean.PriceBean;
 import com.by.android.fishwater.order.presenter.OrderPresenter;
-import com.by.android.fishwater.view.LinearLayoutDecoration;
 import com.by.android.fishwater.view.AlphaImageView;
+import com.by.android.fishwater.view.LinearLayoutDecoration;
 import com.by.android.fishwater.widget.PriceView;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by by.huang on 2016/10/29.
@@ -85,6 +89,7 @@ public class GoodPage extends FWActivity implements IOrderInterface{
     private LRecyclerViewAdapter mPriceLRecyclerViewAdapter;
 
     private List<BuycarBean> mDatas;
+    private AddressBean addressBean;
     float total = 0;
 
 
@@ -222,6 +227,7 @@ public class GoodPage extends FWActivity implements IOrderInterface{
             @Override
             public void onClick(View v) {
 
+                mOrderPresenter.pay(addressBean,mDatas);
             }
         });
     }
@@ -234,6 +240,7 @@ public class GoodPage extends FWActivity implements IOrderInterface{
             for (AddressBean data : datas) {
                 if(data.isDefault == 1)
                 {
+                    addressBean = data;
                     mNameTxt.setText(data.name);
                     String address = AddressBean.getAddress(data.province,data.city,data.area) + data.address;
                     mAddressTxt.setText(address);
@@ -266,4 +273,60 @@ public class GoodPage extends FWActivity implements IOrderInterface{
     public void OnDeleteAddressFail() {
 
     }
+
+    @Override
+    public void OnOrderSuccess(OrderBean data) {
+        final String orderInfo = data.paystr;
+        Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(GoodPage.this);
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Log.i("msp", result.toString());
+
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+    @Override
+    public void OnOrderFail() {
+
+    }
+
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        Toast.makeText(GoodPage.this, "支付成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        Toast.makeText(GoodPage.this, "支付失败", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                }
+
+                default:
+                    break;
+            }
+        };
+    };
 }
