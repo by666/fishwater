@@ -43,10 +43,6 @@ public class MinePresenter {
     }
 
 
-
-
-
-
     /**
      * 获取我收藏的列表
      */
@@ -76,5 +72,33 @@ public class MinePresenter {
                 mCollectPageInterface.OnGetCollectListFail();
             }
         });
+    }
+
+
+    public void requestFansList()
+    {
+//        a	fansList
+//        userid	Int	是	USERID 用户唯一标识
+//        begin	Int	否	开始位置，分页使用，默认为0
+//        limit	Int	否	数据条数，分页使用，默认为10
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "fansList");
+        map.put("userid", AccountManage.getInstance().getUserId());
+//        map.put("begin",currentPosition);
+//        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<CollectRespondBean>() {
+//            @Override
+//            public void onSuccess(CollectRespondBean result) {
+//                super.onSuccess(result);
+//                List<CollectBean> datas = result.data;
+//                mCollectPageInterface.OnGetCollectListSuccess(datas);
+//            }
+//
+//            @Override
+//            public void onError(Throwable ex, boolean isOnCallback) {
+//                super.onError(ex, isOnCallback);
+//                mCollectPageInterface.OnGetCollectListFail();
+//            }
+//        });
     }
 }

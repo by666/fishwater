@@ -129,10 +129,8 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
         if (v == mNoLoginLayout) {
 
         } else if (v == mFansLayout) {
-            ToastUtil.show("暂无接口");
             startActivity(new Intent(getActivity(), FansPage.class));
         } else if (v == mFollowLayout) {
-            ToastUtil.show("暂无接口");
             startActivity(new Intent(getActivity(), FollowPage.class));
         } else if (v == mCollectLayout) {
             startActivity(new Intent(getActivity(), CollectPage.class));

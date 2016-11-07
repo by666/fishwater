@@ -102,6 +102,8 @@
             android:name=".homepage.view.CommentPage"
             android:screenOrientation="portrait" />
 
+
+        <!--支付宝 start-->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -114,6 +116,8 @@
             android:exported="false"
             android:screenOrientation="behind" >
         </activity>
+        <!--支付宝 end-->
+
     </application>
 
 </manifest>

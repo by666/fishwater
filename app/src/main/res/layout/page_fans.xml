@@ -8,6 +8,7 @@
 
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space_5"
         android:layout_height="match_parent"
         android:id="@+id/recyclerview_fans"></com.github.jdsjlzx.recyclerview.LRecyclerView>
 </LinearLayout>

@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:background="@color/gray_bg">
 
-    <include layout="@layout/navigationbar"/>
+    <include layout="@layout/navigationbar" />
 
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space_5"
         android:layout_height="match_parent"
         android:id="@+id/recyclerview_follow"></com.github.jdsjlzx.recyclerview.LRecyclerView>
 </LinearLayout>
