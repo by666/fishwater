@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.AccountManage;
@@ -17,6 +18,7 @@ import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.mine.presenter.MinePresenter;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.view.AddressPage;
+import com.by.android.fishwater.order.view.OrderDetailPage;
 import com.by.android.fishwater.util.ResourceHelper;
 import com.by.android.fishwater.util.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -135,7 +137,7 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
         } else if (v == mCollectLayout) {
             startActivity(new Intent(getActivity(), CollectPage.class));
         } else if (v == mAllOrderLayout) {
-            ToastUtil.show("暂无接口");
+            OrderDetailPage.show((FWActivity) getActivity());
         } else if (v == mBuycarLayout) {
             startActivity(new Intent(getActivity(), BuycarPage.class));
         } else if (v == mAddressLayout) {

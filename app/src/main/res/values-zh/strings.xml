@@ -720,7 +720,6 @@
         <Data><![CDATA[<font color=#ff5560>订单总额：¥%1$s</font>（支付方式：%2$s）]]></Data>
     </string>
 
-
     <string name="order_logistics_state0">在途</string>
     <string name="order_logistics_state1">揽件</string>
     <string name="order_logistics_state2">疑难</string>

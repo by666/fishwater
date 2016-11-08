@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
+import com.by.android.fishwater.account.user.view.UserInfoPage;
 import com.by.android.fishwater.mine.adapter.FansFollowAdapter;
 import com.by.android.fishwater.mine.bean.FansFollowerBean;
 import com.by.android.fishwater.mine.presenter.FansFollowerPresenter;
@@ -31,6 +32,8 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * Created by by.huang on 2016/11/5.
@@ -98,7 +101,8 @@ public class FollowPage extends FWActivity implements IFansFollwerInterface{
         mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
-//                goHomeDetailPage(mCuurentDatas.get(i));
+                FansFollowerBean data = mCuurentDatas.get(i);
+                UserInfoPage.show(FollowPage.this,data.userid);
             }
 
             @Override

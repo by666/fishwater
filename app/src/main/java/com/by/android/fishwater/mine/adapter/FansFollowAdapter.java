@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.by.android.fishwater.FWActivity;
 import com.by.android.fishwater.FWApplication;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.login.bean.UserBean;
+import com.by.android.fishwater.account.user.view.UserInfoPage;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
 import com.by.android.fishwater.buycar.presenter.BuycarPresenter;
 import com.by.android.fishwater.mine.bean.FansFollowerBean;

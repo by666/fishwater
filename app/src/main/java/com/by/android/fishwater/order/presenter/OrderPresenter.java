@@ -9,12 +9,17 @@ import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.AccountManage;
 import com.by.android.fishwater.bean.BaseResondBean;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
+import com.by.android.fishwater.homepage.bean.HomeListBean;
+import com.by.android.fishwater.homepage.bean.respond.HomeListRespondBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.bean.OrderBean;
+import com.by.android.fishwater.order.bean.OrderDetailBean;
 import com.by.android.fishwater.order.bean.respond.AddressRespondBean;
+import com.by.android.fishwater.order.bean.respond.OrderDetailRespondBean;
 import com.by.android.fishwater.order.bean.respond.OrderResondBean;
+import com.by.android.fishwater.order.view.IOrderDetailInterface;
 import com.by.android.fishwater.order.view.IOrderInterface;
 import com.by.android.fishwater.util.Constant;
 import com.by.android.fishwater.util.HardwareUtil;
@@ -24,8 +29,11 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * Created by by.huang on 2016/10/31.
@@ -35,9 +43,17 @@ public class OrderPresenter {
 
 
     private IOrderInterface mOrderInterface;
+    private IOrderDetailInterface mOrderDetailInterface;
 
     public OrderPresenter(IOrderInterface orderInterface) {
         this.mOrderInterface = orderInterface;
+    }
+
+    /**  订单详情  **/
+    private int currentPosition = 0;
+    private List<OrderDetailBean> currentDatas = new ArrayList<>();
+    public OrderPresenter(IOrderDetailInterface orderDetailInterface) {
+        this.mOrderDetailInterface = orderDetailInterface;
     }
 
     /**
@@ -234,4 +250,44 @@ public class OrderPresenter {
         animatorSet.start();
     }
 
+
+    public void requestNewOrderDetail(int statu)
+    {
+        currentPosition = 0;
+        currentDatas.removeAll(currentDatas);
+        requestOrderDetail(statu,false);
+    }
+
+    public void requestOrderDetail(int statu,final boolean isLoadMore) {
+//        a	orderList	是
+//        status	String	否	排序字段：1-待付款、2-待发货、3-待收货、4-待评价、5-交易成功、6-交易关闭
+//        begin	Int	否	数据开始位置，默认从0开始，翻页使用
+//        limit	Int	否	数据获取条数，默认为10条
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("a", "orderList");
+        map.put("status", statu);
+        map.put("begin", currentPosition);
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<OrderDetailRespondBean>() {
+            @Override
+            public void onSuccess(OrderDetailRespondBean result) {
+                super.onSuccess(result);
+                List<OrderDetailBean> datas = result.data;
+                Log.i("by666",datas.size()+"");
+                currentPosition += datas.size();
+                if (datas.size() == 0) {
+                    mOrderDetailInterface.OnRequstOrderDetailSuccess(currentDatas, isLoadMore, true);
+                } else {
+                    currentDatas.addAll(datas);
+                    mOrderDetailInterface.OnRequstOrderDetailSuccess(currentDatas, isLoadMore, false);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                super.onError(ex, isOnCallback);
+                mOrderDetailInterface.OnRequstOrderDetailFail();
+            }
+        });
+    }
 }

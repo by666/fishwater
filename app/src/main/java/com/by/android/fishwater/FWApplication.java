@@ -5,6 +5,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 
+import com.bugtags.library.Bugtags;
 import com.by.android.fishwater.database.FWDatabaseManager;
 import com.by.android.fishwater.emoji.EmoticonsUtils;
 import com.by.android.fishwater.observer.FWObserver;
@@ -46,6 +47,7 @@ import static com.by.android.fishwater.util.Constant.APP_PATH;
  */
 public class FWApplication extends Application {
 
+    private final static String BugTagKey = "74365a692904db1eb93e45510dbdab6b";
     public static FWApplication mApplication;
     private List<ProvinceBean> mProvinceDatas = new ArrayList<>();
 
@@ -64,6 +66,7 @@ public class FWApplication extends Application {
         initUtils();
         initAddressList();
         EmoticonsUtils.initEmoticonsDB(this);
+        Bugtags.start(BugTagKey, this, Bugtags.BTGInvocationEventBubble);
 
     }
 

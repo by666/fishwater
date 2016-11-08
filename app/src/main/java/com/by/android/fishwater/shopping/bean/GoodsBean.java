@@ -17,9 +17,19 @@ public class GoodsBean implements Serializable{
 //    name	String	是	商品名称
 //    sales	Int	是	销售量
 
+//    num	Int	是	购买数量
+//    spec	String	是	规格id
+//    specName	String	是	规格名字
+//    oprice	Float	是	商品原价
+
     public int id;
     public String thumbnails;
     public float price;
     public String name;
     public int sales;
+    public int num;
+    public String spec;
+    public String specName;
+    public float oprice;
+
 }

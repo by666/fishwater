@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.by.android.fishwater">
+    package="com.by.android.fishwater"
+    android:versionCode="1"
+    android:versionName="1.0.0">
 
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -102,6 +104,8 @@
             android:name=".homepage.view.CommentPage"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".mine.view.SettingPage"
+            android:screenOrientation="portrait"/>
 
         <!--支付宝 start-->
         <activity
@@ -117,6 +121,12 @@
             android:screenOrientation="behind" >
         </activity>
         <!--支付宝 end-->
+
+        <activity android:name=".account.user.view.UserInfoPage"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".order.view.OrderDetailPage"
+            android:screenOrientation="portrait"/>
 
     </application>
 

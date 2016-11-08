@@ -2,7 +2,9 @@ package com.by.android.fishwater;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MotionEvent;
 
+import com.bugtags.library.Bugtags;
 import com.by.android.fishwater.util.DeviceManager;
 
 /**
@@ -19,5 +21,24 @@ public class FWActivity extends FragmentActivity {
 
     private void init() {
         DeviceManager.init(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bugtags.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Bugtags.onPause(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        //注：回调 3
+        Bugtags.onDispatchTouchEvent(this, event);
+        return super.dispatchTouchEvent(event);
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg">
+
+    <include layout="@layout/navigationbar" />
+
+
+    <com.by.android.fishwater.view.TabView
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="@dimen/space_48"
+        android:layout_marginTop="@dimen/space_5"
+        android:id="@+id/tabview"></com.by.android.fishwater.view.TabView>
+
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/space_5"
+        android:id="@+id/recyclerview_orderdetail"
+        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+    <include layout="@layout/view_nodata"/>
+</LinearLayout>

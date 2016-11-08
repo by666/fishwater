@@ -1,25 +1,18 @@
 package com.by.android.fishwater.account.login.presenter;
 
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.account.AccountManage;
 import com.by.android.fishwater.account.login.bean.LoginBean;
-import com.by.android.fishwater.account.login.bean.OtherUserBean;
 import com.by.android.fishwater.account.login.bean.respond.LoginRespondBean;
 import com.by.android.fishwater.account.login.bean.UserBean;
-import com.by.android.fishwater.account.login.bean.respond.OtherUserRespondBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
 import com.by.android.fishwater.account.login.view.ILoginInterface;
-import com.by.android.fishwater.homepage.view.HomePage;
-import com.by.android.fishwater.homepage.view.HomePageActivity;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
-import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.ToastUtil;
 
 import org.xutils.common.util.MD5;
 
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 
 /**
@@ -161,29 +154,6 @@ public class LoginPresenter {
 
     }
 
-
-    /**
-     * 获取他人资料
-     * @param id
-     */
-    public void getOtherUserInfo(int id)
-    {
-        HashMap<String,Object> map = new HashMap<String, Object>();
-        map.put("userid", id);
-        map.put("a","profileByUserid");
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<OtherUserRespondBean>() {
-            @Override
-            public void onSuccess(OtherUserRespondBean result) {
-                super.onSuccess(result);
-                OtherUserBean otherUserBean = result.data;
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                super.onError(ex, isOnCallback);
-            }
-        });
-    }
 
     /**
      * 微信方式登录
