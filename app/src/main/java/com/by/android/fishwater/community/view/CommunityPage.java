@@ -147,6 +147,9 @@ public class CommunityPage extends Fragment implements ICommunityInterface {
         mMyCircleLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
+                List<CircleBean> datas = mMyCircleAdapter.getDatas();
+                CircleBean data = datas.get(i);
+                PostListPage.show((FWActivity) getActivity(),data);
             }
 
             @Override

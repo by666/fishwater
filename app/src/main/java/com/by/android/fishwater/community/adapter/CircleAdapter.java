@@ -24,7 +24,7 @@ import java.util.List;
 public class CircleAdapter extends RecyclerView.Adapter {
 
     private LayoutInflater mLayoutInflater;
-    private List<CircleBean> mDatas= new ArrayList<>();
+    private List<CircleBean> mDatas = new ArrayList<>();
     private int size = 0;
 
     public CircleAdapter(Context context) {
@@ -60,7 +60,6 @@ public class CircleAdapter extends RecyclerView.Adapter {
                 itemViewHolder.mBgImg.setImageURI(uri);
             }
 
-
         }
     }
 
@@ -78,7 +77,6 @@ public class CircleAdapter extends RecyclerView.Adapter {
         SimpleDraweeView mBgImg;
         TextView mTitleTxt;
         TextView mSubTitleTxt;
-
 
 
         public ItemViewHolder(View view) {

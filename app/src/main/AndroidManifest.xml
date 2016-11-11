@@ -135,6 +135,8 @@
         <activity android:name=".community.view.CircleListPage"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".community.view.PostListPage"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

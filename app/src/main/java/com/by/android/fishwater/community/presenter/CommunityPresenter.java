@@ -56,8 +56,7 @@ public class CommunityPresenter {
     /**
      * 获取我的圈子，推荐圈子，推荐帖子
      */
-    public void getCircle()
-    {
+    public void getCircle() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", "forumRecommend");
         HttpRequest.Post(Constant.ForumUrl, map, new MyCallBack<CommunityResondBean>() {
@@ -81,8 +80,7 @@ public class CommunityPresenter {
     /**
      * 获取所有圈子分类
      */
-    public void getForum()
-    {
+    public void getForum() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", "circle");
         HttpRequest.Post(Constant.ForumUrl, map, new MyCallBack<ForumRespondBean>() {

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/img_show"
+        android:layout_height="@dimen/space_48"
+        android:layout_width="@dimen/space_48"
+        fresco:roundAsCircle="true"
+        android:layout_margin="@dimen/space_10"
+       />
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_title"
+        android:textColor="@color/black"
+        android:layout_alignTop="@+id/img_show"
+        android:textSize="@dimen/space_16"
+        android:layout_toRightOf="@+id/img_show"
+        />
+
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_subtitle"
+        android:textSize="@dimen/space_12"
+        android:layout_below="@+id/txt_title"
+        android:layout_marginTop="@dimen/space_5"
+        android:layout_toRightOf="@+id/img_show"
+       />
+
+
+    <com.facebook.drawee.view.SimpleDraweeView android:id="@+id/img_follow"
+        android:layout_height="@dimen/space_32"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        fresco:actualImageScaleType="fitCenter"
+        />
+
+    <View android:layout_height="@dimen/space_1"
+        android:layout_width="match_parent"
+        android:background="@color/gray_bg"
+        android:layout_alignParentTop="true"/>
+
+    <View android:layout_height="@dimen/space_1"
+        android:layout_width="match_parent"
+        android:background="@color/gray_bg"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
