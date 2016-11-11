@@ -114,7 +114,7 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
         int gap = getResources().getDimensionPixelSize(R.dimen.image_cycle_view_indicator_item_gap);
         if (bannerBeans != null && bannerBeans.size() > 0) {
             for (int i = 0; i < bannerBeans.size(); i++) {
-                ImageView pointImg = new ImageView(getActivity());
+                ImageView pointImg = new ImageView(getContext());
                 pointImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 LinearLayout.LayoutParams imgParam = new LinearLayout.LayoutParams(size, size);
                 imgParam.leftMargin = gap;
@@ -137,9 +137,9 @@ public class HomePage extends Fragment implements IHomePageInterface, AdapterVie
         mRecyclerView.setPullRefreshEnabled(true);
 
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mListAdapter = new HomePageListAdapter(getActivity());
+        mListAdapter = new HomePageListAdapter(getContext());
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(mListAdapter);
         mRecyclerView.setAdapter(mLRecyclerViewAdapter);
 

@@ -184,7 +184,7 @@ public class ShoppingPage extends Fragment implements IShoppingPageInterface {
         GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),4);
         mCategoryRecyclerView.setLayoutManager(layoutManager);
 
-        ShoppingCategoryAdapter mAdapter = new ShoppingCategoryAdapter((FWActivity) getActivity(),mShoppingPresenter);
+        ShoppingCategoryAdapter mAdapter = new ShoppingCategoryAdapter((FWActivity) getActivity());
         mCategoryRecyclerView.setAdapter(mAdapter);
         mAdapter.updateDatas(mCategoryDatas);
 

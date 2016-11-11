@@ -2,10 +2,9 @@ package com.by.android.fishwater;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.MotionEvent;
 
-import com.bugtags.library.Bugtags;
 import com.by.android.fishwater.util.DeviceManager;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by by.huang on 2016/11/5.
@@ -23,22 +22,14 @@ public class FWActivity extends FragmentActivity {
         DeviceManager.init(this);
     }
 
-    @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        Bugtags.onResume(this);
+        MobclickAgent.onResume(this);
     }
-
-    @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
-        Bugtags.onPause(this);
+        MobclickAgent.onPause(this);
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        //注：回调 3
-        Bugtags.onDispatchTouchEvent(this, event);
-        return super.dispatchTouchEvent(event);
-    }
+
 }

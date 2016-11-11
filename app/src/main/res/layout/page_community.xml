@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/space_48">
+
+    <LinearLayout
+        android:id="@+id/homepage_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_bg"
+        android:orientation="vertical">
+
+        <include layout="@layout/homepage_header" />
+
+
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/recyclerview_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginTop="10dp"
+                android:text="我的圈子"
+                android:textColor="@color/black" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_1"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/community_gray_line" />
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:id="@+id/recyclerview_mycircle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="推荐圈子"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更多"
+                    android:layout_toLeftOf="@+id/img_right"
+                    android:layout_centerVertical="true"
+                    />
+
+                <ImageView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/img_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/space_10"
+                    android:background="@drawable/community_home_hot_circle_next"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_1"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/community_gray_line" />
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:id="@+id/recyclerview_recommend_circle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginTop="10dp"
+                android:text="热门帖子"
+                android:textColor="@color/black" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_1"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/community_gray_line" />
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:id="@+id/recyclerview_recommend_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_48"
+            android:layout_marginBottom="@dimen/space_48"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="更多精彩"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/space_18" />
+
+    </LinearLayout>
+
+</ScrollView>
+

@@ -259,5 +259,6 @@
     <color name="guide_merried_state_select_color">#3b3b3b</color>
     <!--个人中心的背景色-->
     <color name="community_user_info_bg">#cc000000</color>
+    <color name="circle_item_bg">#99000000</color>
 
 </resources>

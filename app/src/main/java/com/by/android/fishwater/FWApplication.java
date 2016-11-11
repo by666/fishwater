@@ -1,19 +1,12 @@
 package com.by.android.fishwater;
 
 import android.app.Application;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 
-import com.bugtags.library.Bugtags;
 import com.by.android.fishwater.database.FWDatabaseManager;
 import com.by.android.fishwater.emoji.EmoticonsUtils;
-import com.by.android.fishwater.observer.FWObserver;
-import com.by.android.fishwater.observer.FWObserverManager;
 import com.by.android.fishwater.order.bean.address.AreaBean;
 import com.by.android.fishwater.order.bean.address.CityBean;
 import com.by.android.fishwater.order.bean.address.ProvinceBean;
-import com.by.android.fishwater.util.DeviceManager;
 import com.by.android.fishwater.util.HardwareUtil;
 import com.by.android.fishwater.util.MarketChannelManager;
 import com.by.android.fishwater.util.ResourceHelper;
@@ -25,6 +18,7 @@ import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xml.sax.SAXException;
 import org.xutils.x;
@@ -33,7 +27,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.PublicKey;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +34,13 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import static com.by.android.fishwater.util.Constant.APP_PATH;
+import static com.umeng.analytics.MobclickAgent.EScenarioType.E_UM_NORMAL;
 
 /**
  * Created by by.huang on 2016/10/9.
  */
 public class FWApplication extends Application {
 
-    private final static String BugTagKey = "74365a692904db1eb93e45510dbdab6b";
     public static FWApplication mApplication;
     private List<ProvinceBean> mProvinceDatas = new ArrayList<>();
 
@@ -60,13 +53,14 @@ public class FWApplication extends Application {
     private void init() {
         mApplication = this;
         x.Ext.init(this);
-//        x.Ext.setDebug(true);
+        x.Ext.setDebug(true);
         Fresco.initialize(this);
         FWDatabaseManager.getInstance().init();
         initUtils();
         initAddressList();
         EmoticonsUtils.initEmoticonsDB(this);
-        Bugtags.start(BugTagKey, this, Bugtags.BTGInvocationEventBubble);
+        /**umeng普通统计模式**/
+        MobclickAgent.setScenarioType(this, E_UM_NORMAL);
 
     }
 

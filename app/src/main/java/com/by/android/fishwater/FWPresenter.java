@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.by.android.fishwater.community.CommunityPage;
+import com.by.android.fishwater.community.view.CommunityPage;
 import com.by.android.fishwater.homepage.view.HomePage;
 import com.by.android.fishwater.homepage.view.HomePageActivity;
 import com.by.android.fishwater.mine.view.MinePage;
