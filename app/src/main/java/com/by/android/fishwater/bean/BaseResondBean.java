@@ -18,5 +18,5 @@ import static android.R.attr.data;
 @HttpResponse(parser = JsonResponseParser.class)
 
 public class BaseResondBean extends BaseBean{
-    @Nullable public Object data;
+    @Nullable public ResultBean data;
 }

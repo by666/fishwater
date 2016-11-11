@@ -87,20 +87,18 @@ public class PostPresenter {
             public void onSuccess(BaseResondBean result) {
                 super.onSuccess(result);
                 ResultBean resultBean = (ResultBean) result.data;
+                ToastUtil.show(result.msg);
                 if(resultBean.result == 1) {
-                    ToastUtil.show("点赞成功!");
-                    mPostInterface.OnPraiseSuccess(data);
+                    mPostInterface.OnPraiseSuccess(data,1);
                 }
                 else {
-                    ToastUtil.show("点赞失败!");
-                    mPostInterface.OnPraiseFail();
+                    mPostInterface.OnPraiseSuccess(data,0);
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
-                ToastUtil.show("点赞失败!");
                 mPostInterface.OnPraiseFail();
             }
         });

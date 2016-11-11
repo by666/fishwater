@@ -3,9 +3,12 @@ package com.by.android.fishwater.account.user.presenter;
 import com.by.android.fishwater.account.login.bean.UserBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
 import com.by.android.fishwater.account.user.view.IUserPageInterface;
+import com.by.android.fishwater.bean.BaseResondBean;
+import com.by.android.fishwater.bean.ResultBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
+import com.by.android.fishwater.util.ToastUtil;
 
 import java.util.HashMap;
 
@@ -29,7 +32,7 @@ public class UserPresenter {
      */
     public void getOtherUserInfo(int id) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("userid", 1);
+        map.put("userid", id);
         map.put("a", "profileByUserid");
         HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<UserRespondBean>() {
             @Override
@@ -47,6 +50,33 @@ public class UserPresenter {
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
                 mUserPageInterface.OnRequestUserinfoFail();
+            }
+        });
+    }
+
+    public void attendUser(int id)
+    {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("targetid", id);
+        map.put("a", "followUser");
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
+            @Override
+            public void onSuccess(BaseResondBean result) {
+                super.onSuccess(result);
+                ResultBean data = (ResultBean) result.data;
+                ToastUtil.show(result.msg);
+                if (data.result == 1) {
+                    mUserPageInterface.OnAttendUserSuccess(true);
+                }else {
+                    mUserPageInterface.OnAttendUserSuccess(false);
+                }
+                mUserPageInterface.OnAttendUserFail();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                super.onError(ex, isOnCallback);
+                mUserPageInterface.OnAttendUserFail();
             }
         });
     }

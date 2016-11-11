@@ -12,5 +12,7 @@ import java.util.List;
 public interface IUserPageInterface {
     void OnRequestUserinfoSuccess(UserBean data);
     void OnRequestUserinfoFail();
+    void OnAttendUserSuccess(boolean isAttend);
+    void OnAttendUserFail();
 
 }

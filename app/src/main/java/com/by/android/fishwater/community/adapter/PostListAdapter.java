@@ -25,6 +25,8 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.data;
+
 /**
  * Created by by.huang on 2016/10/24.
  */
@@ -90,10 +92,7 @@ public class PostListAdapter extends RecyclerView.Adapter {
             itemViewHolder.mPraiseLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    if (!data.isPraise) {
-                        mPostPresenter.praise(data);
-                    }
+                    mPostPresenter.praise(data);
                 }
             });
 

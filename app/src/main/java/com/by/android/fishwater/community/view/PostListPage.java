@@ -189,11 +189,18 @@ public class PostListPage extends FWActivity implements IPostInterface {
     }
 
     @Override
-    public void OnPraiseSuccess(PostBean data) {
+    public void OnPraiseSuccess(PostBean data,int praise) {
         List<PostBean> datas = mListAdapter.getDatas();
         for (PostBean postBean : datas) {
             if (postBean.id == data.id) {
-                postBean.isPraise = true;
+                if(praise == 1)
+                {
+                    postBean.isPraise = true;
+
+                }
+                else {
+                    postBean.isPraise = false;
+                }
                 mListAdapter.updateData(datas);
                 mPostRecyclerView.refreshComplete();
                 mLRecyclerViewAdapter.notifyDataSetChanged();

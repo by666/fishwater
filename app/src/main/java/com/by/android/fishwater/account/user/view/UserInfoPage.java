@@ -38,6 +38,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import static u.aly.av.S;
+
 /**
  * Created by by.huang on 2016/11/8.
  */
@@ -214,7 +216,7 @@ public class UserInfoPage extends FWActivity implements IUserPageInterface, View
         } else if (v == mLetterBtn) {
             ToastUtil.show("开发中");
         } else if (v == mAttentionBtn) {
-
+            mUserPresenter.attendUser(mUserId);
         } else if (v == mPostLayout) {
             OnTabClick(Post, mPostCountTxt, mPostCountTitle);
         } else if (v == mArticleLayout) {
@@ -294,6 +296,23 @@ public class UserInfoPage extends FWActivity implements IUserPageInterface, View
     public void OnRequestUserinfoFail() {
         ToastUtil.show("用户不存在!");
         finish();
+    }
+
+    @Override
+    public void OnAttendUserSuccess(boolean isAttend) {
+
+        if(isAttend)
+        {
+            mAttentionBtn.setText("取消关注");
+        }else{
+            mAttentionBtn.setText("关注TA");
+
+        }
+    }
+
+    @Override
+    public void OnAttendUserFail() {
+
     }
 
     @Override

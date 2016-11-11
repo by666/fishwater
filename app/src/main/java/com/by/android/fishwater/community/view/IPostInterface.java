@@ -14,6 +14,6 @@ public interface IPostInterface {
 
     void OnRequestPostListSuccess(List<PostBean> datas,boolean isLoadMore,boolean theEnd);
     void OnRequestPostListFail();
-    void OnPraiseSuccess(PostBean data);
+    void OnPraiseSuccess(PostBean data,int praise);
     void OnPraiseFail();
 }
