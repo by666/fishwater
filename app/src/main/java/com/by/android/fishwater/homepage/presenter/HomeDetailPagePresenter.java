@@ -1,10 +1,7 @@
 package com.by.android.fishwater.homepage.presenter;
 
-import com.by.android.fishwater.account.AccountManage;
-import com.by.android.fishwater.bean.BaseResondBean;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.bean.PrideCollectBean;
-import com.by.android.fishwater.homepage.bean.respond.HomeListRespondBean;
 import com.by.android.fishwater.homepage.bean.respond.PrideCollectRespondBean;
 import com.by.android.fishwater.homepage.view.IHomeDetailInterface;
 import com.by.android.fishwater.net.HttpRequest;
@@ -12,9 +9,6 @@ import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
 
 import java.util.HashMap;
-import java.util.List;
-
-import static com.alipay.sdk.app.statistic.c.r;
 
 /**
  * Created by by.huang on 2016/11/7.

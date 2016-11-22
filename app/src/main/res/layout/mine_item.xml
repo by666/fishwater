@@ -159,7 +159,7 @@
 
     <View
         style="@style/account_line_style"
-        android:layout_marginTop="@dimen/space_15"/>
+        />
 
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->

@@ -1,6 +1,6 @@
 package com.by.android.fishwater.order.bean.respond;
 
-import com.by.android.fishwater.net.BaseBean;
+import com.by.android.fishwater.bean.BaseBean;
 import com.by.android.fishwater.net.JsonResponseParser;
 import com.by.android.fishwater.order.bean.OrderBean;
 

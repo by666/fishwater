@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.by.android.fishwater.R;
+import com.by.android.fishwater.emoji.EmoticonsUtils;
 import com.by.android.fishwater.homepage.bean.CommentBean;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.util.StringUtils;
+import com.by.android.fishwater.util.TimeUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -25,9 +27,11 @@ public class CommentListAdapter extends RecyclerView.Adapter {
 
     private LayoutInflater mLayoutInflater;
     private List<CommentBean> mDatas = new ArrayList<>();
+    private Context mContent;
     private int size = 0;
 
     public CommentListAdapter(Context context) {
+        this.mContent = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -53,9 +57,9 @@ public class CommentListAdapter extends RecyclerView.Adapter {
         CommentListAdapter.ItemViewHolder itemViewHolder = (CommentListAdapter.ItemViewHolder) holder;
         if (mDatas != null && mDatas.size() > 0) {
             CommentBean data = mDatas.get(position);
-            itemViewHolder.mTimeTxt.setText(data.intime);
+            itemViewHolder.mTimeTxt.setText(TimeUtil.getCDTime(data.intime));
             itemViewHolder.mNameTxt.setText(data.nickname);
-            itemViewHolder.mContentTxt.setText(data.note);
+            EmoticonsUtils.setContent(mContent, itemViewHolder.mContentTxt, data.note);
             if (StringUtils.isNotEmpty(data.avatar)) {
                 Uri uri = Uri.parse(data.avatar);
                 itemViewHolder.mShowImg.setAspectRatio(1 / 0.58f);

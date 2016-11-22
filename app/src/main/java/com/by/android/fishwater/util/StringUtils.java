@@ -4,6 +4,12 @@
 
 package com.by.android.fishwater.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static u.aly.av.T;
+import static u.aly.av.t;
+
 public class StringUtils {
 
     public static boolean isEmpty(String aText) {
@@ -63,7 +69,7 @@ public class StringUtils {
     }
 
     public static boolean parseBoolean(String value) {
-        return parseBoolean(value,false);
+        return parseBoolean(value, false);
     }
 
     public static boolean parseBoolean(String value, boolean aDefault) {
@@ -170,6 +176,14 @@ public class StringUtils {
         // their prefix are the same,so the the longer one is higher.
         int compareResult = leftArray.length - rightArray.length;
         return compareResult;
+    }
+
+
+    public static <T extends List> boolean isEmpty(T datas) {
+        if (datas == null || datas.size() == 0) {
+            return true;
+        }
+        return false;
     }
 
 }

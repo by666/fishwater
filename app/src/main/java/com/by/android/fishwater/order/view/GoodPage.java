@@ -45,7 +45,7 @@ import java.util.Map;
  * Created by by.huang on 2016/10/29.
  */
 
-public class GoodPage extends FWActivity implements IOrderInterface{
+public class GoodPage extends FWActivity implements IOrderInterface {
 
     @ViewInject(R.id.txt_title)
     TextView mTitletxt;
@@ -113,6 +113,11 @@ public class GoodPage extends FWActivity implements IOrderInterface{
         initPayList();
         initPriceList();
         initBottom();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mOrderPresenter.getAddressList();
     }
 
@@ -130,7 +135,7 @@ public class GoodPage extends FWActivity implements IOrderInterface{
         mAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(GoodPage.this,AddressPage.class));
+                startActivity(new Intent(GoodPage.this, AddressPage.class));
             }
         });
     }
@@ -194,13 +199,12 @@ public class GoodPage extends FWActivity implements IOrderInterface{
         });
     }
 
-    private void initPriceList()
-    {
+    private void initPriceList() {
         List<PriceBean> datas = new ArrayList<>();
-        datas.add(PriceBean.createPriceBean("商品总价：",total));
-        datas.add(PriceBean.createPriceBean("运费：",8));
-        datas.add(PriceBean.createPriceBean("运费减免：",-8));
-        datas.add(PriceBean.createPriceBean("优惠减免：",0));
+        datas.add(PriceBean.createPriceBean("商品总价：", total));
+        datas.add(PriceBean.createPriceBean("运费：", 8));
+        datas.add(PriceBean.createPriceBean("运费减免：", -8));
+        datas.add(PriceBean.createPriceBean("优惠减免：", 0));
 
         mPriceReclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mPriceReclerView.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);
@@ -220,14 +224,13 @@ public class GoodPage extends FWActivity implements IOrderInterface{
         mPriceLRecyclerViewAdapter.removeFooterView(mPriceLRecyclerViewAdapter.getFooterView());
     }
 
-    private void initBottom()
-    {
-        mPricetxt.setText(total+"");
+    private void initBottom() {
+        mPricetxt.setText(total + "");
         mOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                mOrderPresenter.pay(addressBean,mDatas);
+                mOrderPresenter.pay(addressBean, mDatas);
             }
         });
     }
@@ -236,14 +239,17 @@ public class GoodPage extends FWActivity implements IOrderInterface{
     @Override
     public void OnGetAddressListSuccess(List<AddressBean> datas) {
 
-        if(datas!=null && datas.size() > 0){
+        if (datas != null && datas.size() > 0) {
             for (AddressBean data : datas) {
-                if(data.isDefault == 1)
-                {
+                if (data.isDefault == 1) {
                     addressBean = data;
                     mNameTxt.setText(data.name);
-                    String address = AddressBean.getAddress(data.province,data.city,data.area) + data.address;
+                    String address = AddressBean.getAddress(data.province, data.city, data.area) + data.address;
                     mAddressTxt.setText(address);
+                    break;
+                } else {
+                    mNameTxt.setText("");
+                    mAddressTxt.setText("");
                 }
             }
         }
@@ -327,6 +333,8 @@ public class GoodPage extends FWActivity implements IOrderInterface{
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 }

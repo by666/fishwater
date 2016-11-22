@@ -65,6 +65,12 @@ public class LoginPage extends FWActivity implements View.OnClickListener,ILogin
 
     private LoginPresenter mLoginPresenter;
 
+    public static void show(FWActivity activity)
+    {
+        Intent intent = new Intent(activity,LoginPage.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

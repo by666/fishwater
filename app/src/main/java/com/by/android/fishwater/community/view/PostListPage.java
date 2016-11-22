@@ -14,6 +14,7 @@ import com.by.android.fishwater.R;
 import com.by.android.fishwater.community.adapter.PostListAdapter;
 import com.by.android.fishwater.community.bean.CircleBean;
 import com.by.android.fishwater.community.bean.PostBean;
+import com.by.android.fishwater.community.bean.PostDetailBean;
 import com.by.android.fishwater.community.presenter.PostPresenter;
 import com.by.android.fishwater.util.ToastUtil;
 import com.by.android.fishwater.view.AlphaImageView;
@@ -75,7 +76,6 @@ public class PostListPage extends FWActivity implements IPostInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_postlist);
         x.view().inject(this);
-
         mData = (CircleBean) getIntent().getSerializableExtra(Extra_Data);
         mPostPresenter = new PostPresenter(this);
         initView();
@@ -133,7 +133,7 @@ public class PostListPage extends FWActivity implements IPostInterface {
         mPostRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPostRecyclerView.addItemDecoration(new LinearLayoutDecoration.Builder(this).setHeight(R.dimen.space_4).setColor(getResources().getColor(R.color.gray_bg)).build());
 
-        mListAdapter = new PostListAdapter(this,mPostPresenter);
+        mListAdapter = new PostListAdapter(this, mPostPresenter);
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(mListAdapter);
         mPostRecyclerView.setAdapter(mLRecyclerViewAdapter);
 
@@ -142,6 +142,13 @@ public class PostListPage extends FWActivity implements IPostInterface {
         mLRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int i) {
+
+                List<PostBean> datas = mListAdapter.getDatas();
+                if(datas != null && datas.size() > 0)
+                {
+                    PostBean data = datas.get(i);
+                    PostDetailPage.show(PostListPage.this,data.id);
+                }
 
             }
 
@@ -189,17 +196,16 @@ public class PostListPage extends FWActivity implements IPostInterface {
     }
 
     @Override
-    public void OnPraiseSuccess(PostBean data,int praise) {
+    public void OnPraiseSuccess(PostBean data, int praise) {
         List<PostBean> datas = mListAdapter.getDatas();
         for (PostBean postBean : datas) {
             if (postBean.id == data.id) {
-                if(praise == 1)
-                {
-                    postBean.isPraise = true;
-
-                }
-                else {
-                    postBean.isPraise = false;
+                if (praise == 1) {
+                    postBean.isPraised = 1;
+                    postBean.praisedNum = postBean.praisedNum + 1;
+                } else {
+                    postBean.isPraised = 0;
+                    postBean.praisedNum = postBean.praisedNum - 1;
                 }
                 mListAdapter.updateData(datas);
                 mPostRecyclerView.refreshComplete();

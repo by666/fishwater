@@ -1,6 +1,5 @@
 package com.by.android.fishwater.bean;
 
-import com.by.android.fishwater.net.BaseBean;
 import com.by.android.fishwater.net.JsonResponseParser;
 
 import org.xutils.http.annotation.HttpResponse;

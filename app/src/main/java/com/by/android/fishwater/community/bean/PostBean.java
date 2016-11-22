@@ -9,9 +9,9 @@ import static android.R.attr.id;
  * Created by by.huang on 2016/11/11.
  */
 
-public class PostBean{
+public class PostBean {
 
-//    id	Int	是	唯一ID
+    //    id	Int	是	唯一ID
 //    parentid	Int	是	父级分类ID(可能有回帖)
 //    userid	Int	是	Userid 唯一标识
 //    title	String	是	标题
@@ -23,7 +23,9 @@ public class PostBean{
 //    gender	Int	是	0-女、1-男
 //    avatar	String	是	头像地址
 //    imagesUrl	Array<String>	是	缩略图地址
-
+//    isPraised	Int	是	是否点过赞
+//    praisedNum	Int	是	点赞数量
+//    commentNum	Int	是	评论数量
     public int id;
     public int parentid;
     public int userid;
@@ -36,5 +38,8 @@ public class PostBean{
     public int gender;
     public String avatar;
     public List<String> imagesUrl;
-    public boolean isPraise;
+    public int isPraised;
+    public int praisedNum;
+    public int commentNum;
+
 }

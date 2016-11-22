@@ -14,4 +14,8 @@ public interface ICommentInterface {
     void requestListDataSuccess(List<CommentBean> datas, boolean isLoadMore, boolean theEnd);
 
     void requestListDataFail();
+
+    void sendCommentSuccess();
+
+    void sendCommentFail();
 }

@@ -1,8 +1,8 @@
 package com.by.android.fishwater.net;
 
 import android.util.Log;
-import android.widget.Toast;
 
+import com.by.android.fishwater.bean.BaseBean;
 import com.by.android.fishwater.util.ToastUtil;
 
 import org.xutils.common.Callback;

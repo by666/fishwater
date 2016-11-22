@@ -9,6 +9,6 @@ import org.xutils.http.annotation.HttpResponse;
  */
 
 @HttpResponse(parser = JsonResponseParser.class)
-public class ResultBean {
+public class ResultBean{
     public int result;
 }

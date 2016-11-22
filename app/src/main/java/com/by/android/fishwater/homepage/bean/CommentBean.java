@@ -36,4 +36,5 @@ public class CommentBean {
     public int gender;
     public String avatar;
     public int subNum;
+
 }

@@ -1,7 +1,7 @@
 package com.by.android.fishwater.homepage.bean.respond;
 
 import com.by.android.fishwater.homepage.bean.CommentBean;
-import com.by.android.fishwater.net.BaseBean;
+import com.by.android.fishwater.bean.BaseBean;
 import com.by.android.fishwater.net.JsonResponseParser;
 
 import org.xutils.http.annotation.HttpResponse;

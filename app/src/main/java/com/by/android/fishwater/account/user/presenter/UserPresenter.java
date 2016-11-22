@@ -3,7 +3,7 @@ package com.by.android.fishwater.account.user.presenter;
 import com.by.android.fishwater.account.login.bean.UserBean;
 import com.by.android.fishwater.account.login.bean.respond.UserRespondBean;
 import com.by.android.fishwater.account.user.view.IUserPageInterface;
-import com.by.android.fishwater.bean.BaseResondBean;
+import com.by.android.fishwater.bean.RespondObjBean;
 import com.by.android.fishwater.bean.ResultBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
@@ -59,9 +59,9 @@ public class UserPresenter {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("targetid", id);
         map.put("a", "followUser");
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<RespondObjBean>() {
             @Override
-            public void onSuccess(BaseResondBean result) {
+            public void onSuccess(RespondObjBean result) {
                 super.onSuccess(result);
                 ResultBean data = (ResultBean) result.data;
                 ToastUtil.show(result.msg);

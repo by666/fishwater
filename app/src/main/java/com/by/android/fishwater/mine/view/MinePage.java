@@ -2,25 +2,23 @@ package com.by.android.fishwater.mine.view;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.by.android.fishwater.FWActivity;
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.AccountManage;
 import com.by.android.fishwater.account.login.bean.UserBean;
 import com.by.android.fishwater.buycar.view.BuycarPage;
 import com.by.android.fishwater.mine.presenter.MinePresenter;
-import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.view.AddressPage;
 import com.by.android.fishwater.order.view.OrderDetailPage;
+import com.by.android.fishwater.setting.view.SettingPage;
 import com.by.android.fishwater.util.ResourceHelper;
-import com.by.android.fishwater.util.ToastUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.xutils.view.annotation.ContentView;
@@ -73,6 +71,9 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
     @ViewInject(R.id.account_address)
     View mAddressLayout;
 
+    @ViewInject(R.id.account_setting)
+    View mSettingView;
+
 
     private MinePresenter mMinePresenter;
     private AccountManage mAccountManage;
@@ -90,6 +91,7 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
         mAccountManage = AccountManage.getInstance();
         mUserBean = mAccountManage.getUserBean();
         initView();
+
     }
 
     private void initView() {
@@ -100,7 +102,7 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
 
             mHeadImage.setImageURI(Uri.parse(mUserBean.avatar));
             mNicknameTxt.setText(mUserBean.nickname);
-            mLevelTxt.setText(mUserBean.level);
+            mLevelTxt.setText(mUserBean.level+"");
             if (mUserBean.gender == UserBean.SEX_MAN) {
                 mLevelTxt.setBackgroundDrawable(getResources().getDrawable(R.drawable.account_level_man));
                 mLevelTxt.setTextColor(ResourceHelper.getColor(R.color.account_level_color_man));
@@ -117,6 +119,7 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
             mAllOrderLayout.setOnClickListener(this);
             mBuycarLayout.setOnClickListener(this);
             mAddressLayout.setOnClickListener(this);
+            mSettingView.setOnClickListener(this);
 
         } else {
             mLoginLayout.setVisibility(View.GONE);
@@ -124,7 +127,11 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
             mNoLoginLayout.setOnClickListener(this);
 
         }
+
+
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -142,7 +149,11 @@ public class MinePage extends Fragment implements View.OnClickListener, IMinePag
             startActivity(new Intent(getActivity(), BuycarPage.class));
         } else if (v == mAddressLayout) {
             startActivity(new Intent(getActivity(), AddressPage.class));
+        }else if(v == mSettingView)
+        {
+            SettingPage.show((FWActivity) getActivity());
         }
+
 
     }
 }

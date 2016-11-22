@@ -248,6 +248,9 @@ public class AddressEditPage extends FWActivity implements WheelView.OnWheelView
     }
 
     private void updateProvince(int pos) {
+        if (StringUtils.isEmpty(mProvinceList)) {
+            return;
+        }
         ProvinceBean provinceModel = mProvinceList.get(pos);
         mCitiesList.clear();
         mCitiesList.addAll(provinceModel.cityBeens);
@@ -261,6 +264,9 @@ public class AddressEditPage extends FWActivity implements WheelView.OnWheelView
     }
 
     private void updateCities(int pos) {
+        if (StringUtils.isEmpty(mCitiesList)) {
+            return;
+        }
         CityBean cityModel = mCitiesList.get(pos);
         mAreaList.clear();
         mAreaList.addAll(cityModel.areaBeens);
@@ -274,7 +280,7 @@ public class AddressEditPage extends FWActivity implements WheelView.OnWheelView
     }
 
     private void updateDistrict(int pos) {
-        if (mAreaList.size() == 0) {
+        if (StringUtils.isEmpty(mAreaList)) {
             return;
         }
         AreaBean districtModel = mAreaList.get(pos);
@@ -334,7 +340,7 @@ public class AddressEditPage extends FWActivity implements WheelView.OnWheelView
         if (mPcaLayout.getVisibility() == View.VISIBLE) {
             mOrderPresenter.hidePcaView(mPcaLayout);
         }
-        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_AddressList,null);
+        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_AddressList, null);
         DeviceManager.getInstance().hideInputMethod();
         finish();
     }

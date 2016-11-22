@@ -1,14 +1,10 @@
 package com.by.android.fishwater.community.presenter;
 
-import com.by.android.fishwater.bean.BaseResondBean;
+import com.by.android.fishwater.bean.RespondObjBean;
 import com.by.android.fishwater.bean.ResultBean;
-import com.by.android.fishwater.community.bean.ForumBean;
 import com.by.android.fishwater.community.bean.PostBean;
-import com.by.android.fishwater.community.bean.respond.ForumRespondBean;
 import com.by.android.fishwater.community.bean.respond.PostRespondBean;
 import com.by.android.fishwater.community.view.IPostInterface;
-import com.by.android.fishwater.homepage.bean.HomeListBean;
-import com.by.android.fishwater.net.BaseBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.util.Constant;
@@ -82,9 +78,9 @@ public class PostPresenter {
         map.put("a", "praise");
         map.put("typeid", 3);
         map.put("targetid",data.id);
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<RespondObjBean>() {
             @Override
-            public void onSuccess(BaseResondBean result) {
+            public void onSuccess(RespondObjBean result) {
                 super.onSuccess(result);
                 ResultBean resultBean = (ResultBean) result.data;
                 ToastUtil.show(result.msg);

@@ -1,4 +1,4 @@
-package com.by.android.fishwater.net;
+package com.by.android.fishwater.bean;
 
 /**
  * Created by by.huang on 2016/10/10.

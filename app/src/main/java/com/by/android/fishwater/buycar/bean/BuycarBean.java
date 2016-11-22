@@ -28,6 +28,7 @@ public class BuycarBean {
     @Column(name = "PRICE")
     public float price;
 
+    @Column(name = "Edit")
     public boolean isEdit;
 
 }

@@ -96,14 +96,14 @@ public class PostListAdapter extends RecyclerView.Adapter {
                 }
             });
 
-            if (data.isPraise) {
+            if (data.isPraised == 1) {
                 itemViewHolder.mPraiseImg.setImageResource(R.drawable.community_btn_praise_select);
 
             } else {
                 itemViewHolder.mPraiseImg.setImageResource(R.drawable.community_btn_praise);
 
             }
-            itemViewHolder.mPraiseTxt.setText("0");
+            itemViewHolder.mPraiseTxt.setText(data.praisedNum+"");
 
             itemViewHolder.mMsgLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,7 +114,7 @@ public class PostListAdapter extends RecyclerView.Adapter {
             });
 
             itemViewHolder.mMsgImg.setImageResource(R.drawable.community_comment_icon);
-            itemViewHolder.mMsgTxt.setText("0");
+            itemViewHolder.mMsgTxt.setText(data.commentNum + "");
 
             List<String> imageUrls = data.imagesUrl;
             if (imageUrls != null && imageUrls.size() > 0) {

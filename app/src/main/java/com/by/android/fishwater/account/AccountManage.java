@@ -64,4 +64,11 @@ public class AccountManage {
         }
         return false;
     }
+
+    public void clear()
+    {
+        setSessionId(null);
+        setUserId(null);
+        mUserBean = null;
+    }
 }

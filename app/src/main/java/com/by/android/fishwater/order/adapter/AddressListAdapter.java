@@ -45,9 +45,7 @@ public class AddressListAdapter extends RecyclerView.Adapter {
 
     public void updateData(List<AddressBean> datas) {
         this.mDatas = datas;
-        if (mDatas != null && mDatas.size() > 0) {
-            size = mDatas.size();
-        }
+        size = mDatas.size();
         notifyDataSetChanged();
     }
 

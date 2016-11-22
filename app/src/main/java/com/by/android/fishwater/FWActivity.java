@@ -6,6 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import com.by.android.fishwater.util.DeviceManager;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.observers.Observers;
+
 /**
  * Created by by.huang on 2016/11/5.
  */
@@ -30,6 +35,7 @@ public class FWActivity extends FragmentActivity {
         super.onPause();
         MobclickAgent.onPause(this);
     }
+
 
 
 }

@@ -131,10 +131,7 @@ public class AddressPage extends FWActivity implements IOrderInterface ,FWObserv
 
     @Override
     public void OnDeleteAddressSuccess(List<AddressBean> datas) {
-
-        if (datas != null && datas.size() > 0) {
-            mListAdapter.updateData(datas);
-        }
+        mListAdapter.updateData(datas);
         mLRecyclerViewAdapter.notifyDataSetChanged();
     }
 

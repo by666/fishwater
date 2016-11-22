@@ -7,6 +7,7 @@ import com.by.android.fishwater.emoji.EmoticonsUtils;
 import com.by.android.fishwater.order.bean.address.AreaBean;
 import com.by.android.fishwater.order.bean.address.CityBean;
 import com.by.android.fishwater.order.bean.address.ProvinceBean;
+import com.by.android.fishwater.util.FileUtils;
 import com.by.android.fishwater.util.HardwareUtil;
 import com.by.android.fishwater.util.MarketChannelManager;
 import com.by.android.fishwater.util.ResourceHelper;
@@ -17,7 +18,9 @@ import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
+import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xml.sax.SAXException;
@@ -52,9 +55,12 @@ public class FWApplication extends Application {
 
     private void init() {
         mApplication = this;
+        //异常捕获
+//        MyCrashHandler handler =  MyCrashHandler.getInstance();
+//        handler.init(this);
         x.Ext.init(this);
         x.Ext.setDebug(true);
-        Fresco.initialize(this);
+        initFresco();
         FWDatabaseManager.getInstance().init();
         initUtils();
         initAddressList();
@@ -64,8 +70,11 @@ public class FWApplication extends Application {
 
     }
 
-    private void initUtils()
-    {
+    private void initFresco() {
+        Fresco.initialize(this);
+    }
+
+    private void initUtils() {
         ResourceHelper.init(this);
         MarketChannelManager.init(this);
         SettingFlags.init(this);
@@ -76,79 +85,72 @@ public class FWApplication extends Application {
 
 
     private void initAddressList() {
-        final File file = new File(APP_PATH + "/AreaList.plist");
-        if (!file.exists()) {
+        mProvinceDatas.clear();
+        String path = APP_PATH + "/AreaList.plist";
+        try {
+            final File file = new File(path);
+            FileUtils.deleteFileSafely(file);
+            file.createNewFile();
             InputStream is;
-            try {
-                is = FWApplication.mApplication.getBaseContext().getAssets().open("AreaList.plist");
-                FileOutputStream fos = new FileOutputStream(APP_PATH + "/AreaList.plist");
-                byte[] buffer = new byte[400000];
-                int count = 0;
-                while ((count = is.read(buffer)) > 0) {
-                    fos.write(buffer, 0, count);
-                }
-                fos.close();
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            //写入文件
+            is = getAssets().open("AreaList.plist");
+            FileOutputStream fos = new FileOutputStream(path);
+            byte[] buffer = new byte[400000];
+            int count = 0;
+            while ((count = is.read(buffer)) > 0) {
+                fos.write(buffer, 0, count);
             }
-        } else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(file);
-                        NSArray provinceArray = (NSArray) rootDict.objectForKey("area");
-                        int pLength = provinceArray.count();
-                        for (int i = 0; i < pLength; i++) {
-                            ProvinceBean data = new ProvinceBean();
-                            NSDictionary subDic = (NSDictionary) provinceArray.objectAtIndex(i);
-                            data.id = StringUtils.parseInt(subDic.objectForKey("id").toString());
-                            data.name = subDic.objectForKey("name").toString();
-                            NSArray cityArray = (NSArray) subDic.objectForKey("sub");
-                            int cLength = cityArray.count();
-                            List<CityBean> cityBeens = new ArrayList<>();
-                            for (int m = 0; m < cLength; m++) {
-                                CityBean cityBean = new CityBean();
-                                NSDictionary sub2Dic = (NSDictionary) cityArray.objectAtIndex(m);
-                                cityBean.id = StringUtils.parseInt(sub2Dic.objectForKey("id").toString());
-                                cityBean.name = sub2Dic.objectForKey("name").toString();
-                                NSArray areaArray = (NSArray) sub2Dic.objectForKey("sub");
-                                int aLength = areaArray.count();
-                                List<AreaBean> areaBeens = new ArrayList<>();
-                                for (int n = 0; n < aLength; n++) {
-                                    AreaBean areaBean = new AreaBean();
-                                    NSDictionary sub3Dic = (NSDictionary) areaArray.objectAtIndex(n);
-                                    areaBean.id = StringUtils.parseInt(sub3Dic.objectForKey("id").toString());
-                                    areaBean.name = sub3Dic.objectForKey("name").toString();
-                                    areaBeens.add(areaBean);
-                                }
-                                cityBean.areaBeens = areaBeens;
-                                cityBeens.add(cityBean);
-                            }
-                            data.cityBeens = cityBeens;
-                            mProvinceDatas.add(data);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (PropertyListFormatException e) {
-                        e.printStackTrace();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
-                    } catch (SAXException e) {
-                        e.printStackTrace();
+            fos.close();
+            is.close();
+
+            //解析
+            NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(file);
+            NSArray provinceArray = (NSArray) rootDict.objectForKey("area");
+            int pLength = provinceArray.count();
+            for (int i = 0; i < pLength; i++) {
+                ProvinceBean data = new ProvinceBean();
+                NSDictionary subDic = (NSDictionary) provinceArray.objectAtIndex(i);
+                data.id = StringUtils.parseInt(subDic.objectForKey("id").toString());
+                data.name = subDic.objectForKey("name").toString();
+                NSArray cityArray = (NSArray) subDic.objectForKey("sub");
+                int cLength = cityArray.count();
+                List<CityBean> cityBeens = new ArrayList<>();
+                for (int m = 0; m < cLength; m++) {
+                    CityBean cityBean = new CityBean();
+                    NSDictionary sub2Dic = (NSDictionary) cityArray.objectAtIndex(m);
+                    cityBean.id = StringUtils.parseInt(sub2Dic.objectForKey("id").toString());
+                    cityBean.name = sub2Dic.objectForKey("name").toString();
+                    NSArray areaArray = (NSArray) sub2Dic.objectForKey("sub");
+                    int aLength = areaArray.count();
+                    List<AreaBean> areaBeens = new ArrayList<>();
+                    for (int n = 0; n < aLength; n++) {
+                        AreaBean areaBean = new AreaBean();
+                        NSDictionary sub3Dic = (NSDictionary) areaArray.objectAtIndex(n);
+                        areaBean.id = StringUtils.parseInt(sub3Dic.objectForKey("id").toString());
+                        areaBean.name = sub3Dic.objectForKey("name").toString();
+                        areaBeens.add(areaBean);
                     }
-
+                    cityBean.areaBeens = areaBeens;
+                    cityBeens.add(cityBean);
                 }
-            }).start();
-
+                data.cityBeens = cityBeens;
+                mProvinceDatas.add(data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (PropertyListFormatException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
         }
     }
 
-    public List<ProvinceBean> getProvinceDatas()
-    {
+    public List<ProvinceBean> getProvinceDatas() {
         return mProvinceDatas;
     }
 

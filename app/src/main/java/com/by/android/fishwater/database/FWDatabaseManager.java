@@ -38,11 +38,32 @@ public class FWDatabaseManager {
     }
 
     public void init() {
-        DbManager.DaoConfig config = new DbManager.DaoConfig()
-                .setDbName(DB_NAME)
-                .setAllowTransaction(true)
-                .setDbDir(new File(DB_DIR))
-                .setDbVersion(DB_VERSION);
+        final DbManager.DaoConfig config = new DbManager.DaoConfig();
+        config.setDbName(DB_NAME);
+        config.setAllowTransaction(true);
+        config.setDbOpenListener(new DbManager.DbOpenListener() {
+            @Override
+            public void onDbOpened(DbManager db) {
+                // 开启WAL, 对写入加速提升巨大
+                db.getDatabase().enableWriteAheadLogging();
+            }
+        });
+        config.setDbUpgradeListener(new DbManager.DbUpgradeListener() {
+            @Override
+            public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
+                if (newVersion > oldVersion) {
+                    try {
+                        db.dropDb();
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+        config.setAllowTransaction(true);
+        config.setDbDir(new File(DB_DIR));
+        config.setDbVersion(DB_VERSION);
         mDbManager = x.getDb(config);
     }
 
@@ -53,7 +74,7 @@ public class FWDatabaseManager {
     public void add(BuycarBean data) {
         if (mDbManager != null) {
             try {
-                mDbManager.save(data);
+                mDbManager.saveOrUpdate(data);
             } catch (DbException e) {
                 e.printStackTrace();
             }

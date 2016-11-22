@@ -1,5 +1,6 @@
 package com.by.android.fishwater.order.presenter;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -7,10 +8,9 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import com.by.android.fishwater.FWApplication;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.account.AccountManage;
-import com.by.android.fishwater.bean.BaseResondBean;
+import com.by.android.fishwater.bean.RespondStrBean;
+import com.by.android.fishwater.bean.RespondArrayBean;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
-import com.by.android.fishwater.homepage.bean.HomeListBean;
-import com.by.android.fishwater.homepage.bean.respond.HomeListRespondBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
 import com.by.android.fishwater.order.bean.AddressBean;
@@ -25,6 +25,7 @@ import com.by.android.fishwater.util.Constant;
 import com.by.android.fishwater.util.HardwareUtil;
 import com.by.android.fishwater.util.ResourceHelper;
 import com.by.android.fishwater.util.SystemUtil;
+import com.by.android.fishwater.util.ToastUtil;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.R.attr.data;
+import static com.by.android.fishwater.net.ErrorCode.Code_Success;
 
 /**
  * Created by by.huang on 2016/10/31.
@@ -83,6 +84,21 @@ public class OrderPresenter {
      * 保存收获地址
      */
     public void saveAddress(AddressBean data) {
+        if(TextUtils.isEmpty(data.name))
+        {
+            ToastUtil.show("请填写收件人");
+            return;
+        }
+        if(TextUtils.isEmpty(data.phone))
+        {
+            ToastUtil.show("请填写手机号码");
+            return;
+        }
+        if(TextUtils.isEmpty(data.address))
+        {
+            ToastUtil.show("请填写详细地址");
+            return;
+        }
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("a", "addrSave");
         map.put("sessionid", AccountManage.getInstance().getSessionId());
@@ -97,17 +113,26 @@ public class OrderPresenter {
         map.put("area", data.area);
         map.put("isDefault", data.isDefault);
 //        map.put("intime", data.intime);
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<RespondStrBean>() {
             @Override
-            public void onSuccess(BaseResondBean result) {
+            public void onSuccess(RespondStrBean result) {
                 super.onSuccess(result);
-                mOrderInterface.OnSaveAddressSuccess();
+                if(result.status == Code_Success)
+                {
+                    mOrderInterface.OnSaveAddressSuccess();
+                    ToastUtil.show("保存收获地址成功");
+                    return;
+                }
+                mOrderInterface.OnSaveAddressFail();
+                ToastUtil.show("保存收获地址失败");
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
                 mOrderInterface.OnSaveAddressFail();
+                ToastUtil.show("保存收获地址失败");
+
             }
         });
     }
@@ -120,18 +145,26 @@ public class OrderPresenter {
         map.put("a", "addrDelete");
         map.put("sessionid", AccountManage.getInstance().getSessionId());
         map.put("id", data.id);
-        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<BaseResondBean>() {
+        HttpRequest.Post(Constant.UserUrl, map, new MyCallBack<RespondArrayBean>() {
             @Override
-            public void onSuccess(BaseResondBean result) {
+            public void onSuccess(RespondArrayBean result) {
                 super.onSuccess(result);
-                datas.remove(data);
-                mOrderInterface.OnDeleteAddressSuccess(datas);
+                if(result.status == Code_Success)
+                {
+                    datas.remove(data);
+                    mOrderInterface.OnDeleteAddressSuccess(datas);
+                    ToastUtil.show("删除收获地址成功");
+                    return;
+                }
+                mOrderInterface.OnDeleteAddressFail();
+                ToastUtil.show("删除收获地址失败");
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 super.onError(ex, isOnCallback);
                 mOrderInterface.OnDeleteAddressFail();
+                ToastUtil.show("删除收获地址失败");
             }
         });
     }

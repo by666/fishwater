@@ -11,14 +11,19 @@
 
         <FrameLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/space_15"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <TextView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/account_login_register" />
+                android:text="鱼水"
+                android:textSize="36dp"
+                android:textStyle="bold"
+                android:textColor="@color/title_color"
+                android:src="@drawable/account_login_icon" />
         </FrameLayout>
 
         <RelativeLayout
@@ -152,7 +157,7 @@
             android:layout_marginTop="@dimen/space_15"
             android:gravity="center"
             android:padding="@dimen/space_15"
-            android:text="@string/account_login_ta2ta"
+            android:text="登录账号"
             android:textColor="@color/share_platform_text_color"
             android:textSize="@dimen/space_16" />
 

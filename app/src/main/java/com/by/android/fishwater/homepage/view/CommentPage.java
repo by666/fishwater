@@ -3,6 +3,7 @@ package com.by.android.fishwater.homepage.view;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.by.android.fishwater.homepage.bean.CommentBean;
 import com.by.android.fishwater.homepage.bean.HomeListBean;
 import com.by.android.fishwater.homepage.presenter.AnimotionDao;
 import com.by.android.fishwater.homepage.presenter.CommentPresenter;
+import com.by.android.fishwater.util.DeviceManager;
+import com.by.android.fishwater.util.HardwareUtil;
 import com.by.android.fishwater.util.ResourceHelper;
 import com.by.android.fishwater.util.StringUtils;
 import com.by.android.fishwater.view.AlphaImageView;
@@ -45,7 +48,7 @@ import static com.by.android.fishwater.R.id.tip_comment_layout;
  * Created by by.huang on 2016/11/6.
  */
 
-public class CommentPage extends FWActivity implements View.OnClickListener,ICommentInterface{
+public class CommentPage extends FWActivity implements View.OnClickListener, ICommentInterface {
 
     @ViewInject(R.id.txt_title)
     TextView mTitleTxt;
@@ -76,9 +79,6 @@ public class CommentPage extends FWActivity implements View.OnClickListener,ICom
     private boolean isRequest = false;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +101,7 @@ public class CommentPage extends FWActivity implements View.OnClickListener,ICom
         mBackBtn.setOnClickListener(this);
     }
 
-    private void initRecyclerView()
-    {
+    private void initRecyclerView() {
         mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         mRecyclerView.setArrowImageView(R.drawable.ic_pulltorefresh_arrow);
         mRecyclerView.setPullRefreshEnabled(true);
@@ -141,7 +140,7 @@ public class CommentPage extends FWActivity implements View.OnClickListener,ICom
             public void onLoadMore() {
                 if (!isRequest) {
                     RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.Loading);
-                    mCommentPresenter.getHomeListData(data,true);
+                    mCommentPresenter.getHomeListData(data, true);
                 }
                 isRequest = true;
             }
@@ -184,7 +183,7 @@ public class CommentPage extends FWActivity implements View.OnClickListener,ICom
         mEmotionKeyBoard.setOnPostButtonOnClickListener(new EmotionKeyBoard.OnPostButtonOnClickListener() {
             @Override
             public void onPostButtonClick() {
-//                handlerPostCommentButtonOnClick();
+                mCommentPresenter.sendComment(data, mEmotionKeyBoard.getEmotionEditContent());
             }
         });
     }
@@ -192,10 +191,13 @@ public class CommentPage extends FWActivity implements View.OnClickListener,ICom
     @Override
     public void onClick(View v) {
         if (v == mBackBtn) {
+            if (mEmotionKeyBoard.isShowEmojiKeyBord()) {
+                mEmotionKeyBoard.closeSoftware();
+                return;
+            }
             finish();
         }
     }
-
 
 
     @Override
@@ -212,6 +214,29 @@ public class CommentPage extends FWActivity implements View.OnClickListener,ICom
 
     @Override
     public void requestListDataFail() {
+
+    }
+
+    @Override
+    public void sendCommentSuccess() {
+        mCommentPresenter.getNewHomeListData(data);
+        mEmotionKeyBoard.closeSoftware();
+        mEmotionKeyBoard.setEmotionEditContent("");
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mEmotionKeyBoard.isShowEmojiKeyBord()) {
+                mEmotionKeyBoard.closeSoftware();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void sendCommentFail() {
 
     }
 }
