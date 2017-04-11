@@ -1,6 +1,8 @@
 package com.by.android.fishwater;
 
 import android.app.Application;
+import android.os.HandlerThread;
+import android.os.Looper;
 
 import com.by.android.fishwater.database.FWDatabaseManager;
 import com.by.android.fishwater.emoji.EmoticonsUtils;
@@ -36,6 +38,12 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static com.by.android.fishwater.util.Constant.APP_PATH;
 import static com.umeng.analytics.MobclickAgent.EScenarioType.E_UM_NORMAL;
 
@@ -63,11 +71,43 @@ public class FWApplication extends Application {
         initFresco();
         FWDatabaseManager.getInstance().init();
         initUtils();
-        initAddressList();
-        EmoticonsUtils.initEmoticonsDB(this);
+        initDB();
         /**umeng普通统计模式**/
         MobclickAgent.setScenarioType(this, E_UM_NORMAL);
 
+    }
+
+    private void initDB() {
+        BackgroundThread backgroundThread = new BackgroundThread();
+        backgroundThread.start();
+        Looper backgroundLooper = backgroundThread.getLooper();
+
+        Observable.just("db")
+                .subscribeOn(AndroidSchedulers.from(backgroundLooper))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        initAddressList();
+                        EmoticonsUtils.initEmoticonsDB(FWApplication.this);
+                    }
+                });
+    }
+
+    private static class BackgroundThread extends HandlerThread {
+        BackgroundThread() {
+            super("SchedulerSample-BackgroundThread", THREAD_PRIORITY_BACKGROUND);
+        }
     }
 
     private void initFresco() {

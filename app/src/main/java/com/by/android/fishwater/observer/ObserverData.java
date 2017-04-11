@@ -6,7 +6,8 @@ package com.by.android.fishwater.observer;
 
 public class ObserverData {
 
-    public static final String Update_AddressList = "update_addresslist";
+    public static final String Update_Address_Good = "update_address_good";
+    public static final String Update_Address_List = "update_address_list";
     public String key;
     public FWObserver observer;
 

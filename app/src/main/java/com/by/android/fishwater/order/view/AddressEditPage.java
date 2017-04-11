@@ -340,7 +340,8 @@ public class AddressEditPage extends FWActivity implements WheelView.OnWheelView
         if (mPcaLayout.getVisibility() == View.VISIBLE) {
             mOrderPresenter.hidePcaView(mPcaLayout);
         }
-        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_AddressList, null);
+        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_Address_Good, null);
+        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_Address_List, null);
         DeviceManager.getInstance().hideInputMethod();
         finish();
     }

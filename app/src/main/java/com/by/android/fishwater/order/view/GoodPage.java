@@ -18,6 +18,9 @@ import com.by.android.fishwater.R;
 import com.by.android.fishwater.alipay.PayResult;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
 import com.by.android.fishwater.database.FWDatabaseManager;
+import com.by.android.fishwater.observer.FWObserver;
+import com.by.android.fishwater.observer.FWObserverManager;
+import com.by.android.fishwater.observer.ObserverData;
 import com.by.android.fishwater.order.adapter.OrderGoodsListAdapter;
 import com.by.android.fishwater.order.adapter.OrderPaylistAdapter;
 import com.by.android.fishwater.order.adapter.OrderPriceAdapter;
@@ -41,11 +44,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.by.android.fishwater.observer.ObserverData.Update_Address_Good;
+
 /**
  * Created by by.huang on 2016/10/29.
  */
 
-public class GoodPage extends FWActivity implements IOrderInterface {
+public class GoodPage extends FWActivity implements IOrderInterface, FWObserver {
 
     @ViewInject(R.id.txt_title)
     TextView mTitletxt;
@@ -113,12 +118,15 @@ public class GoodPage extends FWActivity implements IOrderInterface {
         initPayList();
         initPriceList();
         initBottom();
+        mOrderPresenter.getAddressList();
+        FWObserverManager.getIntance().addObserver(ObserverData.build(Update_Address_Good, this));
+
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mOrderPresenter.getAddressList();
+    protected void onDestroy() {
+        super.onDestroy();
+        FWObserverManager.getIntance().removeObserver(Update_Address_Good);
     }
 
     private void initNavigationBar() {
@@ -337,4 +345,9 @@ public class GoodPage extends FWActivity implements IOrderInterface {
 
         ;
     };
+
+    @Override
+    public void update(Object object) {
+        mOrderPresenter.getAddressList();
+    }
 }

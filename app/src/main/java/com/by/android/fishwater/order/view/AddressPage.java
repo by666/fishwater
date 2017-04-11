@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.by.android.fishwater.FWActivity;
-import com.by.android.fishwater.FWPresenter;
 import com.by.android.fishwater.R;
 import com.by.android.fishwater.observer.FWObserver;
 import com.by.android.fishwater.observer.FWObserverManager;
@@ -27,6 +26,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.util.List;
+
+import static com.by.android.fishwater.observer.ObserverData.Update_Address_List;
 
 /**
  * Created by by.huang on 2016/10/31.
@@ -57,14 +58,14 @@ public class AddressPage extends FWActivity implements IOrderInterface ,FWObserv
         setContentView(R.layout.page_address);
         x.view().inject(this);
         mOrderPresenter = new OrderPresenter(this);
-        FWObserverManager.getIntance().addObserver(ObserverData.build(ObserverData.Update_AddressList,this));
+        FWObserverManager.getIntance().addObserver(ObserverData.build(Update_Address_List,this));
         initView();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        FWObserverManager.getIntance().removeObserver(ObserverData.build(ObserverData.Update_AddressList,this));
+        FWObserverManager.getIntance().removeObserver(Update_Address_List);
     }
 
     private void initView() {
@@ -121,7 +122,7 @@ public class AddressPage extends FWActivity implements IOrderInterface ,FWObserv
 
     @Override
     public void OnSaveAddressSuccess() {
-
+        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_Address_Good,null);
     }
 
     @Override
@@ -133,6 +134,7 @@ public class AddressPage extends FWActivity implements IOrderInterface ,FWObserv
     public void OnDeleteAddressSuccess(List<AddressBean> datas) {
         mListAdapter.updateData(datas);
         mLRecyclerViewAdapter.notifyDataSetChanged();
+        FWObserverManager.getIntance().notifyUpdate(ObserverData.Update_Address_Good,null);
     }
 
     @Override

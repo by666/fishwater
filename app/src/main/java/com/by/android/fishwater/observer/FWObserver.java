@@ -5,5 +5,5 @@ package com.by.android.fishwater.observer;
  */
 public interface FWObserver {
 
-     public void update(Object object);
+     void update(Object object);
 }

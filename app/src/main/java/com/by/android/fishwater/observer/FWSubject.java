@@ -13,9 +13,9 @@ public interface FWSubject {
 
     /**
      * 删除订阅者
-     * @param data
+     * @param key
      */
-    public void removeObserver(ObserverData data);
+    public void removeObserver(String key);
 
     /**
      * 通知订阅者更新消息

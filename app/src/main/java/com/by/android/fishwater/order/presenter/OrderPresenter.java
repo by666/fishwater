@@ -13,6 +13,8 @@ import com.by.android.fishwater.bean.RespondArrayBean;
 import com.by.android.fishwater.buycar.bean.BuycarBean;
 import com.by.android.fishwater.net.HttpRequest;
 import com.by.android.fishwater.net.MyCallBack;
+import com.by.android.fishwater.observer.FWObserverManager;
+import com.by.android.fishwater.observer.ObserverData;
 import com.by.android.fishwater.order.bean.AddressBean;
 import com.by.android.fishwater.order.bean.OrderBean;
 import com.by.android.fishwater.order.bean.OrderDetailBean;
